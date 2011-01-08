@@ -7,6 +7,7 @@ var path = require('path')
 var Fault = require('./model/Fault')
 var Client = require("./model/Client")
 var World = require("./model/World")
+var Message = require("./model/Message")
 var sys = require("sys")
 
 var App = module.exports = function() {
@@ -21,16 +22,16 @@ var App = module.exports = function() {
 	    return world
 	}
 	
-	this.sendAll = function(route, data) {
+	this.sendAll = function(message) {
 		for(var clientId in clients) {
-			clients[clientId].send(route, data)
+			clients[clientId].send(message)
 		}
 	}
 	
-	this.sendOthers = function(client, route, data) {
+	this.sendOthers = function(client, message) {
 		for(var clientId in clients) {
 		    if (clientId != client.id())
-			    clients[clientId].send(route, data)
+			    clients[clientId].send(message)
 		}
 	}
 
@@ -52,39 +53,33 @@ var App = module.exports = function() {
         
         var client = new Client(self, stream)
 		self.addClient(client)
-		client.send("Hello")
+		client.send(new Message("Welcome"))
 
-        client.onMessage(function(route, data) {
+        client.onMessage(function(message) {
             
-            // self.resetTimeout()            
-            
-            var split = route.split(".")
-        
             try {
-                var modulePath = path.join(__dirname, 'controller', split[0])
+                var filename = message.type.toLowerCase() + ".control"
+                var modulePath = path.join(__dirname, 'controller', filename)
                 var module = require(modulePath) 
             }
             catch (err) {
-                return client.sendFault(Fault.InvalidRoute, "Invalid Route - Couldn't find module: " + route + " " + modulePath)
+                return client.send(new Fault(Fault.InvalidType, "Invalid Type - Couldn't find module: " + message + " " + modulePath))
             }
 
-            if (!split[1]) 
-                return client.sendFault(Fault.InvalidRoute, "Invalid Route - Couldn't split route: " + route)
-
-            var method = module[split[1]]
+            var method = module[message.action]
             
             if (!method)
-                return client.sendFault(Fault.InvalidMethod, "Bad Method " + route)
+                return client.send(new Fault(Fault.InvalidMethod, "Invalid Method " + message))
                 
-            if (!data)
-                return client.sendFault(Fault.InvalidData, "No Data")                
+            if (!message.data)
+                return client.send(new Fault(Fault.InvalidData, "No Data"))   
 
             try {
-                method(self, client, data)
+                method(self, client, message.data)
             }
             catch (err) {
                 sys.puts(err + "\n" + err.stack)
-                return client.sendFault(Fault.BadController, "Controller Fault " + route)
+                return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message))
             }
         })
 		
@@ -140,3 +135,5 @@ if (module == require.main) {
     sys.puts("App Start Main - " + App.DefaultPort)
     app.start(App.DefaultPort)
 }
+
+// {"type":"Players","action":"create","data":{}}

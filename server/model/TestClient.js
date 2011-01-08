@@ -21,7 +21,7 @@ var TestClient = module.exports = function() {
             onFault(message.fault.type, message.fault.message)
         }
         else if (onMessage) {
-            onMessage(message.route, message.data)                            
+            onMessage(message.type.toLowerCase(), message.action, message.data)
         }
     })
             
@@ -57,8 +57,8 @@ var TestClient = module.exports = function() {
         stream.close()
     }
     
-    this.send = function(route, data) {
-        var payload = JSON.stringify({route:route, data:data})
+    this.send = function(type, action, data) {
+        var payload = JSON.stringify({type:type, route:route, data:data})
         this.sendRaw(App.OpenDelimiter + payload + App.CloseDelimiter)
     }
     

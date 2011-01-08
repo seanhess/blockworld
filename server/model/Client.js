@@ -2,47 +2,21 @@ var App = require("../App")
 var Fault = require('./Fault')
 var PacketParser = require('./PacketParser')
 var sys = require('sys')
+var Message = require('./Message')
 
 var Client = module.exports = function(app, stream) {
-    var self = this
     var onMessage, onEnd
-    
+    var self = this
+    var packetParser = new PacketParser()
     stream.setEncoding('utf8')
 
 
-    // PARSING PACKETS
-    var packetParser = new PacketParser()
     
     stream.on('data',function(data) {
         sys.puts(" >>> " + data)
         packetParser.addData(data)
-        // var result = packetParser.addData(data)
-        
-        // if (!result) return self.sendFault(Fault.MissingDelimiters, "Missing delimiters: " + packetParser.data())
     })
     
-    packetParser.onPacket(function(packet) {
-
-        try {
-            var message = JSON.parse(packet)            
-        }
-        catch (err) {
-            return self.sendFault(Fault.JsonParsingError, "Could not parse: " + packet + " with error " + err)
-        }
-        
-        var route = message.route
-        
-        if(!route) return self.sendFault(Fault.MissingRoute, "Missing Route: " + packet)
-        
-        var data = message.data
-        
-        if (onMessage) 
-            onMessage(route, data)
-    })
-    
-    
-    
-    // ON EXIT
     stream.on('end',function() {
 		if(onEnd) onEnd()
         stream.end()
@@ -53,36 +27,50 @@ var Client = module.exports = function(app, stream) {
     })
     
     stream.on('error', function(err) {
-        sys.puts("SERVER ERROR " + err)
+        sys.puts("Stream Error " + err)
     })
     
     stream.on('close', function(err) {
         sys.puts("Stream Close " + err)
     })    
     
-    
-
-    
     // stream.on('drain', function() {
     //     sys.puts("Drai")
     // })    
+    
+    // PARSING PACKETS    
+    packetParser.onPacket(function(packet) {
+
+        try {
+            var message = JSON.parse(packet)            
+        }
+        catch (err) {
+            return self.send(new Fault(Fault.JsonParsingError, "Could not parse: " + packet + " with error " + err))
+        }
+        
+        var type = message.type        
+        var action = message.action
+        var data = message.data
+        
+        if(!type) return self.send(new Fault(Fault.InvalidType, "Missing Type: " + packet))
+        if(!action) return self.send(new Fault(Fault.InvalidMethod, "Missing Action: " + packet))
+        if(!data) return self.send(new Fault(Fault.InvalidData, "Missing Data: " + packet))
+        
+        if (onMessage) 
+            onMessage(new Message(type, action, data))
+    })
+
+    
+    
 
     // SENDING STUFF
-    function send(obj) {
-        var payload = JSON.stringify(obj)//.replace(/<<</g,"<x<").replace(/>>>/g,">x>")
+    this.send = function(obj) {
+        // var payload = (obj.toJSON) ? obj.toJSON() : JSON.stringify(obj)
+        var payload = JSON.stringify((obj.toValue) ? obj.toValue() : obj)
         sys.puts(" <<< " + payload)
         stream.write(payload + "\n")        
     }
-
-    this.send = function(route, data) {
-        data = data || ""
-        send({route:route, data:data})
-    }
-    
-    this.sendFault = function(type, message) {
-        send({fault:new Fault(type, message)})        
-    }
-    
+        
     this.id = function() {
         return stream.fd
     }

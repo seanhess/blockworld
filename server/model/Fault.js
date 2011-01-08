@@ -1,15 +1,13 @@
 function Fault(type, message) {
-    this.type = type
+    this.fault = type
     this.message = message
 }
 
 Fault.JsonParsingError = 'json'
-Fault.InvalidRoute = 'invalid.route'
-Fault.InvalidData = 'invalid.data'
+Fault.InvalidType = 'invalid.type'
 Fault.InvalidMethod = 'invalid.method'
-Fault.BadController = 'bad.controller'
-Fault.MissingDelimiters = 'missing.delimiters'
-Fault.MissingRoute = 'missing.route'
+Fault.InvalidData = 'invalid.data'
+Fault.ControllerFault = 'bad.controller'
 
 
 module.exports = Fault
