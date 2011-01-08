@@ -6,12 +6,17 @@ var App = require("../App")
 
 exports.createPlayer = function (assert) {
 	helpers.appAndClient(function(app, client) {
-		client.sendRouteData("Players.create", {})
 		client.onMessage(function (route, data) {
-			sys.debug(route)
-			sys.debug(data)
+		    
+		    sys.puts("ROUTE " + route + " " + data)
+
+            client.sendRouteData("Player.createPlayer", {})        
+            client.onMessage(function (route, data) {           
+                assert.ok(route, "Player.createPlayer sent out an undefined message")
+                assert.ok(data, "No Data")
+                assert.finish()
+            })
 		})
-		assert.finish()
 	})
 }
 
