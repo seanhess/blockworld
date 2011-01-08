@@ -15,7 +15,7 @@
 #define SOCKET_PORT 3000
 
 // IP ADDRESS //
-#define SOCKET_ADDR "bozar"
+#define SOCKET_ADDR "woot.local"
 
 typedef enum server_status {
 	connected,

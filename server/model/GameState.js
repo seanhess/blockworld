@@ -39,8 +39,8 @@ GameState.prototype.exists = function(uid) {
     return (!!this.everything[uid])
 }
 
-GameState.prototype.fetch = function(id) {
-    return this.everything[item.uid()]
+GameState.prototype.fetch = function(uid) {
+    return this.everything[uid]
 }
 
 

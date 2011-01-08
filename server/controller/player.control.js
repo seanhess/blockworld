@@ -45,7 +45,7 @@ exports.move = function (app, client, data) {
     
     assert.ok(player, "Could not find player " + data.uid)
     
-    player.position(data.x, data.y)
+    player.move(data.x, data.y)
     
     app.sendOthers(client, new Player.MessageMove(player))
     

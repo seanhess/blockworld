@@ -49,7 +49,6 @@ Player.prototype.y = function () {
     return this.source.y
 }
 
-
 Player.prototype.move = function(x, y) {
     this.source.x = x
     this.source.y = y
