@@ -85,7 +85,7 @@ var App = module.exports = function() {
             }
             catch (err) {
                 traffic.log(err + "\n" + err.stack)
-                return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message))
+                return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
             }
         })
 		

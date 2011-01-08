@@ -3,6 +3,7 @@ var Player = require("../model/Player")
 var Message = require("../model/Message")
 var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
+var assert = require('assert')
 
 exports.create = function (app, client, data) {
 	assert.ok(data.nickname, "Missing nickname")

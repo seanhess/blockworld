@@ -50,28 +50,28 @@ exports.client = function(cb) {
     // })
 }
 
-exports.sendAndMap = function(client, message, cb) {
-    var map = {}
+exports.sendAndCollect = function(client, message, cb) {
     var messages = []
     
     client.send(message)
     
     client.onFault(function(fault) {
+        clearTimeout(timeout)
         return cb(fault)
     })
 
     client.onMessage(function(message) {  
-        var key = message.type + "." + message.action
-        map[key] = message.data
         messages.push(message)
     })
     
-    function analyze() {
-        cb(null, messages, map)
+    function later() {
+        cb(null, messages)
     }
     
-    setTimeout(analyze, 100)    
+    var timeout = setTimeout(later, 100)    
 }
+
+exports.messages
 
 
 exports.teardown = function(cb) {
