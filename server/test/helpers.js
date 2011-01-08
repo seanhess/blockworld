@@ -44,10 +44,33 @@ exports.client = function(cb) {
         var timeout = setTimeout(waiting, 100)
     })    
     
-    var timeout = new Timeout()
-    timeout.start(function() {
-        client.end()
+    // var timeout = new Timeout(150)
+    // timeout.start(function() {
+    //     client.end()
+    // })
+}
+
+exports.sendAndMap = function(client, message, cb) {
+    var map = {}
+    var messages = []
+    
+    client.send(message)
+    
+    client.onFault(function(fault) {
+        return cb(fault)
     })
+
+    client.onMessage(function(message) {  
+        var key = message.type + "." + message.action
+        map[key] = message.data
+        messages.push(message)
+    })
+    
+    function analyze() {
+        cb(null, messages, map)
+    }
+    
+    setTimeout(analyze, 100)    
 }
 
 

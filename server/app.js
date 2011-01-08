@@ -66,9 +66,7 @@ var App = module.exports = function() {
             try {
                 var filename = message.type.toLowerCase() + ".control"
                 var modulePath = path.join(__dirname, 'controller', filename)
-                sys.puts("WOOOT " + modulePath)
                 var module = require(modulePath) 
-                sys.puts("OH NO " + module)
             }
             catch (err) {
                 return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
