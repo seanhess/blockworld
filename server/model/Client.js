@@ -10,4 +10,7 @@ var Client = module.exports = function(app, stream) {
         app.sendFaultToStream(stream, type, message)
     }
     
+    this.id = function() {
+        return stream.fd
+    }
 }
