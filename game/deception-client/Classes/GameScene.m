@@ -9,7 +9,7 @@
 
 #import "GameScene.h"
 
-#import "WorldLayer.h"
+#import "World.h"
 #import "HUD.h"
 
 @implementation GameScene
@@ -32,7 +32,7 @@
 -(id) init {
 	if((self = [super init])) {
 		// add World
-		world = [WorldLayer node];
+		world = [World node];
 		[self addChild:world];
 		
 		// add HUD
@@ -40,15 +40,15 @@
 		[self addChild:hud];
 		
 		[hud setMoveCallback:^(int x, int y) {
-			[world moveAction:ccp(x,y)];
+			[world movePress:ccp(x,y)];
 		}];
 		
 		[hud setOnBombCallback:^{
-			[world setBomb];
+			[world bombPress];
 		}];
 		
 		[hud setOnWallCallback:^{
-			world.isLayingWalls = !world.isLayingWalls;
+			world.layingWallsPress = !world.layingWallsPress;
 		}];
 		
 	}

@@ -13,13 +13,14 @@
 
 @interface ServerCommunicator() 
 @property(nonatomic, assign) server_status status;
+@property(nonatomic, retain) NSString* partialMessage;
 -(void) messageParser:(unsigned char*)msg;
 @end
 
 
 @implementation ServerCommunicator
 
-@synthesize messageReceivedCallback, statusChangedCallback, status;
+@synthesize messageReceivedCallback, statusChangedCallback, status, partialMessage;
 
 static ServerCommunicator* instance = nil;
 
@@ -35,6 +36,14 @@ static ServerCommunicator* instance = nil;
 	if ((self = [super init])) {
 		
 		self.status = disconnected;
+		self.partialMessage = @"";
+		
+		/*[self messageParser:"test\n"];
+		[self messageParser:"one\ntwo\n"];
+		[self messageParser:"three\nfour"];
+		[self messageParser:"FOUR"];
+		[self messageParser:"FoRe\n"];
+		[self messageParser:"five\n\nseven\neight\n"];*/
 		
 	}
 	return self;
@@ -71,19 +80,32 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 
 	@synchronized(self) {
 		
-		NSString* str = [NSString stringWithFormat:@"%s",msg];
+		NSString* wholeMessage = [NSString stringWithFormat:@"%@%s", self.partialMessage, msg];
 		
-		//"<<< {message:'json message'} >>>"
+		self.partialMessage = @"";
 		
-		/*if(!partialMessage) { 
-			partialMessage = [str retain];
-		}*/
+		NSArray* strings = [wholeMessage componentsSeparatedByString:@"\n"];
 		
-		NSData* data = [str dataUsingEncoding:NSStringEncodingConversionExternalRepresentation];
-		NSError * error = nil;
-	
-		if(messageReceivedCallback) { messageReceivedCallback([[CJSONDeserializer deserializer] deserialize:data error:&error]); }
-		
+		for(int i=0; i<[strings count]; i++) {
+			NSString* item = [strings objectAtIndex:i];
+			
+			if(![item length]) continue;
+			
+			// if last message and it doesn't end in \n, wait till next call
+			if(i == [strings count]-1 && ![wholeMessage hasSuffix:@"\n"]) {
+				self.partialMessage = item;
+				return;
+			}
+			
+			NSData* data = [wholeMessage dataUsingEncoding:NSStringEncodingConversionExternalRepresentation];
+			NSError * error = nil;
+			if(messageReceivedCallback) { 
+				messageReceivedCallback([[CJSONDeserializer deserializer] deserialize:data error:&error]); 
+			}
+			
+			//NSLog(@"found complete message: %@", item);
+			
+		}
 	}
 }
 

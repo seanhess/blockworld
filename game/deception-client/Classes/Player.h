@@ -16,6 +16,7 @@
 
 @property(nonatomic, retain) NSString* playerID;
 
++ (Player*) playerWithPlayerID:(NSString*)playerID;
 - (id) initWithPlayerID:(NSString*)p;
 
 @end

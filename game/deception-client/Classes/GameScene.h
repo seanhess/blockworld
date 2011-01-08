@@ -9,10 +9,10 @@
 
 #import "cocos2d.h"
 
-@class WorldLayer, HUD;
+@class World, HUD;
 
 @interface GameScene : CCScene {
-	WorldLayer* world;
+	World* world;
 	HUD* hud;
 }
 

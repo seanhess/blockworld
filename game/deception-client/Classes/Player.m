@@ -15,6 +15,10 @@
 
 @synthesize playerID;
 
++ (Player*) playerWithPlayerID:(NSString*)playerID {
+	return [[[self alloc] initWithPlayerID:playerID] autorelease];
+}
+
 - (id) initWithPlayerID:(NSString*)p {
 	if((self = [super init])) {
 		self.playerID = p;

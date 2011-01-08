@@ -8,3 +8,4 @@
 #endif
 
 #define PIXEL_PER_UNIT 41
+#define SCREEN_FOLLOW_THRESHOLD 50 // pixels from the edge
