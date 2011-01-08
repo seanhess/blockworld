@@ -15,10 +15,10 @@ var App = module.exports = function() {
     var localPort
 	var clients = {}
 	
-	this.sendToAllClients = function (route, data) {
+	this.sendAll = function (route, data) {
 		var clientsLength = clients.length
 		for(var clientId in clients) {
-			clients[clientId].sendMessage(route, data)
+			clients[clientId].send(route, data)
 		}
 	}
 
@@ -37,7 +37,7 @@ var App = module.exports = function() {
     server.on('connection', function(stream) {
         var client = new Client(self, stream)
 		self.addClient(client)
-		client.sendMessage("Hello")
+		client.send("Hello")
 
         client.onMessage(function(route, data) {
             

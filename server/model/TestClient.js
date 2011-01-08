@@ -58,7 +58,7 @@ var TestClient = module.exports = function() {
         stream.close()
     }
     
-    this.sendRouteData = function(route, data) {
+    this.send = function(route, data) {
         var payload = JSON.stringify({route:route, data:data})
         this.sendRaw(App.OpenDelimiter + payload + App.CloseDelimiter)
     }

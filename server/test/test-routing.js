@@ -47,19 +47,19 @@ exports.faults = function(assert) {
                 client.onFault(function(type, message) {
                     assert.equal(type, Fault.MissingRoute)
                     
-                    client.sendRouteData("thisshouldnotmatch", null)
+                    client.send("thisshouldnotmatch", null)
                     client.onFault(function(type, message) {
                         assert.equal(type, Fault.InvalidRoute)
                         
-                        client.sendRouteData("test.something", null)
+                        client.send("test.something", null)
                         client.onFault(function(type, message) {
                             assert.equal(type, Fault.InvalidData)
 
-                            client.sendRouteData("test.shouldnotexist", null)
+                            client.send("test.shouldnotexist", null)
                             client.onFault(function(type, message) {
                                 assert.equal(type, Fault.InvalidMethod)
                                 
-                                client.sendRouteData("test.throwSomething", {})
+                                client.send("test.throwSomething", {})
                                 client.onFault(function(type, message) {
                                     assert.equal(type, Fault.BadController)
                                 
@@ -80,7 +80,7 @@ exports.faults = function(assert) {
 
 exports.route = function(assert) {   
     helpers.appAndClient(function(app, client) {
-        client.sendRouteData("test.something", {})
+        client.send("test.something", {})
         client.onFault(function(type, message) {
             assert.ok(false, "Shouldn't have received a fault for test.something - " + type + " MESSAGE " + message)
         })

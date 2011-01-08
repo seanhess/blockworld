@@ -34,7 +34,10 @@ exports.appAndClient = function(cb) {
     exports.app(function(app, port) {
         var client = new TestClient()
         client.connect(port, function() {
-            cb(app, client)
+            // wait for the welcome message
+            client.onMessage(function(route, data) {
+                cb(app, client)                
+            })
         })        
     })
 }

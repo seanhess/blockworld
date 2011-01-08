@@ -74,7 +74,7 @@ var Client = module.exports = function(app, stream) {
         stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)        
     }
 
-    this.sendMessage = function(route, data) {
+    this.send = function(route, data) {
         data = data || ""
         send({route:route, data:data})
     }
