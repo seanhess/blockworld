@@ -18,7 +18,7 @@
 		CCMenuItemSprite* bombItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"bomb.png"] selectedSprite:[CCSprite spriteWithFile:@"bomb.png"] block:^(id sender) {
 			if(bomb) bomb();
 		}];
-		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"wall.png"] selectedSprite:[CCSprite spriteWithFile:@"wall.png"] block:^(id sender) {
+		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"brick.png"] selectedSprite:[CCSprite spriteWithFile:@"brick.png"] block:^(id sender) {
 			if(wall) wall();
 		}];
 		

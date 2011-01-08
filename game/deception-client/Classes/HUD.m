@@ -17,7 +17,7 @@
 	if((self = [super init])) {
 		
 		directionPad = [DirectionPad node];
-		directionPad.position = ccp(420, 80);
+		directionPad.position = ccp(420, 70);
 		
 		actionPad = [ActionPad node];
 		actionPad.position = ccp(420, 180);
