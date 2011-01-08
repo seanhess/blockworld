@@ -1,15 +1,8 @@
 // helpers
 var sys = require('sys')
 
-var port = 4000
+var All = require("../app")
 
-exports.disableLog = function() {    
-    // log.method = function() {}
-}
-
-exports.enableLog = function() {
-    // log.method = sys.puts
-}
 
 exports.app = function(cb) {
     var App = require("../app")
@@ -35,5 +28,3 @@ exports.appAndClient = function(cb) {
         })        
     })
 }
-
-// exports.disableLog()

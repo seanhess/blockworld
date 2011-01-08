@@ -3,35 +3,29 @@
 
 var sys = require('sys')
 
-var SpawnRaduis = 10
-
-function getRandomSpawnLocation () {
- return {x:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis), y:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis)}
-}
-
 var Player = module.exports = function(id) {
-    sys.puts("New Player")
-    this.id = id
-    this.position = getRandomSpawnLocation()
-    // World.movePlayer(0, 0, this.position.x, this.position.y, this)
+    this.id = Player.generatePlayerId()
+    this.position = Player.getRandomSpawnLocation()
 }
 
-Player.prototype.setId = function (name) {
-    this.id = name
-    return this.id
+Player.prototype.id = function (id) {
+    return (id) ? this.id = id : this.id
 }
 
-Player.prototype.getId = function () {
-    return this.id
-}
-
-Player.prototype.getPosition = function () {
+Player.prototype.position = function () {
     return this.position
 }
 
-Player.prototype.move = function (newX, newY) {
-    // World.movePlayer(this.position.x, this.position.y, newX, newY, this)
+Player.prototype.move = function(newX, newY) {
     this.position = {x:newX, y:newY}
 }
 
-Player.SpawnRaduis = SpawnRaduis
+Player.getRandomSpawnLocation = function() {
+    return {x:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis), y:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis)}
+}
+
+Player.generatePlayerId = function() {
+	return Math.floor(Math.random() * 10000000)
+}
+
+var SpawnRaduis = Player.SpawnRaduis = 10

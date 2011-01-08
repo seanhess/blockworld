@@ -6,6 +6,7 @@ var path = require('path')
 
 var Fault = require('./model/Fault')
 var Client = require("./model/Client")
+var World = require("./model/World")
 var sys = require("sys")
 
 var App = module.exports = function() {
@@ -13,6 +14,12 @@ var App = module.exports = function() {
     var localPort
 	var clients = {}
 	var open = false
+	
+	var world = new World()
+	
+	this.world = function() {
+	    return world
+	}
 	
 	this.sendAll = function(route, data) {
 		for(var clientId in clients) {
