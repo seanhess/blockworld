@@ -53,7 +53,6 @@ exports.playerMove = function (assert) {
                     }).data
                     
                     assert.ok(player, "Couldn't find the second player")
-                    assert.finish()
                     
                     player.x = 1
                     player.y = 1

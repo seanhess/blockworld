@@ -36,7 +36,7 @@ exports.move = function (app, client, data) {
     
     // expects: data.x, data.y
     // expects: data.uid
-    
+        
     assert.ok(!_(data.x).isUndefined(), "Missing X")
     assert.ok(!_(data.y).isUndefined(), "Missing Y")    
     assert.ok(data.uid, "Missing uid")
@@ -48,5 +48,4 @@ exports.move = function (app, client, data) {
     player.move(data.x, data.y)
     
     app.sendOthers(client, new Player.MessageMove(player))
-    
 }

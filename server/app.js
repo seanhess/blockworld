@@ -7,6 +7,7 @@ var path = require('path')
 var Fault = require('./model/Fault')
 var Client = require("./model/Client")
 var GameState = require("./model/GameState")
+// var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
 var traffic = require("./utils/traffic")
@@ -17,14 +18,21 @@ var App = module.exports = function() {
 	var open = false
 	
 	var state = new GameState()
+    // var timer = new GameTimer()
 	
 	this.state = function() {
 	    return state
 	}
 	
+    // this.timer = function() {
+    //     return timer
+    // }
+	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing
 	    state = new GameState()
+        // timer = new GameTimer()
+        // timer.start()
 	    clients = {}
 	}
 	
@@ -122,9 +130,10 @@ var App = module.exports = function() {
 App.DefaultPort = 3000
 
 if (module == require.main) {
+    var port = process.ARGV[2] || App.DefaultPort
     var app = new App()
-    traffic.log("App Start Main - " + App.DefaultPort)
-    app.start(App.DefaultPort)
+    traffic.log("App Start Main - " + port)
+    app.start(port)
 }
 
 // {"type":"Players","action":"create","data":{}}
