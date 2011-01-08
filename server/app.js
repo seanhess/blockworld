@@ -8,29 +8,38 @@ var Fault = require('./model/Fault')
 var PacketParser = require('./model/PacketParser')
 var sys = require("sys")
 
-var streamerer = require("./streamerer.js")
-
 var App = module.exports = function() {
     
     var localPort
     
+    var self = this
+    
+    this.sendObjectToStream = function(stream, obj) {
+        var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
+        App.puts(" <<< " + payload)
+        stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)
+    }
+    
+    this.sendMessageToStream = function(stream, route, data) {
+        data = data || ""
+        this.sendObjectToStream(stream, {route:route, data:data})
+    }
+    
+    this.sendFaultToStream = function(stream, type, message) {
+        this.sendObjectToStream(stream, {fault:new Fault(type, message)})        
+    }
+    
     var server = net.createServer(function(stream) {
-		streamerer.add(stream)
         // METHODS TO SEND
-        function send(obj) {
-            var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
-            App.puts(" <<< " + payload)
-            stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)
+        
+        function message(route, data) {
+            self.sendMessageToStream(stream, route, data)
         }
-
-        function message(type, data) {
-            data = data || ""
-            send({route:type, data:data})
-        }
-
+        
         function fault(type, message) {
-            send({fault:new Fault(type, message)})
+            self.sendFaultToStream(stream, type, message)
         }
+
 
         // RECEIVE
         stream.setEncoding('utf8')
