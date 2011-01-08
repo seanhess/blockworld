@@ -19,4 +19,7 @@ var server = net.createServer(function(stream) {
     })
 })
 
-server.listen(3000, 'localhost')
+module.exports = server
+
+if (module == require.main)
+    server.listen(3000, 'localhost')
