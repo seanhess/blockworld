@@ -1,0 +1,7 @@
+var testing = require('async_testing')
+var path = require('path')
+
+desc('run all tests') 
+task('test', [], function() {
+    testing.run(path.join(__dirname, "test"), [])
+})
