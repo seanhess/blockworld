@@ -1,33 +1,19 @@
 var Message = require("./Message")
-
+var Tile = require("./Tile")
 
 var Wall = module.exports = function(x, y) {
-    this.source = {x:x, y:y}
-    this.source.uid = Wall.Type + "_" + x + "|" + y
+    this.position(x,y)
 }
 
-Wall.prototype.toValue = function() {
-    return this.source
-}
-
-Wall.prototype.uid = function() {
-    return this.source.uid
-}
-
-Wall.prototype.type = function() {
-    return Wall.Type
-}
+// extend Tile
+Wall.prototype = new Tile()
 
 Wall.prototype.toMessage = function() {
     return new Wall.MessageAddWall(this)
 }
 
-Wall.prototype.x = function() {
-    return this.source.x
-}
-
-Wall.prototype.y = function() {
-    return this.source.y
+Wall.prototype.type = function() {
+    return Wall.Type
 }
 
 Wall.Type = "map"

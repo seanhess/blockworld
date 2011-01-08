@@ -3,6 +3,7 @@ var Message = require("../model/Message")
 var Fault = require("../model/Fault")
 var assert = require('assert')
 var Wall = require("../model/Wall")
+var Bomb = require("../model/Bomb")
 var _ = require("underscore")
 
 // Block Data Format / Map Data Format
@@ -37,7 +38,11 @@ exports.addBomb = function (app, client, data) {
     app.sendOthers(client, new Bomb.MessageAddBomb(bomb))
     
     // schedule it for detonation
-    app.timer().schedule(x, function() {
+    app.timer().schedule(Bomb.Delay, function() {
         app.sendAll(new Bomb.MessageDetonateBomb(bomb))
+        
+        // check for hits! 
+        // calculate surrouding tiles
+        
     })
 }
