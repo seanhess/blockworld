@@ -93,7 +93,7 @@
 	
 	Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
-	[command setPoint:point];
+	[command setPoint:myplayer.cell.point];
 	[command send];
 }
 

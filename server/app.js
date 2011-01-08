@@ -101,7 +101,7 @@ var App = module.exports = function() {
 
     this.start = function(port, cb) {
         // traffic.log("Open ")
-        server.listen(port, 'localhost', function() {
+        server.listen(port, '0.0.0.0', function() {
             open = true
             if (cb) cb()
         })
