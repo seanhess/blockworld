@@ -1,5 +1,5 @@
 
-// Test Client. Connects to server
+// Test TestClient. Connects to server
 
 var net = require("net")
 var sys = require('sys')
@@ -8,14 +8,14 @@ var App = require('../app')
 
 
 
-var Client = module.exports = function() {
+var TestClient = module.exports = function() {
     
     var stream = new net.Stream()
     var onMessage, onError, onFault
     
     var packetParser = new PacketParser()
     packetParser.onPacket(function(packet) {
-        // Client.puts("Data Packet " + packet)
+        // TestClient.puts("Data Packet " + packet)
         var message = JSON.parse(packet)
 
         if (message.fault && onFault) {
@@ -27,7 +27,7 @@ var Client = module.exports = function() {
     })
             
     stream.on('data', function(data) {
-        // Client.puts("Data IN " + data)
+        // TestClient.puts("Data IN " + data)
         packetParser.addData(data)
     })
     
@@ -64,11 +64,11 @@ var Client = module.exports = function() {
     }
     
     this.sendRaw = function(data) {
-        Client.puts("Data OUT " + data)
+        TestClient.puts("Data OUT " + data)
         stream.write(data, "utf8")
     }
     
 }
 
-Client.puts = sys.puts
-Client.log = sys.log
+TestClient.puts = sys.puts
+TestClient.log = sys.log

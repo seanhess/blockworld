@@ -4,18 +4,18 @@ var sys = require('sys')
 var port = 4000
 
 exports.disableLog = function() {
-    var Client = require("../model/Client")    
+    var TestClient = require("../model/TestClient")    
     var App = require("../app")
     
-    Client.puts = App.puts = Client.log = App.log = function() {}    
+    TestClient.puts = App.puts = TestClient.log = App.log = function() {}    
 }
 
 exports.enableLog = function() {
-    var Client = require("../model/Client")    
+    var TestClient = require("../model/TestClient")    
     var App = require("../app")
     
-    Client.puts = App.puts = sys.puts
-    Client.log = App.log = sys.log
+    TestClient.puts = App.puts = sys.puts
+    TestClient.log = App.log = sys.log
 }
 
 exports.app = function(cb) {
@@ -29,10 +29,10 @@ exports.app = function(cb) {
 
 exports.appAndClient = function(cb) {
     
-    var Client = require("../model/Client")    
+    var TestClient = require("../model/TestClient")    
     
     exports.app(function(app, port) {
-        var client = new Client()
+        var client = new TestClient()
         client.connect(port, function() {
             cb(app, client)
         })        
