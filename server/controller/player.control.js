@@ -4,6 +4,7 @@ var Message = require("../model/Message")
 var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
 var assert = require('assert')
+var _ = require('underscore')
 
 
 
@@ -36,8 +37,8 @@ exports.move = function (app, client, data) {
     // expects: data.x, data.y
     // expects: data.uid
     
-    assert.ok(data.x, "Missing X")
-    assert.ok(data.y, "Missing Y")    
+    assert.ok(_(data.x).isUndefined()), "Missing X")
+    assert.ok(_(data.y).isUndefined()), "Missing Y")    
     assert.ok(data.uid, "Missing uid")
     
     var player = app.state().fetch(data.uid)
