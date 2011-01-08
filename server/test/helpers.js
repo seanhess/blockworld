@@ -50,11 +50,9 @@ exports.client = function(cb) {
     // })
 }
 
-exports.sendAndCollect = function(client, message, cb) {
+exports.gather = function(client, cb) {
     var messages = []
-    
-    client.send(message)
-    
+        
     client.onFault(function(fault) {
         clearTimeout(timeout)
         return cb(fault)
@@ -68,7 +66,7 @@ exports.sendAndCollect = function(client, message, cb) {
         cb(null, messages)
     }
     
-    var timeout = setTimeout(later, 100)    
+    var timeout = setTimeout(later, 100)
 }
 
 exports.messages

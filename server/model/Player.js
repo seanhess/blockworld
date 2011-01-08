@@ -4,6 +4,7 @@
 var Message = require("./Message")
 var sys = require('sys')
 
+
 var Player = module.exports = function(nickname, x, y) {
     this.source = {x:x, y:y}
 	this.nickname(nickname)
@@ -15,16 +16,16 @@ var Player = module.exports = function(nickname, x, y) {
     }
 }
 
+Player.prototype.toMessage = function() {
+    return new Player.MessageCreate(this)
+}
+
 Player.prototype.uid = function () {
     return this.source.uid;
 }
 
 Player.prototype.type = function() {
-    return "Player"
-}
-
-Player.prototype.toMessage = function() {
-    return new Message("player", "create", this)
+    return Player.Type
 }
 
 Player.prototype.toValue = function() {
@@ -66,4 +67,28 @@ Player.generatePlayerId = function() {
 }
 
 
+// Messages
+
+
+
+Player.Type = "player"
+Player.ActionCreate = "create"
+Player.ActionYou = "you"
+Player.ActionMove = "move"
+
+Player.MessageCreate = function(player) {
+    return new Message(Player.Type, Player.ActionCreate, player) // needs: {nickname:nickname}
+}
+
+Player.MessageYou = function(player) {
+    return new Message(Player.Type, Player.ActionYou, player) // needs: {nickname:nickname}
+}
+
+Player.MessageMove = function(player) {
+    return new Message(Player.Type, Player.ActionMove, player) // needs: {nickname:nickname}
+}
+
+
+
 var SpawnRaduis = Player.SpawnRaduis = 10
+

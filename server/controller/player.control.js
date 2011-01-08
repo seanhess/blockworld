@@ -5,6 +5,8 @@ var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
 var assert = require('assert')
 
+
+
 exports.create = function (app, client, data) {
 	assert.ok(data.nickname, "Missing nickname")
     var nickname = data.nickname
@@ -17,7 +19,7 @@ exports.create = function (app, client, data) {
         return client.send(new Fault(Fault.PlayerExists, "Player Exists: " + nickname))
     
     // send created self    
-    client.send(new Message("player", "you", player))
+    client.send(new Player.MessageYou(player))
     
     // add the player
     app.state().add(player)
@@ -26,7 +28,7 @@ exports.create = function (app, client, data) {
     client.send(app.state().allMessages())
     
     // announce to others
-    app.sendOthers(client, player.toMessage())
+    app.sendOthers(client, new Player.MessageCreate(player))
 }
 
 exports.move = function (app, client, player) {
@@ -44,6 +46,6 @@ exports.move = function (app, client, player) {
     
     player.position(data.x, data.y)
     
-    app.sendOthers(client, new Message("player", "moved", player))
+    app.sendOthers(client, new Player.MessageMove(player))
     
 }
