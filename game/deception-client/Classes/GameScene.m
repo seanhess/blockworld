@@ -11,10 +11,12 @@
 
 #import "World.h"
 #import "HUD.h"
+#import "ServerCommunicator.h"
+#import "Command.h"
 
 @implementation GameScene
 
-+(id) scene {
++(id) sceneWithCommand:(Command*)command {
 	
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
@@ -29,7 +31,7 @@
 	return scene;
 }
 
--(id) init {
+-(id) initWithCommand:(Command*)command {
 	if((self = [super init])) {
 		// add World
 		world = [World node];
@@ -39,6 +41,7 @@
 		hud = [HUD node];
 		[self addChild:hud];
 		
+		// HUD actions
 		[hud setMoveCallback:^(int x, int y) {
 			[world movePress:ccp(x,y)];
 		}];
@@ -50,6 +53,14 @@
 		[hud setOnWallCallback:^{
 			world.layingWallsPress = !world.layingWallsPress;
 		}];
+		
+		// server call backs
+		[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* definition) {
+			[[Command commandWithDefinition:definition world:world] execute];
+		};
+		
+		// run the initial command
+		[[Command commandWithDefinition:command.definition world:world] execute];
 		
 	}
 	return self;

@@ -14,4 +14,6 @@
 
 }
 
+- (void) setPlayerID:(NSString*)playerID;
+
 @end

@@ -11,8 +11,8 @@
 #import "cocos2d.h"
 
 // HelloWorld Layer
-@interface MainMenu : CCLayer {
-	
+@interface MainMenu : CCLayer <UITextFieldDelegate> {
+	UITextField* nameField;
 }
 
 // returns a Scene that contains the MainMenu as the only child

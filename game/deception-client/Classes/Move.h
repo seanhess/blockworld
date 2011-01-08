@@ -13,8 +13,6 @@
 @interface Move : Command {
 }
 
-+ (Move*) command;
-
 - (void) setPlayerID:(NSString*)playerID;
 
 @end

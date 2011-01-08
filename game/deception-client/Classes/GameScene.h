@@ -9,13 +9,14 @@
 
 #import "cocos2d.h"
 
-@class World, HUD;
+@class World, HUD, Command;
 
 @interface GameScene : CCScene {
 	World* world;
 	HUD* hud;
 }
 
-+(id) scene;
++(id) sceneWithCommand:(Command*)command;
+-(id) initWithCommand:(Command*)command;
 
 @end

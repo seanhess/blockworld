@@ -14,7 +14,7 @@
 
 @implementation Command
 
-@dynamic data, positionX, positionY;
+@dynamic data, positionX, positionY, definition;
 
 // used by incoming request
 +(id) commandWithDefinition:(NSDictionary*)definition world:(World*)world {

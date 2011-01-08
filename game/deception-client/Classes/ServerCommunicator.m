@@ -100,11 +100,15 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 			NSData* data = [wholeMessage dataUsingEncoding:NSStringEncodingConversionExternalRepresentation];
 			NSError * error = nil;
 			if(messageReceivedCallback) { 
-				messageReceivedCallback([[CJSONDeserializer deserializer] deserialize:data error:&error]); 
+				NSDictionary* message = [[CJSONDeserializer deserializer] deserialize:data error:&error];
+				if([message objectForKey:@"fault"]) {
+					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Error %@", [message objectForKey:@"fault"]] message:[message objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+					[alert show];
+					[alert release];
+				} else {
+					messageReceivedCallback(message); 
+				}
 			}
-			
-			//NSLog(@"found complete message: %@", item);
-			
 		}
 	}
 }

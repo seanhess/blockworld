@@ -11,10 +11,11 @@
 #import "ServerCommunicator.h"
 #import "CJSONSerializer.h"
 #import "GameScene.h"
+#import "Create.h"
 
 @interface MainMenu()
-- (void) playGame;
-- (void) connectToServer;
+- (void) verifyName:(NSString*)name;
+- (void) startGameWithCommand:(Create*)command;
 @end
 
 // HelloWorld implementation
@@ -42,61 +43,87 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
 		
-		// create and initialize a Label		
-		CCLabelTTF *statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
-		
-		// create button
-		CCMenuItemFont* startButton = [CCMenuItemFont itemFromString:@"Start" block:^(id sender) {
-			NSLog(@"clicked");
-			[self playGame];
-		}];
-		
-		startButton.isEnabled = NO;
-
-		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
-			if(status == connected) { 
-				[statusLabel setString:@"Connected"]; 
-				startButton.isEnabled = YES;
-			}
-			if(status == disconnected) { 
-				[statusLabel setString:@"Disconnected"]; 
-				startButton.isEnabled = NO;
-			}
-			if(status == sending) { [statusLabel setString:@"Sending"]; }
-			if(status == receiving) { [statusLabel setString:@"Receiving"]; }
-		};
 		
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
 		
-		CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
+		// create and initialize a Label		
+		CCLabelTTF *statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
+		
+		// create button
+		//CCMenuItemFont* startButton = [CCMenuItemFont itemFromString:@"Start" block:^(id sender) {
+		//	NSLog(@"clicked");
+		//	[self playGame];
+		//}];
+		//startButton.isEnabled = NO;
+
+		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
+			if(status == connected) { 
+				[statusLabel setString:@"Connected"]; 
+			}
+			if(status == disconnected) { 
+				[statusLabel setString:@"Disconnected"]; 
+			}
+			if(status == sending) { [statusLabel setString:@"Sending"]; }
+			if(status == receiving) { [statusLabel setString:@"Receiving"]; }
+		};
+
+		[[ServerCommunicator instance] connect];
+		
+		nameField = [[UITextField alloc] init];
+		nameField.placeholder = @"Your nickname, kiddo";
+		nameField.backgroundColor = [UIColor whiteColor];
+		nameField.borderStyle = UITextBorderStyleRoundedRect;
+		nameField.font = [UIFont systemFontOfSize:22];
+		nameField.returnKeyType = UIReturnKeyDone;
+		nameField.keyboardType = UIKeyboardTypeNamePhonePad;
+		nameField.transform = CGAffineTransformTranslate(nameField.transform, size.width/2, size.height/2-200);// (x,y)
+		nameField.transform = CGAffineTransformRotate(nameField.transform, CC_DEGREES_TO_RADIANS(90));
+		[nameField setDelegate:self];
+		[[[CCDirector sharedDirector] openGLView] addSubview: nameField]; 
+		
+		
+		//CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
 		
 		// position the label on the center of the screen
 		statusLabel.position =  ccp(size.width/2, size.height/2);
-		menu.position = ccp(size.width/2, size.height/2 - 100);
+		//menu.position = ccp(size.width/2, size.height/2 - 100);
 		
 		[self addChild:statusLabel];
-		[self addChild:menu];
+		//[self addChild:menu];
 		
-		[self connectToServer];
 		
 	}
 	return self;
 }
 
-- (void) connectToServer {
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+	//dismiss keyboard
+	[nameField resignFirstResponder];
 	
-	NSDictionary* helloDict = [NSDictionary dictionaryWithObject:@"hello from client" forKey:@"message"];
-	
-	[[ServerCommunicator instance] connect];
-	[[ServerCommunicator instance] sendMessageToServer:[[CJSONSerializer serializer] serializeDictionary:helloDict]];
-	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
-		NSLog(@"message from server: %@", message);
-	};
+	[self verifyName:textField.text];
+
+	return YES;
 }
 
-- (void) playGame {
-	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
+
+- (void) verifyName:(NSString*)name {
+	
+	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
+		
+		NSLog(@"message from server: %@", message);
+	};
+	
+	Create* command = [Create command];
+	[command setType:@"player"];
+	[command setPlayerID:name];
+	[command send];
+	
+}
+
+- (void) startGameWithCommand:(Create*)command {
+	[nameField removeFromSuperview];
+	[[CCDirector sharedDirector] replaceScene:[GameScene sceneWithCommand:command]];
 }
 
 
