@@ -93,6 +93,7 @@
 	
 	Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
+	[command setPoint:point];
 	[command send];
 }
 

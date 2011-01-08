@@ -14,8 +14,8 @@
 
 #define SOCKET_PORT 3000
 
-// IP ADDRESS OF CHGAME.POPLOBBY.COM //
-#define SOCKET_ADDR "localhost"
+// IP ADDRESS //
+#define SOCKET_ADDR "192.168.2.102"
 
 typedef enum server_status {
 	connected,
