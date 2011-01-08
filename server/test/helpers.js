@@ -12,27 +12,10 @@ var traffic = require("../utils/traffic")
 exports.setup = function(cb) {
     
     function client() {
-        var client = new TestClient()
         sharedApp.resetStateForTesting()
-        
-        client.connect(TestPort, function() {
-            client.onMessage(function(message) {
-                clearTimeout(timeout)                
-                assert.equal(message.type, "Welcome", "Didn't receive welcome message first!")
-                cb(sharedApp, client)
-            })
-            
-            function waiting() {
-                assert.ok(false, "Welcome message time out")
-            }
-            
-            var timeout = setTimeout(waiting, 100)
-        })    
-        
-        var timeout = new Timeout()
-        timeout.start(function() {
-            client.end()
-        })            
+        exports.client(function(client) {
+            cb(sharedApp, client)
+        })
     }
     
     if (sharedApp) return client()
@@ -42,6 +25,28 @@ exports.setup = function(cb) {
     sharedApp = new App()
     sharedApp.start(TestPort, function() {
         client()
+    })
+}
+
+exports.client = function(cb) {
+    var client = new TestClient()
+    client.connect(TestPort, function() {
+        client.onMessage(function(message) {
+            clearTimeout(timeout)                
+            assert.equal(message.type, "Welcome", "Didn't receive welcome message first!")
+            cb(client)
+        })
+        
+        function waiting() {
+            assert.ok(false, "Welcome message time out")
+        }
+        
+        var timeout = setTimeout(waiting, 100)
+    })    
+    
+    var timeout = new Timeout()
+    timeout.start(function() {
+        client.end()
     })
 }
 

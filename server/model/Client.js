@@ -4,6 +4,7 @@ var PacketParser = require('./PacketParser')
 var sys = require('sys')
 var Message = require('./Message')
 var traffic = require("../utils/traffic")
+var _ = require("underscore")
 
 var Client = module.exports = function(app, stream) {
     var onMessage, onEnd
@@ -65,13 +66,22 @@ var Client = module.exports = function(app, stream) {
     
 
     // SENDING STUFF
-    this.send = function(obj) {
-        // var payload = (obj.toJSON) ? obj.toJSON() : JSON.stringify(obj)
-        var payload = JSON.stringify((obj.toValue) ? obj.toValue() : obj)
-        traffic.log(" <<< " + payload)
-        stream.write(payload + "\n")        
-    }
+    this.send = function(objOrArray) {
         
+        if (_(objOrArray).isArray()) {
+            for (var i in objOrArray) {
+                this.send(objOrArray[i])
+            }            
+        }
+        
+        else {
+            // var payload = (obj.toJSON) ? obj.toJSON() : JSON.stringify(obj)
+            var payload = JSON.stringify((objOrArray.toValue) ? objOrArray.toValue() : objOrArray)
+            traffic.log(" <<< " + payload)
+            stream.write(payload + "\n")        
+        }
+    }
+    
     this.id = function() {
         return stream.fd
     }

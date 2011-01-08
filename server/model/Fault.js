@@ -12,3 +12,4 @@ Fault.InvalidType = 'invalid.type'
 Fault.InvalidMethod = 'invalid.method'
 Fault.InvalidData = 'invalid.data'
 Fault.ControllerFault = 'bad.controller'
+Fault.PlayerExists = "player.exists"

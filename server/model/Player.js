@@ -4,16 +4,29 @@
 var Message = require("./Message")
 var sys = require('sys')
 
-var Player = module.exports = function() {
-    this._id = Player.generatePlayerId()
-    this._position = Player.getRandomSpawnLocation()
+var Player = module.exports = function(nickname, position) {
+    this._nickname = nickname
+    this._position = position || Player.getRandomSpawnLocation()
 }
+
+Player.prototype.uid = function () {
+    return "Player_" + this._nickname
+}
+
+Player.prototype.type = function() {
+    return "Player"
+}
+
+Player.prototype.toMessage = function() {
+    return new Message("player", "added", this)
+}
+
 
 Player.prototype.toValue = function() {
     return {
-        id:this._id, 
         position:this._position,
-        nickname:this._nickname
+        nickname:this._nickname,
+        uid:this.uid()
     }
 }
 
@@ -21,9 +34,7 @@ Player.prototype.nickname = function(nick) {
     return (nick) ? this._nickname = nick : this._nickname
 }
 
-Player.prototype.id = function (id) {
-    return (id) ? this._id = id : this._id
-}
+
 
 Player.prototype.position = function () {
     return this._position
@@ -32,6 +43,7 @@ Player.prototype.position = function () {
 Player.prototype.move = function(newX, newY) {
     this._position = {x:newX, y:newY}
 }
+
 
 
 

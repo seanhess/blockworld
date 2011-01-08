@@ -6,7 +6,7 @@ var path = require('path')
 
 var Fault = require('./model/Fault')
 var Client = require("./model/Client")
-var World = require("./model/World")
+var GameState = require("./model/GameState")
 var Message = require("./model/Message")
 var sys = require("sys")
 var traffic = require("./utils/traffic")
@@ -16,15 +16,15 @@ var App = module.exports = function() {
 	var clients = {}
 	var open = false
 	
-	var world = new World()
+	var state = new GameState()
 	
-	this.world = function() {
-	    return world
+	this.state = function() {
+	    return state
 	}
 	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing
-	    world = new World()
+	    state = new GameState()
 	    clients = {}
 	}
 	
@@ -66,10 +66,12 @@ var App = module.exports = function() {
             try {
                 var filename = message.type.toLowerCase() + ".control"
                 var modulePath = path.join(__dirname, 'controller', filename)
+                sys.puts("WOOOT " + modulePath)
                 var module = require(modulePath) 
+                sys.puts("OH NO " + module)
             }
             catch (err) {
-                return client.send(new Fault(Fault.InvalidType, "Invalid Type - Couldn't find module: " + message + " " + modulePath))
+                return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
             }
 
             var method = module[message.action]

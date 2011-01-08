@@ -12,6 +12,22 @@ World.prototype.addPlayer = function(player) {
     this.players[player.id()] = player
 }
 
+World.prototype.state = function() {
+    
+    // Optimize! If you use uuids, I think you can save everything as it stands, 
+    // and replace as you go. 
+    
+    // Ooh, like a database! Yes!
+    
+    var messages = []
+    
+    for (var id in players) {
+        messages.push(players[id].stateMessage())
+    }
+    
+    return messages()
+}
+
 // function getRandomPlayerId () {
 //  var newPlayerId
 //  while (Players[newPlayerId = generatePlayerId(newPlayerId)]) {}
