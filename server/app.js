@@ -8,11 +8,14 @@ var Fault = require('./model/Fault')
 var PacketParser = require('./model/PacketParser')
 var sys = require("sys")
 
+var streamerer = require("./streamerer.js")
+
 var App = module.exports = function() {
     
     var localPort
     
     var server = net.createServer(function(stream) {
+		streamerer.add(stream)
         // METHODS TO SEND
         function send(obj) {
             var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
@@ -100,7 +103,7 @@ var App = module.exports = function() {
                 return fault(Fault.InvalidData, "No Data")                
 
             try {
-                method(data)
+                method(this, data)
             }
             catch (err) {
                 return fault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
