@@ -15,7 +15,7 @@
 #define SOCKET_PORT 3000
 
 // IP ADDRESS //
-#define SOCKET_ADDR "192.168.2.102"
+#define SOCKET_ADDR "localhost"
 
 typedef enum server_status {
 	connected,

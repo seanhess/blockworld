@@ -110,6 +110,7 @@
 
 - (void) startGame {
 	[nameField removeFromSuperview];
+	//CCTurnOffTiles* animation = [CCTurnOffTiles actionWithSeed:234 grid:ccg(9,6) duration:2.0];
 	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 

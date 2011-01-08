@@ -19,7 +19,7 @@
 
 @property(nonatomic, assign) BOOL layingWallsPress;
 
-- (void) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
+- (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
 - (void) createWallAtPoint:(CGPoint)point;
 - (void) createBombAtPoint:(CGPoint)point;
 - (void) movePlayer:(NSString*)playerID toPoint:(CGPoint)point;

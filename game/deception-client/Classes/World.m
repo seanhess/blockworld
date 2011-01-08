@@ -22,7 +22,7 @@
 - (Cell*) cellAtPoint:(CGPoint)point;
 - (BOOL) canMoveToCell:(Cell*)cell;
 - (void) adjustCameraOnPlayer:(Player*)player;
-- (Player*) playerWithID:(NSString*) playerID;
+- (Player*) playerWithPlayerID:(NSString*) playerID;
 @end
 
 @implementation World
@@ -43,11 +43,17 @@
 	} return self;
 }
 
-- (void) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point {
-	if([self playerWithID:playerID]) 
+- (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point {
+	Player* player = nil;
+	if((player = [self playerWithPlayerID:playerID]))
 		[self movePlayer:playerID toPoint:point];
 	else 
-		[self cellAtPoint:point].item = [Player playerWithPlayerID:playerID];
+		[self cellAtPoint:point].item = player = [Player playerWithPlayerID:playerID];
+	
+	if([playerID isEqualToString:[Settings instance].playerID]) 
+		[self adjustCameraOnPlayer:[self playerWithPlayerID:playerID]];
+	
+	return player;
 }
 
 - (void) createWallAtPoint:(CGPoint)point {
@@ -59,7 +65,7 @@
 }
 
 - (void) movePlayer:(NSString*)playerID toPoint:(CGPoint)point {
-	Player* player = [self playerWithID:playerID];
+	Player* player = [self playerWithPlayerID:playerID];
 	Cell* newCell = [self cellAtPoint:point];
 	Cell* oldCell = player.cell;
 	
@@ -68,6 +74,10 @@
 	
 	// send the player to the new cell
 	newCell.item = player; 
+	
+	// set the sprite for the player
+	[player moveInDirection:ccpSub(newCell.point, oldCell.point)];
+	
 	
 	// lay wall if needed
 	if(oldCell != newCell && layingWallsPress) {
@@ -87,7 +97,7 @@
 }
 
 - (void) movePress:(CGPoint)point {
-	Player* myplayer = [self playerWithID:[Settings instance].playerID];
+	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
 	[self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
 	[self adjustCameraOnPlayer:myplayer];
 	
@@ -100,7 +110,7 @@
 - (void) bombPress {
 	layingWallsPress = NO;
 	
-	Player* myplayer = [self playerWithID:[Settings instance].playerID];
+	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
 	Cell* cell = myplayer.cell;
 	
 	Create* command = [Create command];
@@ -113,7 +123,7 @@
 	return !cell.item && !cell.bomb;
 }
 
-- (Player*) playerWithID:(NSString*) playerID {
+- (Player*) playerWithPlayerID:(NSString*) playerID {
 	for(Cell* cell in [board allValues]) {
 		if(cell.item && [cell.item isKindOfClass:[Player class]]) {
 			if([((Player*)cell.item).playerID isEqualToString:playerID]) {

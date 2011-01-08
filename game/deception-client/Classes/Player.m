@@ -13,7 +13,7 @@
 
 @implementation Player
 
-@synthesize playerID;
+@synthesize playerID, nickname;
 
 + (Player*) playerWithPlayerID:(NSString*)playerID {
 	return [[[self alloc] initWithPlayerID:playerID] autorelease];
@@ -23,14 +23,47 @@
 	if((self = [super init])) {
 		self.playerID = p;
 		
-		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"bluetile.png"];
+		left = CGRectMake(0, 0, 25, 35);
+		right = CGRectMake(50, 0, 25, 35);
+		up = CGRectMake(100, 0, 25, 35);
+		down = CGRectMake(150, 0, 25, 35);
 		
-		sprite = [CCSprite spriteWithTexture:texture];
+		sprite = [CCSprite spriteWithFile:@"character_move.png" rect:left];
+		
 		sprite.anchorPoint = ccp(0,0);
 		
 		[self addChild:sprite];
 	}
 	return self;
+}
+
+- (void) setNickname:(NSString *)nick {
+	[nickname autorelease];
+	nickname = [nick retain];
+	
+	if(nicknameLabel) 
+		[self removeChild:nicknameLabel cleanup:YES];
+	
+	if(nickname) {
+		nicknameLabel = [CCLabelTTF labelWithString:nickname fontName:@"Helvetica" fontSize:11];
+		nicknameLabel.anchorPoint = ccp(0,0);
+		[self addChild:nicknameLabel];
+		
+		[self positionSprite];
+	}
+}
+
+- (void) positionSprite {
+	[super positionSprite];
+	
+	nicknameLabel.position = ccp(POINT_TO_PIXEL_X(cell.point.x),POINT_TO_PIXEL_Y(cell.point.y)+30);
+}
+
+- (void) moveInDirection:(CGPoint)direction {
+	if(direction.x > 0) [sprite setTextureRect:right];
+	if(direction.x < 0) [sprite setTextureRect:left];
+	if(direction.y > 0) [sprite setTextureRect:up];
+	if(direction.y < 0) [sprite setTextureRect:down];
 }
 
 - (void) dealloc {
