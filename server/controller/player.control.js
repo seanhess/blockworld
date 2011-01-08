@@ -31,18 +31,18 @@ exports.create = function (app, client, data) {
 
 exports.move = function (app, client, player) {
     
-    // expects: data.position.x, data.position.y
+    // expects: data.x, data.y
     // expects: data.uid
     
-    assert.ok(data.position, "Missing Position")
-    assert.ok(data.position.x, "Missing X")
+    assert.ok(data.x, "Missing X")
+    assert.ok(data.y, "Missing Y")    
     assert.ok(data.uid, "Missing uid")
     
     var player = app.state().fetch(data.uid)
     
     assert.ok(player, "Could not find player " + data.uid)
     
-    player.position(data.position)
+    player.position(data.x, data.y)
     
     app.sendOthers(client, new Message("player", "moved", player))
     

@@ -18,7 +18,6 @@ exports.playerCreate = function (assert) {
                 return message.type == 'player' && message.action == 'you'
             }), "didn't receive player.you")
         
-
             assert.ok(_(messages).any(function(message) {
                 return message.type == 'player' && message.action == 'added'
             }), "didn't receive player.added")
