@@ -1,5 +1,5 @@
 var sys = require("sys")
-var Player = require("./Player.js")
+var Player = require("../model/Player.js")
 
 var Players = []
 
