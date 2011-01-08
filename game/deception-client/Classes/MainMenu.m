@@ -47,6 +47,7 @@
 		
 		// create button
 		CCMenuItemFont* startButton = [CCMenuItemFont itemFromString:@"Start" block:^(id sender) {
+			NSLog(@"clicked");
 			[self playGame];
 		}];
 		
@@ -68,12 +69,14 @@
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
 		
+		CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
+		
 		// position the label on the center of the screen
 		statusLabel.position =  ccp(size.width/2, size.height/2);
-		startButton.position = ccp(size.width/2, size.height/2 - 100);
+		menu.position = ccp(size.width/2, size.height/2 - 100);
 		
 		[self addChild:statusLabel];
-		[self addChild:startButton];
+		[self addChild:menu];
 		
 		[self connectToServer];
 		
@@ -93,7 +96,7 @@
 }
 
 - (void) playGame {
-	[[CCDirector sharedDirector] runWithScene:[GameScene scene]];
+	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
 
