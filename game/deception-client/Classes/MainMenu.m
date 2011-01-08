@@ -29,7 +29,7 @@
 	MainMenu *layer = [MainMenu node];
 	
 	// add layer as a child to scene
-	[scene addChild: layer];
+	[scene addChild:layer];
 	
 	// return the scene
 	return scene;

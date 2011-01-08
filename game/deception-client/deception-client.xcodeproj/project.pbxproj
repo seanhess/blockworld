@@ -11,7 +11,6 @@
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
 		029173D912D8408D00AEFDD8 /* WorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D812D8408D00AEFDD8 /* WorldLayer.m */; };
-		029173DE12D8415900AEFDD8 /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173DD12D8415900AEFDD8 /* Board.m */; };
 		029173E112D8416200AEFDD8 /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173E012D8416200AEFDD8 /* Item.m */; };
 		029173E412D8416D00AEFDD8 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173E312D8416D00AEFDD8 /* Player.m */; };
 		029173E712D8417600AEFDD8 /* Wall.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173E612D8417600AEFDD8 /* Wall.m */; };
@@ -19,6 +18,9 @@
 		0291740212D8441200AEFDD8 /* HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291740112D8441200AEFDD8 /* HUD.m */; };
 		0291740512D8442900AEFDD8 /* DirectionPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291740412D8442900AEFDD8 /* DirectionPad.m */; };
 		0291740812D8443800AEFDD8 /* ActionPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291740712D8443800AEFDD8 /* ActionPad.m */; };
+		0291742112D84B8400AEFDD8 /* bluetile.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291741F12D84B8400AEFDD8 /* bluetile.png */; };
+		0291742212D84B8400AEFDD8 /* bluetile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291742012D84B8400AEFDD8 /* bluetile@2x.png */; };
+		0291744412D853B700AEFDD8 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291744312D853B700AEFDD8 /* Cell.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
 		504DFBCE10AF12E9006D82FE /* CLScoreServerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 504DFBC810AF12E9006D82FE /* CLScoreServerPost.h */; };
@@ -278,8 +280,6 @@
 		029173D512D8406300AEFDD8 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		029173D712D8408D00AEFDD8 /* WorldLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldLayer.h; sourceTree = "<group>"; };
 		029173D812D8408D00AEFDD8 /* WorldLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldLayer.m; sourceTree = "<group>"; };
-		029173DC12D8415900AEFDD8 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		029173DD12D8415900AEFDD8 /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
 		029173DF12D8416200AEFDD8 /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		029173E012D8416200AEFDD8 /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		029173E212D8416D00AEFDD8 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
@@ -294,6 +294,10 @@
 		0291740412D8442900AEFDD8 /* DirectionPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionPad.m; sourceTree = "<group>"; };
 		0291740612D8443800AEFDD8 /* ActionPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionPad.h; sourceTree = "<group>"; };
 		0291740712D8443800AEFDD8 /* ActionPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionPad.m; sourceTree = "<group>"; };
+		0291741F12D84B8400AEFDD8 /* bluetile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bluetile.png; path = ../Classes/bluetile.png; sourceTree = "<group>"; };
+		0291742012D84B8400AEFDD8 /* bluetile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bluetile@2x.png"; path = "../Classes/bluetile@2x.png"; sourceTree = "<group>"; };
+		0291744212D853B700AEFDD8 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
+		0291744312D853B700AEFDD8 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		1F3B9A2C0EF2145700286867 /* deception_clientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deception_clientAppDelegate.h; path = Classes/deception_clientAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -635,8 +639,8 @@
 				029173FF12D843F800AEFDD8 /* Items */,
 				029173D712D8408D00AEFDD8 /* WorldLayer.h */,
 				029173D812D8408D00AEFDD8 /* WorldLayer.m */,
-				029173DC12D8415900AEFDD8 /* Board.h */,
-				029173DD12D8415900AEFDD8 /* Board.m */,
+				0291744212D853B700AEFDD8 /* Cell.h */,
+				0291744312D853B700AEFDD8 /* Cell.m */,
 			);
 			name = World;
 			sourceTree = "<group>";
@@ -825,6 +829,8 @@
 			isa = PBXGroup;
 			children = (
 				E02BB762126CC1E0006E46A2 /* iTunesArtwork */,
+				0291741F12D84B8400AEFDD8 /* bluetile.png */,
+				0291742012D84B8400AEFDD8 /* bluetile@2x.png */,
 				E02BB4FE126CA50F006E46A2 /* Icon@2x.png */,
 				E02BB4FF126CA50F006E46A2 /* Icon-Small@2x.png */,
 				E02BB500126CA50F006E46A2 /* Icon-Small.png */,
@@ -1242,6 +1248,8 @@
 				E02BB507126CA50F006E46A2 /* Icon-Small-50.png in Resources */,
 				E02BB508126CA50F006E46A2 /* Icon-72.png in Resources */,
 				E02BB763126CC1E0006E46A2 /* iTunesArtwork in Resources */,
+				0291742112D84B8400AEFDD8 /* bluetile.png in Resources */,
+				0291742212D84B8400AEFDD8 /* bluetile@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1259,7 +1267,6 @@
 				0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */,
 				029173D612D8406300AEFDD8 /* GameScene.m in Sources */,
 				029173D912D8408D00AEFDD8 /* WorldLayer.m in Sources */,
-				029173DE12D8415900AEFDD8 /* Board.m in Sources */,
 				029173E112D8416200AEFDD8 /* Item.m in Sources */,
 				029173E412D8416D00AEFDD8 /* Player.m in Sources */,
 				029173E712D8417600AEFDD8 /* Wall.m in Sources */,
@@ -1267,6 +1274,7 @@
 				0291740212D8441200AEFDD8 /* HUD.m in Sources */,
 				0291740512D8442900AEFDD8 /* DirectionPad.m in Sources */,
 				0291740812D8443800AEFDD8 /* ActionPad.m in Sources */,
+				0291744412D853B700AEFDD8 /* Cell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

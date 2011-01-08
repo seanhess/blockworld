@@ -9,10 +9,8 @@
 
 #import "cocos2d.h"
 
-@class Board;
-
 @interface WorldLayer : CCLayer {
-	Board* board;
+	NSMutableDictionary* board;
 }
 
 @end
