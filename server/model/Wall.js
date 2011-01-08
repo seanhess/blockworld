@@ -2,7 +2,8 @@ var Message = require("./Message")
 
 
 var Wall = module.exports = function(x, y) {
-    this.source = {uid:x + "|" + y, x:x, y:y}
+    this.source = {x:x, y:y}
+    this.source.uid = Wall.Type + "_" + x + "|" + y
 }
 
 Wall.prototype.toValue = function() {
