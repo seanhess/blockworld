@@ -13,13 +13,13 @@
 
 -(id) init {
 	if((self = [super init])) {
-		[self setAction:@"Create"];
+		[self setAction:@"create"];
 	} return self;
 }
 
 -(void) execute {
 	if([[definition objectForKey:@"type"] isEqualToString:@"player"]) {
-		[world createPlayerWithID:[self.data objectForKey:@"id"] atPoint:ccp(self.positionX, self.positionY)];
+		[world createPlayerWithID:[self.data objectForKey:@"uid"] atPoint:ccp(self.positionX, self.positionY)];
 	}
 	if([[definition objectForKey:@"type"] isEqualToString:@"bomb"]) {
 		[world createBombAtPoint:ccp(self.positionX, self.positionY)];
@@ -29,8 +29,8 @@
 	}
 }
 
-- (void) setPlayerID:(NSString*)playerID {
-	[self.data setObject:playerID forKey:@"id"];
+- (void) setPlayerNickname:(NSString*)nickname {
+	[self.data setObject:nickname forKey:@"nickname"];
 }
 
 @end

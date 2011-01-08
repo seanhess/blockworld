@@ -14,18 +14,18 @@
 -(id) init {
 	if((self = [super init])) {
 		[self setType:@"player"];
-		[self setAction:@"Move"];
+		[self setAction:@"move"];
 	} return self;
 }
 
 -(void) execute {
 	if([[definition objectForKey:@"type"] isEqualToString:@"player"]) {
-		[world movePlayer:[self.data objectForKey:@"id"] toPoint:ccp(self.positionX, self.positionY)];
+		[world movePlayer:[self.data objectForKey:@"uid"] toPoint:ccp(self.positionX, self.positionY)];
 	}
 }
 
 - (void) setPlayerID:(NSString*)playerID {
-	[self.data setObject:playerID forKey:@"id"];
+	[self.data setObject:playerID forKey:@"uid"];
 }
 
 @end

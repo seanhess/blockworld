@@ -14,6 +14,6 @@
 
 }
 
-- (void) setPlayerID:(NSString*)playerID;
+- (void) setPlayerNickname:(NSString*)playerNickname;
 
 @end

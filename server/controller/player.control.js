@@ -5,7 +5,8 @@ var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
 
 exports.create = function (app, client, data) {
-    var nickname = data.id
+	assert.ok(data.nickname, "Missing nickname")
+    var nickname = data.nickname
     var player = new Player(nickname)
     
     // DUMP STATE // 

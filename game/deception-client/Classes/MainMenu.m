@@ -94,7 +94,7 @@
 		[self addChild:statusLabel];
 		//[self addChild:menu];
 		
-		[self verifyName:@"testname"];
+		[self verifyName:@"zxcvdsfjklew"];
 		
 	}
 	return self;
@@ -112,13 +112,13 @@
 
 - (void) verifyName:(NSString*)name {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
-		//[Settings instance].playerID = [message objectForKey:<#(id)aKey#>];
+		[Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"uid"];
 		[self startGame];
 	};
 	
 	Create* command = [Create command];
 	[command setType:@"player"];
-	[command setPlayerID:name];
+	[command setPlayerNickname:name];
 	[command send];
 	
 }

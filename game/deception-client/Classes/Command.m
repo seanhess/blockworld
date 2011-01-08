@@ -9,6 +9,9 @@
 #import "Command.h"
 
 #import "World.h"
+#import "Create.h"
+#import "Destroy.h"
+#import "Move.h"
 #import "ServerCommunicator.h"
 #import "CJSONSerializer.h"
 
@@ -18,7 +21,15 @@
 
 // used by incoming request
 +(id) commandWithDefinition:(NSDictionary*)definition world:(World*)world {
-	Command* command = [(Command*)[NSClassFromString([definition objectForKey:@"action"]) alloc] initWithDefinition:definition world:world];	
+	Command* command = nil;
+	
+	if([[definition objectForKey:@"action"] isEqualToString:@"create"])
+		command = [[Create alloc] initWithDefinition:definition world:world];	
+	if([[definition objectForKey:@"action"] isEqualToString:@"destroy"])
+		command = [[Destroy alloc] initWithDefinition:definition world:world];	
+	if([[definition objectForKey:@"action"] isEqualToString:@"move"])
+		command = [[Move alloc] initWithDefinition:definition world:world];	
+	
 	return [command autorelease];
 }
 

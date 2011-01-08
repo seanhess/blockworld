@@ -14,7 +14,7 @@
 // destroy should never be sent to the server //
 -(id) init {
 	if((self = [super init])) {
-		[self setAction:@"Destroy"];
+		[self setAction:@"destroy"];
 	} return self;
 }
 

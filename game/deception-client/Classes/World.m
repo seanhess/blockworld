@@ -40,9 +40,6 @@
 			}
 		}
 		
-		// init a player
-		[Settings instance].playerID = @"myself";
-		
 	} return self;
 }
 
