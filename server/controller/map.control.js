@@ -38,7 +38,7 @@ exports.addBomb = function (app, client, data) {
     app.sendOthers(client, new Bomb.MessageAddBomb(bomb))
     
     // schedule it for detonation
-    app.timer().schedule(Bomb.Delay, function() {
+    app.timer().scheduleAhead(Bomb.Delay, function() {
         app.sendAll(new Bomb.MessageDetonateBomb(bomb))
         
         // check for hits! 

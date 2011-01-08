@@ -20,7 +20,7 @@ exports.setup = function(cb) {
     if (sharedApp) return client()
     
     // sys.puts("Loading App")
-    traffic.log = function() {}
+    // traffic.log = function() {}
     sharedApp = new App()
     sharedApp.start(TestPort, function() {
         client()
@@ -33,6 +33,7 @@ exports.client = function(cb) {
         client.onMessage(function(message) {
             clearTimeout(timeout)                
             assert.equal(message.type, "Welcome", "Didn't receive welcome message first!")
+            client.onMessage(function() {})
             cb(client)
         })
         
@@ -54,7 +55,7 @@ exports.gather = function(client, cb) {
         
     client.onFault(function(fault) {
         clearTimeout(timeout)
-        return cb(fault)
+        return cb(new Error(fault.fault + " " +fault.message))
     })
 
     client.onMessage(function(message) {  

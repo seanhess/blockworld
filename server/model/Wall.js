@@ -13,7 +13,7 @@ Wall.prototype.toMessage = function() {
 }
 
 Wall.prototype.type = function() {
-    return Wall.Type
+    return "wall"
 }
 
 Wall.Type = "map"

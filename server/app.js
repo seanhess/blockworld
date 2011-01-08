@@ -7,7 +7,7 @@ var path = require('path')
 var Fault = require('./model/Fault')
 
 var GameState = require("./model/GameState")
-// var GameTimer = require("./model/GameTimer")
+var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
 var traffic = require("./utils/traffic")
@@ -25,25 +25,26 @@ var App = module.exports = function() {
     var socket = null    
     
 	var state = new GameState()
-    // var timer = new GameTimer()
+    var timer = new GameTimer()
 	
 	this.state = function() {
 	    return state
 	}
 	
-    // this.timer = function() {
-    //     return timer
-    // }
+    this.timer = function() {
+        return timer
+    }
 	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing
+
 	    state = new GameState()
-        // timer = new GameTimer()
-        // timer.start()
         
-        if (socket) {
-            socket.clients = socket.clientsIndex = {};
-        }
+        socket.clients = socket.clientsIndex = {};
+
+	    if (timer) timer.stop()
+        timer = new GameTimer()
+        timer.start()
 	}
 	
 	this.sendAll = function(message) {
@@ -128,6 +129,8 @@ var App = module.exports = function() {
 
     
     this.close = function() {
+        timer.stop()
+        timer = null
         server.close()
     }
     

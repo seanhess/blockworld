@@ -14,15 +14,20 @@ Bomb.prototype.toMessage = function() {
 }
 
 Bomb.prototype.type = function() {
-    return Bomb.Type
+    return "bomb"
 }
 
 Bomb.Type = "map"
 Bomb.ActionAddBomb = "addBomb"
+Bomb.ActionDetonateBomb = "detonateBomb"
 
 Bomb.Delay = 1500
 
 Bomb.MessageAddBomb = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionAddBomb, bomb)
+}
+
+Bomb.MessageDetonateBomb = function(bomb) {
+    return new Message(Bomb.Type, Bomb.ActionDetonateBomb, bomb)
 }
 
