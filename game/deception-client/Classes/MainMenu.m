@@ -70,15 +70,15 @@
 
 		[[ServerCommunicator instance] connect];
 		
-		nameField = [[UITextField alloc] init];
+		nameField = [[UITextField alloc] initWithFrame:CGRectMake(120, 30, 250, 35)];
 		nameField.placeholder = @"Your nickname, kiddo";
-		nameField.backgroundColor = [UIColor whiteColor];
+		nameField.backgroundColor = [UIColor blackColor];
 		nameField.borderStyle = UITextBorderStyleRoundedRect;
 		nameField.font = [UIFont systemFontOfSize:22];
 		nameField.returnKeyType = UIReturnKeyDone;
 		nameField.keyboardType = UIKeyboardTypeNamePhonePad;
-		nameField.transform = CGAffineTransformTranslate(nameField.transform, 100, 100);// (x,y)
-		nameField.transform = CGAffineTransformRotate(nameField.transform, CC_DEGREES_TO_RADIANS(90));
+		//nameField.transform = CGAffineTransformTranslate(nameField.transform, 100, 100);// (x,y)
+		//nameField.transform = CGAffineTransformRotate(nameField.transform, CC_DEGREES_TO_RADIANS(90));
 		nameField.textColor = [UIColor blackColor];
 		nameField.delegate = self;
 		
@@ -93,8 +93,6 @@
 		
 		[self addChild:statusLabel];
 		//[self addChild:menu];
-		
-		[self verifyName:@"zxcvdsfjklew"];
 		
 	}
 	return self;

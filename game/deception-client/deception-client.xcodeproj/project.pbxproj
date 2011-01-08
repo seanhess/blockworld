@@ -29,6 +29,9 @@
 		029178B012D89AC100AEFDD8 /* Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 029178AF12D89AC100AEFDD8 /* Create.m */; };
 		029178B312D89ACA00AEFDD8 /* Destroy.m in Sources */ = {isa = PBXBuildFile; fileRef = 029178B212D89ACA00AEFDD8 /* Destroy.m */; };
 		029178B612D89ADA00AEFDD8 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = 029178B512D89ADA00AEFDD8 /* Move.m */; };
+		02917B3C12D8E11700AEFDD8 /* brick.png in Resources */ = {isa = PBXBuildFile; fileRef = 02917B3912D8E11700AEFDD8 /* brick.png */; };
+		02917B3D12D8E11700AEFDD8 /* character_move.png in Resources */ = {isa = PBXBuildFile; fileRef = 02917B3A12D8E11700AEFDD8 /* character_move.png */; };
+		02917B3E12D8E11700AEFDD8 /* grasses.png in Resources */ = {isa = PBXBuildFile; fileRef = 02917B3B12D8E11700AEFDD8 /* grasses.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
 		504DFBCE10AF12E9006D82FE /* CLScoreServerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 504DFBC810AF12E9006D82FE /* CLScoreServerPost.h */; };
@@ -322,6 +325,9 @@
 		029178B212D89ACA00AEFDD8 /* Destroy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Destroy.m; sourceTree = "<group>"; };
 		029178B412D89ADA00AEFDD8 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
 		029178B512D89ADA00AEFDD8 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Move.m; sourceTree = "<group>"; };
+		02917B3912D8E11700AEFDD8 /* brick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brick.png; sourceTree = "<group>"; };
+		02917B3A12D8E11700AEFDD8 /* character_move.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = character_move.png; sourceTree = "<group>"; };
+		02917B3B12D8E11700AEFDD8 /* grasses.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grasses.png; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		1F3B9A2C0EF2145700286867 /* deception_clientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deception_clientAppDelegate.h; path = Classes/deception_clientAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -888,6 +894,9 @@
 				62D6A4C012D86A6E0061C6B5 /* wallTile.png */,
 				62D6A4C112D86A6E0061C6B5 /* wallTile@2x.png */,
 				0291757212D865BF00AEFDD8 /* dir_dpad.png */,
+				02917B3912D8E11700AEFDD8 /* brick.png */,
+				02917B3A12D8E11700AEFDD8 /* character_move.png */,
+				02917B3B12D8E11700AEFDD8 /* grasses.png */,
 				0291741F12D84B8400AEFDD8 /* bluetile.png */,
 				0291742012D84B8400AEFDD8 /* bluetile@2x.png */,
 				E02BB4FE126CA50F006E46A2 /* Icon@2x.png */,
@@ -1315,6 +1324,9 @@
 				0291757312D865BF00AEFDD8 /* dir_dpad.png in Resources */,
 				0291777B12D882FD00AEFDD8 /* bomb.png in Resources */,
 				0291777C12D882FD00AEFDD8 /* wall.png in Resources */,
+				02917B3C12D8E11700AEFDD8 /* brick.png in Resources */,
+				02917B3D12D8E11700AEFDD8 /* character_move.png in Resources */,
+				02917B3E12D8E11700AEFDD8 /* grasses.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

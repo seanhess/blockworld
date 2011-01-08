@@ -68,13 +68,8 @@
 }
 
 -(void) setPoint:(CGPoint)point {
-	
-	NSArray* keys = [NSArray arrayWithObjects:@"x", @"y", nil];
-	NSArray* values = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",point.x], [NSString stringWithFormat:@"%d",point.y], nil];
-	
-	NSDictionary* points = [NSDictionary dictionaryWithObjects:values forKeys:keys];
-	
-	[self.data setObject:points forKey:@"position"];
+	[self.data setObject:[NSNumber numberWithInt:point.x] forKey:@"x"];
+	[self.data setObject:[NSNumber numberWithInt:point.y] forKey:@"y"];
 }
 
 -(NSMutableDictionary*) data {
@@ -85,11 +80,11 @@
 }
 
 -(int) positionX {
-	return [[[self.data objectForKey:@"position"] objectForKey:@"x"] intValue];
+	return [[self.data objectForKey:@"x"] intValue];
 }
 
 -(int) positionY {
-	return [[[self.data objectForKey:@"position"] objectForKey:@"y"] intValue];
+	return [[self.data objectForKey:@"y"] intValue];
 }
 
 - (void) dealloc {
