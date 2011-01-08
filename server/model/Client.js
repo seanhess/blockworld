@@ -4,16 +4,15 @@
 var net = require("net")
 var app = require("../app")
 var sys = require('sys')
+var packetParser = require('./PacketParser')
 
 function Client() {
     
     var stream = new net.Stream()
     var onMessage, onError, onFault
     
-    var dataStream = ""
-    
-    function respond(packet) {
-        
+    var packetParser = new PacketParser()
+    packetParser.onPacket(function(packet) {
         var message = JSON.parse(packet)
 
         if (message.fault && onFault) {
@@ -22,16 +21,10 @@ function Client() {
         else if (onMessage) {
             onMessage(message.route, message.data)                            
         }
-    }
-    
+    })
+            
     stream.on('data', function(data) {
-        
-        dataStream += data
-        
-        dataStream.replace(/<<<(.*?)>>>/gim, function(match, group) {
-            respond(group)
-            return ""
-        })
+        packetParser.addData(data)
     })
     
     stream.on('error', function(err) {

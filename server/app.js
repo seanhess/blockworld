@@ -1,11 +1,15 @@
 var sys = require('sys')
 
 var net = require('net')
+
+
 var Fault = require('./model/Fault')
+var PacketParser = require('./model/PacketParser')
 var sys = require("sys")
 
 var app = net.createServer(function(stream) {
     
+    // METHODS TO SEND
     function send(obj) {
         var payload = JSON.stringify(obj)
         // sys.log("<<< " + payload)
@@ -21,19 +25,23 @@ var app = net.createServer(function(stream) {
         send({fault:new Fault(type, message)})
     }
 
+
+    // RECEIVE
     stream.setEncoding('utf8')
     
     stream.on('connect',function() {
         message('hello')
     })
     
-    stream.on('data',function(data) {
-        
-        // sys.log(" >>> " + data)
+    
+    // ROUTING
+    var packetParser = new PacketParser()
+    
+    packetParser.onPacket(function(packet) {
                 
         // parse
         try {
-            var message = JSON.parse(data)            
+            var message = JSON.parse(packet)            
         }
         catch (err) {
             return fault(Fault.JsonParsingError, "Could not parse: " + data + " with error " + err)
@@ -65,6 +73,10 @@ var app = net.createServer(function(stream) {
         catch (err) {
             return fault(Fault.BadController, "Bad Controller " + route)
         }
+    })
+    
+    stream.on('data',function(data) {
+        packetParser.addData(data)
     })
     
     stream.on('end',function() {
