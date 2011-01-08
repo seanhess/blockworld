@@ -10,16 +10,18 @@
 #import "MainMenu.h"
 #import "ServerCommunicator.h"
 #import "CJSONSerializer.h"
+#import "GameScene.h"
 
 @interface MainMenu()
 - (void) playGame;
+- (void) connectToServer;
 @end
 
 // HelloWorld implementation
 @implementation MainMenu
 
-+(id) scene
-{
++(id) scene {
+	
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
@@ -40,21 +42,28 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init] )) {
 		
-		// create and initialize a Label
-		
+		// create and initialize a Label		
 		CCLabelTTF *statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
-		
-		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
-			if(status == connected) { [statusLabel setString:@"Connected"]; }
-			if(status == disconnected) { [statusLabel setString:@"Disconnected"]; }
-			if(status == sending) { [statusLabel setString:@"Sending"]; }
-			if(status == receiving) { [statusLabel setString:@"Receiving"]; }
-		};
 		
 		// create button
 		CCMenuItemFont* startButton = [CCMenuItemFont itemFromString:@"Start" block:^(id sender) {
 			[self playGame];
 		}];
+		
+		startButton.isEnabled = NO;
+
+		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
+			if(status == connected) { 
+				[statusLabel setString:@"Connected"]; 
+				startButton.isEnabled = YES;
+			}
+			if(status == disconnected) { 
+				[statusLabel setString:@"Disconnected"]; 
+				startButton.isEnabled = NO;
+			}
+			if(status == sending) { [statusLabel setString:@"Sending"]; }
+			if(status == receiving) { [statusLabel setString:@"Receiving"]; }
+		};
 		
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
@@ -66,12 +75,13 @@
 		[self addChild:statusLabel];
 		[self addChild:startButton];
 		
+		[self connectToServer];
 		
 	}
 	return self;
 }
 
-- (void) connect {
+- (void) connectToServer {
 	
 	NSDictionary* helloDict = [NSDictionary dictionaryWithObject:@"hello from client" forKey:@"message"];
 	
@@ -83,7 +93,7 @@
 }
 
 - (void) playGame {
-	NSLog(@"Enter the world!");
+	[[CCDirector sharedDirector] runWithScene:[GameScene scene]];
 }
 
 
