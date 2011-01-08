@@ -16,7 +16,7 @@
 @synthesize cell;
 
 - (void) positionSprite {
-	sprite.position = ccp(cell.point.x*PIXEL_PER_UNIT, cell.point.y*PIXEL_PER_UNIT);
+	sprite.position = ccp(POINT_TO_PIXEL_X(cell.point.x), POINT_TO_PIXEL_Y(cell.point.y));
 }
 
 - (void) setCell:(Cell *)c {

@@ -13,7 +13,7 @@
 
 - (id) init {
 	if((self = [super init])) {
-		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"wall.png"];
+		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"brick.png"];
 		
 		sprite = [CCSprite spriteWithTexture:texture];
 		sprite.anchorPoint = ccp(0,0);

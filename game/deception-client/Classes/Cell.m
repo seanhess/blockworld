@@ -26,18 +26,19 @@
 		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"grasses.png"];
 		
 		float rand = CCRANDOM_0_1();
-		CGRect rect = CGRectMake(13, 6, 40, 40);
+		CGRect rect = CGRectMake(105, 6, 40, 40);
 		if(rand > .8)
 			rect = CGRectMake(59, 6, 40, 40);
 		else if (rand > .1)
-			rect = CGRectMake(99, 6, 40, 40);
+			rect = CGRectMake(13, 6, 40, 40);
 			
 		
 		CCSpriteFrame* frame = [CCSpriteFrame frameWithTexture:texture rect:rect];
 		CCSprite* sprite = [CCSprite spriteWithSpriteFrame:frame];
 		
 		sprite.anchorPoint = ccp(0,0);
-		sprite.position = ccp(p.x*PIXEL_PER_UNIT, p.y*PIXEL_PER_UNIT);
+		
+		sprite.position = ccp(POINT_TO_PIXEL_X(p.x), POINT_TO_PIXEL_Y(p.y));
 		
 		[self addChild:sprite];
 		

@@ -97,16 +97,18 @@ static void socketCallBack(CFSocketRef s, CFSocketCallBackType type, CFDataRef a
 				return;
 			}
 			
-			NSData* data = [wholeMessage dataUsingEncoding:NSStringEncodingConversionExternalRepresentation];
 			NSError * error = nil;
 			if(messageReceivedCallback) { 
+				NSData* data = [item dataUsingEncoding:NSStringEncodingConversionExternalRepresentation];
+				
 				NSDictionary* message = [[CJSONDeserializer deserializer] deserialize:data error:&error];
+				
 				if([message objectForKey:@"fault"]) {
 					UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"Error %@", [message objectForKey:@"fault"]] message:[message objectForKey:@"message"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 					[alert show];
 					[alert release];
 				} else {
-					messageReceivedCallback(message); 
+					messageReceivedCallback([message copy]); 
 				}
 			}
 		}

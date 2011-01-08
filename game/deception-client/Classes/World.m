@@ -34,8 +34,8 @@
 		board = [NSMutableDictionary new];
 		
 		// init a 9x9 board
-		for(int i=0; i<9; i++) {
-			for (int j=0; j<9; j++) {
+		for(int i=-10; i<10; i++) {
+			for (int j=-10; j<10; j++) {
 				[self cellAtPoint:ccp(i,j)];
 			}
 		}
@@ -91,9 +91,9 @@
 	[self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
 	[self adjustCameraOnPlayer:myplayer];
 	
-	Move* command = [Move command];
+	/*Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
-	[command send];
+	[command send];*/
 }
 
 - (void) bombPress {
@@ -111,7 +111,6 @@
 - (BOOL) canMoveToCell:(Cell*)cell {
 	return !cell.item && !cell.bomb;
 }
-
 
 - (Player*) playerWithID:(NSString*) playerID {
 	for(Cell* cell in [board allValues]) {
@@ -146,14 +145,14 @@
 	[self.camera centerX:&x centerY:&y centerZ:&z];
 	[self.camera eyeX:&x eyeY:&y eyeZ:&z];
 	
-	if(player.cell.point.x*PIXEL_PER_UNIT < x+SCREEN_FOLLOW_THRESHOLD)
-		x = player.cell.point.x*PIXEL_PER_UNIT-SCREEN_FOLLOW_THRESHOLD;
+	if(POINT_TO_PIXEL_X(player.cell.point.x) < x+SCREEN_FOLLOW_THRESHOLD)
+		x = POINT_TO_PIXEL_X(player.cell.point.x)-SCREEN_FOLLOW_THRESHOLD;
 	if(player.cell.point.x*PIXEL_PER_UNIT > x+screenRect.size.height-SCREEN_FOLLOW_THRESHOLD)
-		x = player.cell.point.x*PIXEL_PER_UNIT-screenRect.size.height+SCREEN_FOLLOW_THRESHOLD;
+		x = POINT_TO_PIXEL_X(player.cell.point.x)-screenRect.size.height+SCREEN_FOLLOW_THRESHOLD;
 	if(player.cell.point.y*PIXEL_PER_UNIT < y+SCREEN_FOLLOW_THRESHOLD)
-		y = player.cell.point.y*PIXEL_PER_UNIT-SCREEN_FOLLOW_THRESHOLD;
+		y = POINT_TO_PIXEL_Y(player.cell.point.y)-SCREEN_FOLLOW_THRESHOLD;
 	if(player.cell.point.y*PIXEL_PER_UNIT > y+screenRect.size.width-SCREEN_FOLLOW_THRESHOLD)
-		y = player.cell.point.y*PIXEL_PER_UNIT-screenRect.size.width+SCREEN_FOLLOW_THRESHOLD;
+		y = POINT_TO_PIXEL_Y(player.cell.point.y)-screenRect.size.width+SCREEN_FOLLOW_THRESHOLD;
 	
 	[self.camera setCenterX:x centerY:y centerZ:0.0];
 	[self.camera setEyeX:x eyeY:y eyeZ:[CCCamera getZEye]];

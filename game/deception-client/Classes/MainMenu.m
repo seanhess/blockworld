@@ -50,13 +50,6 @@
 		// create and initialize a Label		
 		CCLabelTTF *statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
 		
-		// create button
-		//CCMenuItemFont* startButton = [CCMenuItemFont itemFromString:@"Start" block:^(id sender) {
-		//	NSLog(@"clicked");
-		//	[self playGame];
-		//}];
-		//startButton.isEnabled = NO;
-
 		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
 			if(status == connected) { 
 				[statusLabel setString:@"Connected"]; 
@@ -77,22 +70,16 @@
 		nameField.font = [UIFont systemFontOfSize:22];
 		nameField.returnKeyType = UIReturnKeyDone;
 		nameField.keyboardType = UIKeyboardTypeNamePhonePad;
-		//nameField.transform = CGAffineTransformTranslate(nameField.transform, 100, 100);// (x,y)
-		//nameField.transform = CGAffineTransformRotate(nameField.transform, CC_DEGREES_TO_RADIANS(90));
 		nameField.textColor = [UIColor blackColor];
 		nameField.delegate = self;
 		
 		[[[CCDirector sharedDirector] openGLView] addSubview:nameField]; 
 		
 		
-		//CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
-		
 		// position the label on the center of the screen
 		statusLabel.position =  ccp(size.width/2, size.height/2);
-		//menu.position = ccp(size.width/2, size.height/2 - 100);
 		
 		[self addChild:statusLabel];
-		//[self addChild:menu];
 		
 	}
 	return self;
