@@ -17,7 +17,7 @@ function getPlayerById (playerId) {
 	return Players[playerId]
 }
 
-exports.createPlayer = function (app, client, data) {
+exports.create = function (app, client, data) {
     // client.send("createdPlayer", )
     var newPlayerId = getRandomPlayerId()
     var player = new Player(newPlayerId)
@@ -32,3 +32,4 @@ exports.movePlayer = function (data) {
 	
 	player.move()
 }
+
