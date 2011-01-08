@@ -15,9 +15,10 @@ var Client = module.exports = function(app, stream) {
     
     stream.on('data',function(data) {
         sys.puts(" >>> " + data)
-        var result = packetParser.addData(data)
+        packetParser.addData(data)
+        // var result = packetParser.addData(data)
         
-        if (!result) return self.sendFault(Fault.MissingDelimiters, "Missing delimiters: " + packetParser.data())
+        // if (!result) return self.sendFault(Fault.MissingDelimiters, "Missing delimiters: " + packetParser.data())
     })
     
     packetParser.onPacket(function(packet) {
@@ -68,9 +69,9 @@ var Client = module.exports = function(app, stream) {
 
     // SENDING STUFF
     function send(obj) {
-        var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
+        var payload = JSON.stringify(obj)//.replace(/<<</g,"<x<").replace(/>>>/g,">x>")
         sys.puts(" <<< " + payload)
-        stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)        
+        stream.write(payload + "\n")        
     }
 
     this.send = function(route, data) {

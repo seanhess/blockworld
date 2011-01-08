@@ -83,7 +83,8 @@ var App = module.exports = function() {
                 method(self, client, data)
             }
             catch (err) {
-                return client.sendFault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
+                sys.puts(err + "\n" + err.stack)
+                return client.sendFault(Fault.BadController, "Controller Fault " + route)
             }
         })
 		
@@ -130,8 +131,8 @@ var App = module.exports = function() {
     // }
 }
 
-App.OpenDelimiter = "<<<"
-App.CloseDelimiter = ">>>"
+// App.OpenDelimiter = "<<<"
+// App.CloseDelimiter = ">>>"
 App.DefaultPort = 3000
 
 if (module == require.main) {

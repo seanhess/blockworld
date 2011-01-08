@@ -10,17 +10,15 @@ module.exports = PacketParser = function() {
     }
     
     this.addData = function(data) {
-        dataStream += data
+        dataStream += data.toString()
         
-        if (!dataStream.match(/^<<</)) {
-            dataStream = ""
-            return false            
+        var index = 0
+        while((index = dataStream.indexOf("\n")) > 0) {
+            var match = dataStream.substr(0, index-1)
+            dataStream = dataStream.substr(index+1)
+            sys.puts("MATCH ("+match+")")
+            if (onMatch) onMatch(match)
         }
-        
-        dataStream = dataStream.replace(/<<<(.*?)>>>/gim, function(match, group) {
-            if (onMatch) onMatch(group)
-            return ""
-        })
         
         return true
     }
@@ -29,3 +27,4 @@ module.exports = PacketParser = function() {
         onMatch = cb
     }
 }
+

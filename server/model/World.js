@@ -1,4 +1,4 @@
-
+var sys = require('sys')
 
 var World = module.exports = function() {
     this.players = {}
@@ -9,7 +9,8 @@ World.prototype.getPlayerById = function(id) {
 }
 
 World.prototype.addPlayer = function(player) {
-    this.players[player.id()] = player
+    sys.puts(sys.inspect(player))
+    this.players[player.id] = player
 }
 
 // function getRandomPlayerId () {
