@@ -4,7 +4,7 @@
 var Message = require("./Message")
 var sys = require('sys')
 
-var Player = module.exports = function(id) {
+var Player = module.exports = function() {
     this._id = Player.generatePlayerId()
     this._position = Player.getRandomSpawnLocation()
 }
@@ -12,8 +12,13 @@ var Player = module.exports = function(id) {
 Player.prototype.toValue = function() {
     return {
         id:this._id, 
-        position:this._position
+        position:this._position,
+        nickname:this._nickname
     }
+}
+
+Player.prototype.nickname = function(nick) {
+    return (nick) ? this._nickname = nick : this._nickname
 }
 
 Player.prototype.id = function (id) {
