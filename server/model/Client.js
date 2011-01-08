@@ -2,17 +2,20 @@
 // Test Client. Connects to server
 
 var net = require("net")
-var app = require("../app")
 var sys = require('sys')
 var packetParser = require('./PacketParser')
+var App = require('../app')
 
-function Client() {
+
+
+var Client = module.exports = function() {
     
     var stream = new net.Stream()
     var onMessage, onError, onFault
     
     var packetParser = new PacketParser()
     packetParser.onPacket(function(packet) {
+        // Client.puts("Data Packet " + packet)
         var message = JSON.parse(packet)
 
         if (message.fault && onFault) {
@@ -24,6 +27,7 @@ function Client() {
     })
             
     stream.on('data', function(data) {
+        // Client.puts("Data IN " + data)
         packetParser.addData(data)
     })
     
@@ -31,8 +35,8 @@ function Client() {
         if (onError) onError(err)
     })
     
-    this.connect = function(cb) {
-        stream.connect(app.port)
+    this.connect = function(port, cb) {
+        stream.connect(port)
         stream.on('connect', function() {
             cb()
         })
@@ -54,15 +58,17 @@ function Client() {
         stream.close()
     }
     
-    this.send = function(route, data) {
+    this.sendRouteData = function(route, data) {
         var payload = JSON.stringify({route:route, data:data})
-        stream.write(payload, "utf8")
+        this.sendRaw(App.OpenDelimiter + payload + App.CloseDelimiter)
     }
     
     this.sendRaw = function(data) {
+        Client.puts("Data OUT " + data)
         stream.write(data, "utf8")
     }
     
 }
 
-module.exports = Client
+Client.puts = sys.puts
+Client.log = sys.log
