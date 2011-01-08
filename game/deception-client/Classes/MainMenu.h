@@ -9,6 +9,8 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "CJSONSerializer.h"
+#import "ServerCommunicator.h"
 
 // HelloWorld Layer
 @interface MainMenu : CCLayer <UITextFieldDelegate> {

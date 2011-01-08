@@ -16,7 +16,7 @@
 	HUD* hud;
 }
 
-+(id) sceneWithCommand:(Command*)command;
--(id) initWithCommand:(Command*)command;
++(id) scene;
+
 
 @end

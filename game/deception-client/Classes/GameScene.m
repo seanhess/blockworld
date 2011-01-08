@@ -16,7 +16,7 @@
 
 @implementation GameScene
 
-+(id) sceneWithCommand:(Command*)command {
++(id) scene {
 	
 	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
@@ -31,7 +31,7 @@
 	return scene;
 }
 
--(id) initWithCommand:(Command*)command {
+-(id) init {
 	if((self = [super init])) {
 		// add World
 		world = [World node];
@@ -59,8 +59,6 @@
 			[[Command commandWithDefinition:definition world:world] execute];
 		};
 		
-		// run the initial command
-		[[Command commandWithDefinition:command.definition world:world] execute];
 		
 	}
 	return self;

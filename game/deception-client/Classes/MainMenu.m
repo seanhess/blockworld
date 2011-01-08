@@ -8,14 +8,14 @@
 
 // Import the interfaces
 #import "MainMenu.h"
-#import "ServerCommunicator.h"
-#import "CJSONSerializer.h"
+
 #import "GameScene.h"
 #import "Create.h"
+#import "Settings.h"
 
 @interface MainMenu()
 - (void) verifyName:(NSString*)name;
-- (void) startGameWithCommand:(Create*)command;
+- (void) startGame;
 @end
 
 // HelloWorld implementation
@@ -77,10 +77,12 @@
 		nameField.font = [UIFont systemFontOfSize:22];
 		nameField.returnKeyType = UIReturnKeyDone;
 		nameField.keyboardType = UIKeyboardTypeNamePhonePad;
-		nameField.transform = CGAffineTransformTranslate(nameField.transform, size.width/2, size.height/2-200);// (x,y)
+		nameField.transform = CGAffineTransformTranslate(nameField.transform, 100, 100);// (x,y)
 		nameField.transform = CGAffineTransformRotate(nameField.transform, CC_DEGREES_TO_RADIANS(90));
-		[nameField setDelegate:self];
-		[[[CCDirector sharedDirector] openGLView] addSubview: nameField]; 
+		nameField.textColor = [UIColor blackColor];
+		nameField.delegate = self;
+		
+		[[[CCDirector sharedDirector] openGLView] addSubview:nameField]; 
 		
 		
 		//CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
@@ -92,6 +94,7 @@
 		[self addChild:statusLabel];
 		//[self addChild:menu];
 		
+		[self verifyName:@"testname"];
 		
 	}
 	return self;
@@ -108,10 +111,9 @@
 
 
 - (void) verifyName:(NSString*)name {
-	
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
-		
-		NSLog(@"message from server: %@", message);
+		//[Settings instance].playerID = [message objectForKey:<#(id)aKey#>];
+		[self startGame];
 	};
 	
 	Create* command = [Create command];
@@ -121,9 +123,9 @@
 	
 }
 
-- (void) startGameWithCommand:(Create*)command {
+- (void) startGame {
 	[nameField removeFromSuperview];
-	[[CCDirector sharedDirector] replaceScene:[GameScene sceneWithCommand:command]];
+	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
 
