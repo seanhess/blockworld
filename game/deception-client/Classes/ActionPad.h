@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "Blocks.h"
 
 @interface ActionPad : CCLayer {
-
+	Block wall;
+	Block bomb;
 }
+
+@property(nonatomic, copy) Block wall;
+@property(nonatomic, copy) Block bomb;
 
 @end

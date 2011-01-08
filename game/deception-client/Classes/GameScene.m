@@ -39,6 +39,18 @@
 		hud = [HUD node];
 		[self addChild:hud];
 		
+		[hud setMoveCallback:^(int x, int y) {
+			[world moveAction:ccp(x,y)];
+		}];
+		
+		[hud setOnBombCallback:^{
+			[world setBomb];
+		}];
+		
+		[hud setOnWallCallback:^{
+			world.isLayingWalls = !world.isLayingWalls;
+		}];
+		
 	}
 	return self;
 }

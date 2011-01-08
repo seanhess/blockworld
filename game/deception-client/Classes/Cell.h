@@ -9,11 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
+@class Item, Bomb;
+
 @interface Cell : CCLayer {
 	CGPoint point;
+	Item* item;
+	Bomb* bomb;
 }
 
 @property(nonatomic, readonly) CGPoint point;
+@property(nonatomic, retain) Item* item;
+@property(nonatomic, retain) Bomb* bomb;
 
 + (Cell*) cellAtPoint:(CGPoint)point;
 - (id) initWithPoint:(CGPoint)p;

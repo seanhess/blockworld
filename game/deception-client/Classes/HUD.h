@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "Blocks.h"
 
-@class DirectionPad;
+@class DirectionPad, ActionPad;
 
 @interface HUD : CCLayer {
 	DirectionPad* directionPad;
+	ActionPad* actionPad;
 }
+
+- (void) setMoveCallback:(void(^)(int, int))callback;
+- (void) setOnBombCallback:(void(^)())callback;
+- (void) setOnWallCallback:(void(^)())callback;
 
 @end

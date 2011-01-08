@@ -10,6 +10,15 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 
-@interface Item : CCLayer
+@class Cell;
+
+@interface Item : CCLayer {
+	Cell* cell;
+	CCSprite* sprite;
+}
+
+@property(nonatomic, assign) Cell* cell;
+
+- (void) positionSprite;
 
 @end

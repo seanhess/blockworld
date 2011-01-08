@@ -12,6 +12,10 @@
 @interface DirectionPad : CCLayer {
 	CCSpriteBatchNode* directionBatch;
 	CCTexture2D* texture;
+	
+	void(^move)(int, int);
 }
+
+@property(nonatomic, copy) void(^move)(int, int);
 
 @end

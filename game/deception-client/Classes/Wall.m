@@ -11,4 +11,16 @@
 
 @implementation Wall
 
+- (id) init {
+	if((self = [super init])) {
+		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"wall.png"];
+		
+		sprite = [CCSprite spriteWithTexture:texture];
+		sprite.anchorPoint = ccp(0,0);
+		
+		[self addChild:sprite];
+	}
+	return self;
+}
+
 @end

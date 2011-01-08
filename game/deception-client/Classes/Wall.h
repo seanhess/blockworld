@@ -7,6 +7,9 @@
  *
  */
 
-@interface Wall
+#import "cocos2d.h"
+#import "Item.h"
+
+@interface Wall : Item
 
 @end

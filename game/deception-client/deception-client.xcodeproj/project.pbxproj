@@ -22,6 +22,9 @@
 		0291742212D84B8400AEFDD8 /* bluetile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291742012D84B8400AEFDD8 /* bluetile@2x.png */; };
 		0291744412D853B700AEFDD8 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291744312D853B700AEFDD8 /* Cell.m */; };
 		0291757312D865BF00AEFDD8 /* dir_dpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291757212D865BF00AEFDD8 /* dir_dpad.png */; };
+		0291766412D8723100AEFDD8 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291766312D8723100AEFDD8 /* Settings.m */; };
+		0291777B12D882FD00AEFDD8 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291777912D882FD00AEFDD8 /* bomb.png */; };
+		0291777C12D882FD00AEFDD8 /* wall.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291777A12D882FD00AEFDD8 /* wall.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
 		504DFBCE10AF12E9006D82FE /* CLScoreServerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 504DFBC810AF12E9006D82FE /* CLScoreServerPost.h */; };
@@ -303,6 +306,10 @@
 		0291744212D853B700AEFDD8 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		0291744312D853B700AEFDD8 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		0291757212D865BF00AEFDD8 /* dir_dpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dir_dpad.png; sourceTree = "<group>"; };
+		0291766212D8723100AEFDD8 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		0291766312D8723100AEFDD8 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		0291777912D882FD00AEFDD8 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
+		0291777A12D882FD00AEFDD8 /* wall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wall.png; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		1F3B9A2C0EF2145700286867 /* deception_clientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deception_clientAppDelegate.h; path = Classes/deception_clientAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -668,6 +675,15 @@
 			name = Items;
 			sourceTree = "<group>";
 		};
+		0291766112D8722400AEFDD8 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				0291766212D8723100AEFDD8 /* Settings.h */,
+				0291766312D8723100AEFDD8 /* Settings.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -719,6 +735,7 @@
 		2D500B1D0D5A766B00DBA0E3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0291766112D8722400AEFDD8 /* Data */,
 				029173D312D8401C00AEFDD8 /* Service */,
 				029173D212D83CE300AEFDD8 /* Game */,
 				029172ED12D8267D00AEFDD8 /* Menu */,
@@ -838,6 +855,8 @@
 			children = (
 				E02BB762126CC1E0006E46A2 /* iTunesArtwork */,
 				62D6A4C612D870830061C6B5 /* GameTrack.mp3 */,
+				0291777912D882FD00AEFDD8 /* bomb.png */,
+				0291777A12D882FD00AEFDD8 /* wall.png */,
 				62D6A4C012D86A6E0061C6B5 /* wallTile.png */,
 				62D6A4C112D86A6E0061C6B5 /* wallTile@2x.png */,
 				0291757212D865BF00AEFDD8 /* dir_dpad.png */,
@@ -1266,6 +1285,8 @@
 				62D6A4C312D86A6E0061C6B5 /* wallTile@2x.png in Resources */,
 				62D6A4C712D870830061C6B5 /* GameTrack.mp3 in Resources */,
 				0291757312D865BF00AEFDD8 /* dir_dpad.png in Resources */,
+				0291777B12D882FD00AEFDD8 /* bomb.png in Resources */,
+				0291777C12D882FD00AEFDD8 /* wall.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,6 +1312,7 @@
 				0291740512D8442900AEFDD8 /* DirectionPad.m in Sources */,
 				0291740812D8443800AEFDD8 /* ActionPad.m in Sources */,
 				0291744412D853B700AEFDD8 /* Cell.m in Sources */,
+				0291766412D8723100AEFDD8 /* Settings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

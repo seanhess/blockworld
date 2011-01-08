@@ -11,6 +11,13 @@
 
 @interface WorldLayer : CCLayer {
 	NSMutableDictionary* board;
+	
+	BOOL isLayingWalls;
 }
+
+@property(nonatomic, assign) BOOL isLayingWalls;
+
+- (void) moveAction:(CGPoint)point;
+- (void) setBomb;
 
 @end

@@ -10,6 +10,12 @@
 #import "cocos2d.h"
 #import "Item.h"
 
-@interface Player : Item
+@interface Player : Item {
+	NSString* playerID;
+}
+
+@property(nonatomic, retain) NSString* playerID;
+
+- (id) initWithPlayerID:(NSString*)p;
 
 @end
