@@ -4,3 +4,7 @@ exports.testing = function(assert) {
     assert.finish()
 }
 
+exports.spawn = function(assert) {
+    // I want to spawn
+}
+
