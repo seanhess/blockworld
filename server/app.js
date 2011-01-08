@@ -7,23 +7,37 @@ var path = require('path')
 var Fault = require('./model/Fault')
 var Client = require("./model/Client")
 var sys = require("sys")
+
 var log = require("./utils/log")
 
 var App = module.exports = function() {
     
     var localPort
+	var clients = {}
+	
+	this.sendToAllClients = function (route, data) {
+		var clientsLength = clients.length
+		for(var clientId in clients) {
+			clients[clientId].sendMessage(route, data)
+		}
+	}
+
+	this.addClient = function (client) {
+		clients[client.id()] = client
+	}
+	
+	this.removeClient = function (client) {
+		delete clients[client.id()]
+	}
     
     var self = this
     
     var server = new net.Server()
     
     server.on('connection', function(stream) {
-        
         var client = new Client(self, stream)
-        
-        client.onConnect(function() {
-            client.sendMessage('connected')
-        })
+		self.addClient(client)
+		client.sendMessage("Hello")
 
         client.onMessage(function(route, data) {
             
@@ -49,16 +63,21 @@ var App = module.exports = function() {
                 return client.sendFault(Fault.InvalidData, "No Data")                
 
             try {
-                method(this, data)
+                method(this, client, data)
             }
             catch (err) {
                 return client.sendFault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
             }
         })
+		
+		client.onEnd(function () {
+			self.removeClient(client)
+		})
+		
     })
     
     server.on('close', function() {
-        // App.puts("Closed " + localPort)
+		// App.puts("Closed " + localPort)
     })
 
     this.start = function(port, cb) {

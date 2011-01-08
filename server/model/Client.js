@@ -6,7 +6,7 @@ var log = require("../utils/log")
 
 var Client = module.exports = function(app, stream) {
     var self = this
-    var onMessage, onConnect
+    var onMessage, onEnd
     
     stream.setEncoding('utf8')
 
@@ -44,7 +44,7 @@ var Client = module.exports = function(app, stream) {
     
     // ON EXIT
     stream.on('end',function() {
-        message('goodbye')
+		if(onEnd) onEnd()
         stream.end()
     })
     
@@ -90,8 +90,8 @@ var Client = module.exports = function(app, stream) {
     this.onMessage = function(cb) {
         onMessage = cb
     }
-    
-    this.onConnect = function(cb) {
-        onConnect = cb
-    }
+
+	this.onEnd = function (cb) {
+		onEnd = cb
+	}
 }

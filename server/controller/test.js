@@ -1,7 +1,7 @@
 var sys = require('sys')
 
 
-exports.something = function(data) {
+exports.something = function(app, client, data) {
     // sys.puts("Something!")
 }
 

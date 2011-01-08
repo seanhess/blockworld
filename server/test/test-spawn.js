@@ -6,7 +6,11 @@ var App = require("../App")
 
 exports.createPlayer = function (assert) {
 	helpers.appAndClient(function(app, client) {
-		client.sendRaw(App.OpenDelimiter + "{'route':'Players.create', 'data':{}}" + App.CloseDelimiter)
+		client.sendRouteData("Players.create", {})
+		client.onMessage(function (route, data) {
+			sys.debug(route)
+			sys.debug(data)
+		})
 		assert.finish()
 	})
 }
