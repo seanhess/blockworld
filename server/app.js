@@ -8,17 +8,22 @@ var Fault = require('./model/Fault')
 var Client = require("./model/Client")
 var sys = require("sys")
 
-var log = require("./utils/log")
-
 var App = module.exports = function() {
     
     var localPort
 	var clients = {}
+	var open = false
 	
-	this.sendAll = function (route, data) {
-		var clientsLength = clients.length
+	this.sendAll = function(route, data) {
 		for(var clientId in clients) {
 			clients[clientId].send(route, data)
+		}
+	}
+	
+	this.sendOthers = function(client, route, data) {
+		for(var clientId in clients) {
+		    if (clientId != client.id())
+			    clients[clientId].send(route, data)
 		}
 	}
 
@@ -35,11 +40,16 @@ var App = module.exports = function() {
     var server = new net.Server()
     
     server.on('connection', function(stream) {
+        
+        // self.resetTimeout()
+        
         var client = new Client(self, stream)
 		self.addClient(client)
 		client.send("Hello")
 
         client.onMessage(function(route, data) {
+            
+            // self.resetTimeout()            
             
             var split = route.split(".")
         
@@ -63,7 +73,7 @@ var App = module.exports = function() {
                 return client.sendFault(Fault.InvalidData, "No Data")                
 
             try {
-                method(this, client, data)
+                method(self, client, data)
             }
             catch (err) {
                 return client.sendFault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
@@ -77,19 +87,40 @@ var App = module.exports = function() {
     })
     
     server.on('close', function() {
-		// App.puts("Closed " + localPort)
+        sys.puts("Closed " + localPort)
     })
 
     this.start = function(port, cb) {
         localPort = port
-        // App.puts("Open " + localPort)
-        server.listen(localPort, 'localhost', cb)
+        sys.puts("Open " + localPort)
+        server.listen(localPort, 'localhost', function() {
+            open = true
+            if (cb) cb()
+        })
     }
     
     this.close = function() {
-        // App.puts("Close " + localPort)
+        sys.puts("Close " + localPort)
         server.close()
+        open = false
     }
+    
+
+    // // Auto Close the stupid thing
+    // var interval
+    // 
+    // this.resetTimeout = function() {
+    //     if (interval) this.timeout()
+    // }
+    // 
+    // this.timeout = function() {
+    //     if (interval) clearTimeout(interval)
+    //     function onTimeout() {
+    //         sys.puts("Timeout Close " + localPort + " "+ open)
+    //         if (open) self.close()
+    //     }
+    //     interval = setTimeout(onTimeout, 100)
+    // }
 }
 
 App.OpenDelimiter = "<<<"
@@ -98,6 +129,6 @@ App.DefaultPort = 3000
 
 if (module == require.main) {
     var app = new App()
-    App.puts("App Start Main - " + App.DefaultPort)
+    sys.puts("App Start Main - " + App.DefaultPort)
     app.start(App.DefaultPort)
 }

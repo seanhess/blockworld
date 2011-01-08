@@ -2,7 +2,6 @@ var App = require("../App")
 var Fault = require('./Fault')
 var PacketParser = require('./PacketParser')
 var sys = require('sys')
-var log = require("../utils/log")
 
 var Client = module.exports = function(app, stream) {
     var self = this
@@ -15,7 +14,7 @@ var Client = module.exports = function(app, stream) {
     var packetParser = new PacketParser()
     
     stream.on('data',function(data) {
-        log(" >>> " + data)
+        sys.puts(" >>> " + data)
         var result = packetParser.addData(data)
         
         if (!result) return self.sendFault(Fault.MissingDelimiters, "Missing delimiters: " + packetParser.data())
@@ -49,28 +48,28 @@ var Client = module.exports = function(app, stream) {
     })
     
     stream.on('timeout', function() {
-        log("Stream timeout")
+        sys.puts("Stream timeout")
     })
     
     stream.on('error', function(err) {
-        log("SERVER ERROR " + err)
+        sys.puts("SERVER ERROR " + err)
     })
     
     stream.on('close', function(err) {
-        log("Stream Close " + err)
+        sys.puts("Stream Close " + err)
     })    
     
     
 
     
     // stream.on('drain', function() {
-    //     log("Drai")
+    //     sys.puts("Drai")
     // })    
 
     // SENDING STUFF
     function send(obj) {
         var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
-        log(" <<< " + payload)
+        sys.puts(" <<< " + payload)
         stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)        
     }
 

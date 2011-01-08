@@ -5,7 +5,6 @@ var net = require("net")
 var sys = require('sys')
 var packetParser = require('./PacketParser')
 var App = require('../app')
-var log = require("../utils/log")
 
 
 var TestClient = module.exports = function() {
@@ -15,7 +14,7 @@ var TestClient = module.exports = function() {
     
     var packetParser = new PacketParser()
     packetParser.onPacket(function(packet) {
-        // log("Data Packet " + packet)
+        // sys.puts("Data Packet " + packet)
         var message = JSON.parse(packet)
 
         if (message.fault && onFault) {
@@ -27,7 +26,7 @@ var TestClient = module.exports = function() {
     })
             
     stream.on('data', function(data) {
-        // log("Data IN " + data)
+        // sys.puts("Data IN " + data)
         packetParser.addData(data)
     })
     
@@ -64,7 +63,7 @@ var TestClient = module.exports = function() {
     }
     
     this.sendRaw = function(data) {
-        log("Data OUT " + data)
+        sys.puts("Data OUT " + data)
         stream.write(data, "utf8")
     }
     

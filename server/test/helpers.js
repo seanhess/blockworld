@@ -1,27 +1,21 @@
 // helpers
 var sys = require('sys')
-var log = require("../utils/log")
 
 var port = 4000
 
-exports.disableLog = function() {
-    var TestClient = require("../model/TestClient")    
-    var App = require("../app")
-    
-    log.method = function() {}
+exports.disableLog = function() {    
+    // log.method = function() {}
 }
 
 exports.enableLog = function() {
-    var TestClient = require("../model/TestClient")    
-    var App = require("../app")
-    
-    log.method = sys.puts
+    // log.method = sys.puts
 }
 
 exports.app = function(cb) {
     var App = require("../app")
     var app = new App()
     var currentPort = ++port
+    // app.timeout()
     app.start(currentPort, function() {
         cb(app, port)
     })
@@ -42,4 +36,4 @@ exports.appAndClient = function(cb) {
     })
 }
 
-exports.disableLog()
+// exports.disableLog()
