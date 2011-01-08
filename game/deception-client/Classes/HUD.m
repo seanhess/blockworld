@@ -7,8 +7,16 @@
 //
 
 #import "HUD.h"
-
+#import "DirectionPad.h"
 
 @implementation HUD
+
+- (id) init {
+	if((self = [super init])) {
+		directionPad = [DirectionPad node];
+		
+		[self addChild:directionPad];
+	} return self;
+}
 
 @end

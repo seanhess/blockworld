@@ -32,10 +32,15 @@ static CCSpriteBatchNode* cellSpriteSheet;
 
 - (id) initWithPoint:(CGPoint)p {
 	if((self = [super init])) {
-		CCSprite* sprite = [CCSprite spriteWithBatchNode:[Cell spriteSheet] rect:CGRectMake(0, 0, 40, 40)];
+		
+		
+		CCSprite* sprite = [CCSprite spriteWithFile:@"bluetile.png"];
 		point = p;
-		self.position = ccp(p.x*PIXEL_PER_UNIT, p.y*PIXEL_PER_UNIT);
+		
 		[self addChild:sprite];
+		
+		sprite.anchorPoint = ccp(0,0);
+		sprite.position = ccp(p.x*PIXEL_PER_UNIT, p.y*PIXEL_PER_UNIT);
 	} return self;
 }
 

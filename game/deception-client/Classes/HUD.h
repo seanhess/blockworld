@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface HUD : CCLayer {
+@class DirectionPad;
 
+@interface HUD : CCLayer {
+	DirectionPad* directionPad;
 }
 
 @end

@@ -21,6 +21,7 @@
 		0291742112D84B8400AEFDD8 /* bluetile.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291741F12D84B8400AEFDD8 /* bluetile.png */; };
 		0291742212D84B8400AEFDD8 /* bluetile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291742012D84B8400AEFDD8 /* bluetile@2x.png */; };
 		0291744412D853B700AEFDD8 /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291744312D853B700AEFDD8 /* Cell.m */; };
+		0291757312D865BF00AEFDD8 /* dir_dpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 0291757212D865BF00AEFDD8 /* dir_dpad.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
 		504DFBCE10AF12E9006D82FE /* CLScoreServerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 504DFBC810AF12E9006D82FE /* CLScoreServerPost.h */; };
@@ -301,6 +302,7 @@
 		0291742012D84B8400AEFDD8 /* bluetile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bluetile@2x.png"; path = "../Classes/bluetile@2x.png"; sourceTree = "<group>"; };
 		0291744212D853B700AEFDD8 /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
 		0291744312D853B700AEFDD8 /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
+		0291757212D865BF00AEFDD8 /* dir_dpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dir_dpad.png; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		1F3B9A2C0EF2145700286867 /* deception_clientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deception_clientAppDelegate.h; path = Classes/deception_clientAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -838,6 +840,7 @@
 				62D6A4C612D870830061C6B5 /* GameTrack.mp3 */,
 				62D6A4C012D86A6E0061C6B5 /* wallTile.png */,
 				62D6A4C112D86A6E0061C6B5 /* wallTile@2x.png */,
+				0291757212D865BF00AEFDD8 /* dir_dpad.png */,
 				0291741F12D84B8400AEFDD8 /* bluetile.png */,
 				0291742012D84B8400AEFDD8 /* bluetile@2x.png */,
 				E02BB4FE126CA50F006E46A2 /* Icon@2x.png */,
@@ -1262,6 +1265,7 @@
 				62D6A4C212D86A6E0061C6B5 /* wallTile.png in Resources */,
 				62D6A4C312D86A6E0061C6B5 /* wallTile@2x.png in Resources */,
 				62D6A4C712D870830061C6B5 /* GameTrack.mp3 in Resources */,
+				0291757312D865BF00AEFDD8 /* dir_dpad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
