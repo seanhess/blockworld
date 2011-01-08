@@ -1,10 +1,9 @@
 var Message = module.exports = function(type, action, data) {
     this.type = type
     this.action = action || "default"
-    this.data = data || {}
     
     if (!data)
-        this.data = null
+        this.data = {}
         
     else if (data.toValue) 
         this.data = data.toValue()

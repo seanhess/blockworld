@@ -9,10 +9,10 @@ var Client = require("./model/Client")
 var World = require("./model/World")
 var Message = require("./model/Message")
 var sys = require("sys")
+var traffic = require("./utils/traffic")
 
 var App = module.exports = function() {
     
-    var localPort
 	var clients = {}
 	var open = false
 	
@@ -20,6 +20,12 @@ var App = module.exports = function() {
 	
 	this.world = function() {
 	    return world
+	}
+	
+	this.resetStateForTesting = function() {
+	    // should only be called from testing
+	    world = new World()
+	    clients = {}
 	}
 	
 	this.sendAll = function(message) {
@@ -78,7 +84,7 @@ var App = module.exports = function() {
                 method(self, client, message.data)
             }
             catch (err) {
-                sys.puts(err + "\n" + err.stack)
+                traffic.log(err + "\n" + err.stack)
                 return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message))
             }
         })
@@ -90,40 +96,25 @@ var App = module.exports = function() {
     })
     
     server.on('close', function() {
-        sys.puts("Closed " + localPort)
+        // traffic.log("Closed ")
     })
 
     this.start = function(port, cb) {
-        localPort = port
-        sys.puts("Open " + localPort)
-        server.listen(localPort, 'localhost', function() {
+        // traffic.log("Open ")
+        server.listen(port, 'localhost', function() {
             open = true
             if (cb) cb()
         })
     }
     
     this.close = function() {
-        sys.puts("Close " + localPort)
+        // traffic.log("Close ")
         server.close()
         open = false
     }
     
 
-    // // Auto Close the stupid thing
-    // var interval
-    // 
-    // this.resetTimeout = function() {
-    //     if (interval) this.timeout()
-    // }
-    // 
-    // this.timeout = function() {
-    //     if (interval) clearTimeout(interval)
-    //     function onTimeout() {
-    //         sys.puts("Timeout Close " + localPort + " "+ open)
-    //         if (open) self.close()
-    //     }
-    //     interval = setTimeout(onTimeout, 100)
-    // }
+
 }
 
 // App.OpenDelimiter = "<<<"
@@ -132,7 +123,7 @@ App.DefaultPort = 3000
 
 if (module == require.main) {
     var app = new App()
-    sys.puts("App Start Main - " + App.DefaultPort)
+    traffic.log("App Start Main - " + App.DefaultPort)
     app.start(App.DefaultPort)
 }
 

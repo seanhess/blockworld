@@ -3,6 +3,7 @@ var Fault = require('./Fault')
 var PacketParser = require('./PacketParser')
 var sys = require('sys')
 var Message = require('./Message')
+var traffic = require("../utils/traffic")
 
 var Client = module.exports = function(app, stream) {
     var onMessage, onEnd
@@ -13,7 +14,7 @@ var Client = module.exports = function(app, stream) {
 
     
     stream.on('data',function(data) {
-        sys.puts(" >>> " + data)
+        traffic.log(" >>> " + data)
         packetParser.addData(data)
     })
     
@@ -23,19 +24,19 @@ var Client = module.exports = function(app, stream) {
     })
     
     stream.on('timeout', function() {
-        sys.puts("Stream timeout")
+        traffic.log("Stream timeout")
     })
     
     stream.on('error', function(err) {
-        sys.puts("Stream Error " + err)
+        traffic.log("Stream Error " + err)
     })
     
     stream.on('close', function(err) {
-        sys.puts("Stream Close " + err)
+        // traffic.log("Stream Close " + err)
     })    
     
     // stream.on('drain', function() {
-    //     sys.puts("Drai")
+    //     traffic.log("Drai")
     // })    
     
     // PARSING PACKETS    
@@ -67,7 +68,7 @@ var Client = module.exports = function(app, stream) {
     this.send = function(obj) {
         // var payload = (obj.toJSON) ? obj.toJSON() : JSON.stringify(obj)
         var payload = JSON.stringify((obj.toValue) ? obj.toValue() : obj)
-        sys.puts(" <<< " + payload)
+        traffic.log(" <<< " + payload)
         stream.write(payload + "\n")        
     }
         

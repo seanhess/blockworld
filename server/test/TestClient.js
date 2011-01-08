@@ -3,8 +3,9 @@
 
 var net = require("net")
 var sys = require('sys')
-var packetParser = require('./PacketParser')
+var packetParser = require('../model/PacketParser')
 var App = require('../app')
+var traffic = require("../utils/traffic")
 
 
 var TestClient = module.exports = function() {
@@ -14,24 +15,25 @@ var TestClient = module.exports = function() {
     
     var packetParser = new PacketParser()
     packetParser.onPacket(function(packet) {
-        // sys.puts("Data Packet " + packet)
+        // traffic.log("Data Packet " + packet)
         var message = JSON.parse(packet)
 
-        if (message.fault && onFault) {
-            onFault(message.fault.type, message.fault.message)
+        if (message.fault) {
+            if (onFault) onFault(message)
         }
         else if (onMessage) {
-            onMessage(message.type.toLowerCase(), message.action, message.data)
+            onMessage(message)
         }
     })
             
     stream.on('data', function(data) {
-        // sys.puts("Data IN " + data)
+        // traffic.log("Data IN " + data)
         packetParser.addData(data)
     })
     
     stream.on('error', function(err) {
         if (onError) onError(err)
+        else throw err
     })
     
     this.connect = function(port, cb) {
@@ -53,18 +55,18 @@ var TestClient = module.exports = function() {
         onFault = cb
     }
     
-    this.close = function() {
-        stream.close()
+    this.end = function() {
+        stream.end()
     }
     
-    this.send = function(type, action, data) {
-        var payload = JSON.stringify({type:type, route:route, data:data})
-        this.sendRaw(App.OpenDelimiter + payload + App.CloseDelimiter)
+    this.send = function(message) {
+        var payload = JSON.stringify(message)
+        this.sendRaw(payload)
     }
     
     this.sendRaw = function(data) {
-        sys.puts("Data OUT " + data)
-        stream.write(data, "utf8")
+        // traffic.log("Data OUT (" + data+")")
+        stream.write(data + "\n", "utf8")
     }
     
 }

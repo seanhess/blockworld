@@ -1,4 +1,5 @@
 var sys = require('sys')
+var Message = require("../model/Message")
 
 
 exports.something = function(app, client, data) {
@@ -6,7 +7,7 @@ exports.something = function(app, client, data) {
 }
 
 exports.ping = function(app, client, data) {
-    client.send("pong", data)
+    client.send(new Message("pong", "default", data))
 }
 
 exports.throwSomething = function(data) {
