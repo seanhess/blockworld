@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface DirectionPad : NSObject {
-
+@interface DirectionPad : CCLayer {
+	CCSpriteBatchNode* directionBatch;
+	CCTexture2D* texture;
 }
 
 @end

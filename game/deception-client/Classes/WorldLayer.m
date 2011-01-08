@@ -13,7 +13,7 @@
 
 @interface WorldLayer()
 - (id) keyForPoint:(CGPoint)point;
-- (Cell*) tileAtPoint:(CGPoint)point;
+- (Cell*) cellAtPoint:(CGPoint)point;
 @end
 
 @implementation WorldLayer
@@ -24,14 +24,14 @@
 		
 		for(int i=0; i<10; i++) {
 			for (int j=0; j<10; j++) {
-				[self tileAtPoint:ccp(i,j)];
+				[self cellAtPoint:ccp(i,j)];
 			}
 		}
 		
 	} return self;
 }
 
-- (Cell*) tileAtPoint:(CGPoint)point {
+- (Cell*) cellAtPoint:(CGPoint)point {
 	NSString* key = [self keyForPoint:point];
 	
 	Cell* cell = [board objectForKey:key];
@@ -39,13 +39,14 @@
 	if(!cell) {
 		cell = [Cell cellAtPoint:point];
 		[board setObject:cell forKey:key];
+		[self addChild:cell];
 	}
 	
 	return cell;
 }
 
 - (id) keyForPoint:(CGPoint)point {
-	return [NSString stringWithFormat:@"%d %d", point.x, point.y];
+	return [NSString stringWithFormat:@"%.0f %.0f", point.x, point.y];
 }
 
 - (void) dealloc {
