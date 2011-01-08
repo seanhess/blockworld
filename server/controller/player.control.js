@@ -31,7 +31,7 @@ exports.create = function (app, client, data) {
     app.sendOthers(client, new Player.MessageCreate(player))
 }
 
-exports.move = function (app, client, player) {
+exports.move = function (app, client, data) {
     
     // expects: data.x, data.y
     // expects: data.uid

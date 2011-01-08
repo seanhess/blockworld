@@ -91,9 +91,9 @@
 	[self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
 	[self adjustCameraOnPlayer:myplayer];
 	
-	/*Move* command = [Move command];
+	Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
-	[command send];*/
+	[command send];
 }
 
 - (void) bombPress {
@@ -147,11 +147,11 @@
 	
 	if(POINT_TO_PIXEL_X(player.cell.point.x) < x+SCREEN_FOLLOW_THRESHOLD)
 		x = POINT_TO_PIXEL_X(player.cell.point.x)-SCREEN_FOLLOW_THRESHOLD;
-	if(player.cell.point.x*PIXEL_PER_UNIT > x+screenRect.size.height-SCREEN_FOLLOW_THRESHOLD)
+	if(POINT_TO_PIXEL_X(player.cell.point.x) > x+screenRect.size.height-SCREEN_FOLLOW_THRESHOLD)
 		x = POINT_TO_PIXEL_X(player.cell.point.x)-screenRect.size.height+SCREEN_FOLLOW_THRESHOLD;
-	if(player.cell.point.y*PIXEL_PER_UNIT < y+SCREEN_FOLLOW_THRESHOLD)
+	if(POINT_TO_PIXEL_Y(player.cell.point.y) < y+SCREEN_FOLLOW_THRESHOLD)
 		y = POINT_TO_PIXEL_Y(player.cell.point.y)-SCREEN_FOLLOW_THRESHOLD;
-	if(player.cell.point.y*PIXEL_PER_UNIT > y+screenRect.size.width-SCREEN_FOLLOW_THRESHOLD)
+	if(POINT_TO_PIXEL_Y(player.cell.point.y) > y+screenRect.size.width-SCREEN_FOLLOW_THRESHOLD)
 		y = POINT_TO_PIXEL_Y(player.cell.point.y)-screenRect.size.width+SCREEN_FOLLOW_THRESHOLD;
 	
 	[self.camera setCenterX:x centerY:y centerZ:0.0];
