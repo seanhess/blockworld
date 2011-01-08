@@ -1,3 +1,5 @@
-module.exports = function() {
+function Board() {
     
 }
+
+module.exports = Board

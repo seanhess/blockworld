@@ -1,3 +1,5 @@
-module.exports = function() {
-    
+function Player(uid, location) {
+
 }
+
+module.exports = Player

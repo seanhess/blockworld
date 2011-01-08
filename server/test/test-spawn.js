@@ -6,5 +6,6 @@ exports.testing = function(assert) {
 
 exports.spawn = function(assert) {
     // I want to spawn
+    assert.finish()
 }
 

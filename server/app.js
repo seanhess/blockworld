@@ -4,14 +4,14 @@ var net = require('net')
 var Fault = require('./model/Fault')
 
 
-var server = net.createServer(function(stream) {
+var app = net.createServer(function(stream) {
     
     function send(obj) {
         stream.write(JSON.stringify(obj))
     }
     
     function fault(type, message) {
-        send(new Fault(type, message))
+        send({fault:new Fault(type, message)})
     }
 
     stream.setEncoding('utf8')
@@ -65,9 +65,13 @@ var server = net.createServer(function(stream) {
     })
 })
 
-module.exports = server
+module.exports = app
+app.port = 3000
+app.start = function(cb) {
+    app.listen(app.port, 'localhost', cb)
+}
 
 if (module == require.main) {
-    server.listen(3000, 'localhost')
-    sys.puts("localhost:3000")    
+    app.start()
+    sys.puts("localhost:" + app.port)    
 }
