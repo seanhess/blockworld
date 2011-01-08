@@ -1,5 +1,6 @@
 // helpers
 var sys = require('sys')
+var log = require("../utils/log")
 
 var port = 4000
 
@@ -7,15 +8,14 @@ exports.disableLog = function() {
     var TestClient = require("../model/TestClient")    
     var App = require("../app")
     
-    TestClient.puts = App.puts = TestClient.log = App.log = function() {}    
+    log.method = function() {}
 }
 
 exports.enableLog = function() {
     var TestClient = require("../model/TestClient")    
     var App = require("../app")
     
-    TestClient.puts = App.puts = sys.puts
-    TestClient.log = App.log = sys.log
+    log.method = sys.puts
 }
 
 exports.app = function(cb) {

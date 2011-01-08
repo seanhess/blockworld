@@ -5,8 +5,9 @@ var path = require('path')
 
 
 var Fault = require('./model/Fault')
-var PacketParser = require('./model/PacketParser')
+var Client = require("./model/Client")
 var sys = require("sys")
+var log = require("./utils/log")
 
 var App = module.exports = function() {
     
@@ -14,121 +15,45 @@ var App = module.exports = function() {
     
     var self = this
     
-    this.sendObjectToStream = function(stream, obj) {
-        var payload = JSON.stringify(obj).replace(/<<</g,"<x<").replace(/>>>/g,">x>")
-        App.puts(" <<< " + payload)
-        stream.write(App.OpenDelimiter + payload + App.CloseDelimiter)
-    }
+    var server = new net.Server()
     
-    this.sendMessageToStream = function(stream, route, data) {
-        data = data || ""
-        this.sendObjectToStream(stream, {route:route, data:data})
-    }
-    
-    this.sendFaultToStream = function(stream, type, message) {
-        this.sendObjectToStream(stream, {fault:new Fault(type, message)})        
-    }
-    
-    var server = net.createServer(function(stream) {
-        // METHODS TO SEND
+    server.on('connection', function(stream) {
         
-        function message(route, data) {
-            self.sendMessageToStream(stream, route, data)
-        }
+        var client = new Client(self, stream)
         
-        function fault(type, message) {
-            self.sendFaultToStream(stream, type, message)
-        }
-
-
-        // RECEIVE
-        stream.setEncoding('utf8')
-
-        stream.on('connect',function() {
-            message('hello')
-        })
-        
-        stream.on('end', function() {
-            App.puts("Stream End")
-        })
-        
-        stream.on('timeout', function() {
-            App.puts("Stream timeout")
-        })
-        
-        // stream.on('drain', function() {
-        //     App.puts("Drai")
-        // })
-        
-        stream.on('error', function(err) {
-            App.puts("SERVER ERROR " + err)
-        })
-        
-        stream.on('close', function(err) {
-            App.puts("Stream Close " + err)
+        client.onConnect(function() {
+            client.sendMessage('connected')
         })
 
-
-        // ROUTING
-        var packetParser = new PacketParser()
-
-        packetParser.onPacket(function(packet) {
+        client.onMessage(function(route, data) {
             
-            App.puts("SERVER PACKET " + packet)
-
-            // parse
-            try {
-                var message = JSON.parse(packet)            
-            }
-            catch (err) {
-                return fault(Fault.JsonParsingError, "Could not parse: " + packet + " with error " + err)
-            }
-
-            var route = message.route
-            
-            if(!route) return fault(Fault.MissingRoute, "Missing Route: " + packet)
-            
-            var data = message.data
-
             var split = route.split(".")
-
+        
             try {
                 var modulePath = path.join(__dirname, 'controller', split[0])
                 var module = require(modulePath) 
             }
             catch (err) {
-                return fault(Fault.InvalidRoute, "Invalid Route - Couldn't find module: " + route + " " + modulePath)
+                return client.sendFault(Fault.InvalidRoute, "Invalid Route - Couldn't find module: " + route + " " + modulePath)
             }
 
             if (!split[1]) 
-                return fault(Fault.InvalidRoute, "Invalid Route - Couldn't split route: " + route)
+                return client.sendFault(Fault.InvalidRoute, "Invalid Route - Couldn't split route: " + route)
 
             var method = module[split[1]]
             
             if (!method)
-                return fault(Fault.InvalidMethod, "Bad Method " + route)
+                return client.sendFault(Fault.InvalidMethod, "Bad Method " + route)
                 
             if (!data)
-                return fault(Fault.InvalidData, "No Data")                
+                return client.sendFault(Fault.InvalidData, "No Data")                
 
             try {
                 method(this, data)
             }
             catch (err) {
-                return fault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
+                return client.sendFault(Fault.BadController, "Bad Controller " + route + " with Error " + err)
             }
-        })
-
-        stream.on('data',function(data) {
-            App.puts(" >>> " + data)
-            var result = packetParser.addData(data)
-            
-            if (!result) return fault(Fault.MissingDelimiters, "Missing delimiters: " + packetParser.data())
-        })
-
-        stream.on('end',function() {
-            message('goodbye')
-            stream.end()
         })
     })
     
@@ -151,9 +76,6 @@ var App = module.exports = function() {
 App.OpenDelimiter = "<<<"
 App.CloseDelimiter = ">>>"
 App.DefaultPort = 3000
-
-App.puts = sys.puts
-App.log = sys.log
 
 if (module == require.main) {
     var app = new App()
