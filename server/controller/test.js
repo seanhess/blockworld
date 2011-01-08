@@ -1,14 +1,10 @@
-var Board = require("Board")
-var Player = require("Player").Player
+var sys = require('sys')
 
-var board = new Board()
 
 exports.something = function(data) {
-    sys.puts("Something!")
+    // sys.puts("Something!")
 }
 
-exports.SomeClass = function() {
-    this.name = "hello"
+exports.throwSomething = function(data) {
+    throw new Error("You should catch this")
 }
-
-var bob = new exports.SomeClass()
