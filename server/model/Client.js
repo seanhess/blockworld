@@ -1,10 +1,44 @@
-// Already started
+
+// Test Client. Connects to server
+
+var net = require("net")
+var app = require("../app")
+var sys = require('sys')
 
 function Client() {
     
     var stream = new net.Stream()
+    var onMessage, onError, onFault
     
-    this.start = function(cb) {
+    var dataStream = ""
+    
+    function respond(packet) {
+        
+        var message = JSON.parse(packet)
+
+        if (message.fault && onFault) {
+            onFault(message.fault.type, message.fault.message)
+        }
+        else if (onMessage) {
+            onMessage(message.route, message.data)                            
+        }
+    }
+    
+    stream.on('data', function(data) {
+        
+        dataStream += data
+        
+        dataStream.replace(/<<<(.*?)>>>/gim, function(match, group) {
+            respond(group)
+            return ""
+        })
+    })
+    
+    stream.on('error', function(err) {
+        if (onError) onError(err)
+    })
+    
+    this.connect = function(cb) {
         stream.connect(app.port)
         stream.on('connect', function() {
             cb()
@@ -12,7 +46,15 @@ function Client() {
     }
     
     this.onError = function(cb) {
-        stream.on('error', cb)
+        onError = cb
+    }
+    
+    this.onMessage = function(cb) {
+        onMessage = cb
+    }    
+    
+    this.onFault = function(cb) {
+        onFault = cb
     }
     
     this.close = function() {
@@ -24,12 +66,10 @@ function Client() {
         stream.write(payload, "utf8")
     }
     
-    this.onMessage = function(cb) {
-        stream.on('data', function(data) {
-            var message = JSON.parse(data)
-            cb(message.route, message.data)
-        })
+    this.sendRaw = function(data) {
+        stream.write(data, "utf8")
     }
+    
 }
 
 module.exports = Client

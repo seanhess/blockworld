@@ -2,12 +2,19 @@ var sys = require('sys')
 
 var net = require('net')
 var Fault = require('./model/Fault')
-
+var sys = require("sys")
 
 var app = net.createServer(function(stream) {
     
     function send(obj) {
-        stream.write(JSON.stringify(obj))
+        var payload = JSON.stringify(obj)
+        // sys.log("<<< " + payload)
+        stream.write(app.OpenDelimiter + payload + app.CloseDelimiter)
+    }
+    
+    function message(type, data) {
+        data = data || ""
+        send({route:type, data:data})
     }
     
     function fault(type, message) {
@@ -17,12 +24,13 @@ var app = net.createServer(function(stream) {
     stream.setEncoding('utf8')
     
     stream.on('connect',function() {
-        stream.write('hello\r\n')
+        message('hello')
     })
     
     stream.on('data',function(data) {
-        stream.write(data)
         
+        // sys.log(" >>> " + data)
+                
         // parse
         try {
             var message = JSON.parse(data)            
@@ -60,13 +68,16 @@ var app = net.createServer(function(stream) {
     })
     
     stream.on('end',function() {
-        stream.write('goodbye\r\n')
+        message('goodbye')
         stream.end()
     })
 })
 
 module.exports = app
 app.port = 3000
+app.OpenDelimiter = "<<<"
+app.CloseDelimiter = ">>>"
+
 app.start = function(cb) {
     app.listen(app.port, 'localhost', cb)
 }
