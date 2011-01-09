@@ -6,25 +6,7 @@ var Wall = require("../model/Wall")
 var Bomb = require("../model/Bomb")
 var _ = require("underscore")
 
-// Block Data Format / Map Data Format
-
-
-// Add a wall tile?
-exports.addWall = function (app, client, data) {
-    
-    assert.ok(!_(data.x).isUndefined(), "Missing X")
-    assert.ok(!_(data.y).isUndefined(), "Missing Y")    
-    
-    var wall = new Wall(data.x, data.y)
-    
-    // add the wall
-    app.state().add(wall)
-    
-    // send it out
-    app.sendOthers(client, new Wall.MessageAddWall(wall))
-}
-
-exports.addBomb = function (app, client, data) {
+exports.create = function (app, client, data) {
 
     assert.ok(!_(data.x).isUndefined(), "Missing X")
     assert.ok(!_(data.y).isUndefined(), "Missing Y")    
@@ -35,11 +17,17 @@ exports.addBomb = function (app, client, data) {
     app.state().add(bomb)
     
     // send it out
-    app.sendOthers(client, new Bomb.MessageAddBomb(bomb))
+    app.sendOthers(client, new Bomb.MessageCreate(bomb))
     
     // schedule it for detonation
     app.timer().scheduleAhead(Bomb.Delay, function() {
-        app.sendAll(new Bomb.MessageDetonateBomb(bomb))
+        
+        // var playersHit = bomb.hitTest(app.state(), Player.Type)
+        // var wallsHit = bomb.hitTest(app.state(), Wall.Type)
+        //         
+        // var messages = [new Bomb.MessageDetonate].concat()
+        
+        app.sendAll(new Bomb.MessageDetonate(bomb))
         
         // check for hits! 
         // calculate surrouding tiles

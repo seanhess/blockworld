@@ -24,3 +24,11 @@ Tile.prototype.y = function() {
 }
 
 Tile.Type = "Tile"
+
+
+// Wall.Type = "map"
+// Wall.ActionCreate = "addWall"
+// 
+// Wall.MessageCreate = function(wall) {
+//     return new Message(Wall.Type, Wall.ActionCreate, wall)
+// }

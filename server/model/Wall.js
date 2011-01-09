@@ -9,16 +9,16 @@ var Wall = module.exports = function(x, y) {
 Wall.prototype = new Tile()
 
 Wall.prototype.toMessage = function() {
-    return new Wall.MessageAddWall(this)
+    return new Wall.MessageCreate(this)
 }
 
 Wall.prototype.type = function() {
-    return "wall"
+    return Wall.Type
 }
 
-Wall.Type = "map"
-Wall.ActionAddWall = "addWall"
+Wall.Type = "wall"
+Wall.ActionCreate = "create"
 
-Wall.MessageAddWall = function(wall) {
-    return new Message(Wall.Type, Wall.ActionAddWall, wall)
+Wall.MessageCreate = function(wall) {
+    return new Message(Wall.Type, Wall.ActionCreate, wall)
 }

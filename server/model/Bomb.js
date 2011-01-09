@@ -10,24 +10,24 @@ var Bomb = module.exports = function(x, y) {
 Bomb.prototype = new Tile()
 
 Bomb.prototype.toMessage = function() {
-    return new Bomb.MessageAddBomb(this)
+    return new Bomb.MessageCreate(this)
 }
 
 Bomb.prototype.type = function() {
-    return "bomb"
+    return Bomb.Type
 }
 
-Bomb.Type = "map"
-Bomb.ActionAddBomb = "addBomb"
-Bomb.ActionDetonateBomb = "detonateBomb"
+Bomb.Type = "bomb"
+Bomb.ActionCreate = "create"
+Bomb.ActionDetonate = "detonate"
 
 Bomb.Delay = 1500
 
-Bomb.MessageAddBomb = function(bomb) {
-    return new Message(Bomb.Type, Bomb.ActionAddBomb, bomb)
+Bomb.MessageCreate = function(bomb) {
+    return new Message(Bomb.Type, Bomb.ActionCreate, bomb)
 }
 
 Bomb.MessageDetonateBomb = function(bomb) {
-    return new Message(Bomb.Type, Bomb.ActionDetonateBomb, bomb)
+    return new Message(Bomb.Type, Bomb.ActionDetonate, bomb)
 }
 
