@@ -36,8 +36,8 @@ Bomb.prototype.playerId = function(value) {
 Bomb.prototype.hitArea = function() {
 
     var query = {   
-        x: {$gte: this.x()-1, lte: this.x()+1},
-        y: {$gte: this.y()-1, lte: this.y()+1}
+        x: {$gte: this.x()-1, $lte: this.x()+1},
+        y: {$gte: this.y()-1, $lte: this.y()+1}
     }
 
     return query

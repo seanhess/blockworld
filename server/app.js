@@ -39,6 +39,11 @@ var App = module.exports = function() {
     this.timer = function() {
         return timer
     }
+    
+    this.socket = function(mock) {
+        if (mock) socket = mock
+        return socket
+    }
 	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing

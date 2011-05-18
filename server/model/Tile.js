@@ -2,8 +2,6 @@
 
 var assert = require('assert')
 
-
-
 var mongo = require('mongo')
 var db = mongo.db("localhost", 27017, "bb")
 db.collection('tiles')
@@ -55,12 +53,19 @@ Tile.clearAll = function() {
 }
 
 Tile.allWithClass = function(Class, cb) {
-    Tile.tiles().find({type:Class.Type}).toArray(function(err, objects) {
+    Tile.tiles().find({type:Class.Type}).toArray(function(err, tiles) {
         if (err) return cb(err)
-        cb(null, objects.map(function(doc) {
-            return Class.fromValue.call(Class, doc)
+        cb(null, tiles.map(function(tile) {
+            return Class.fromValue.call(Class, tile)
         }))
     })    
 }
+
+Tile.tilesInRange = function(range, cb) {
+    
+    // can't return classes with circular dependency
+    Tile.tiles().find(range).toArray(cb)
+}
+
 
 

@@ -14,6 +14,8 @@ GameTimer.prototype.start = function() {
         /// This is the big tick /// 
         var tickIndex = GameTimer.currentTickIndex()
         
+//        console.log("TICK", tickIndex)        
+        
         var scheduledActions = self.schedule.actionsForTick(tickIndex)
         
         for (var i in scheduledActions) {
@@ -39,11 +41,14 @@ GameTimer.prototype.scheduleAhead = function(ms, action) {
     // could cause problems later
     assert.ok(action, "Action was not defined")
     
+    
     // schedule it ahead on a tick
     var currentTime = (new Date()).getTime()
     var scheduledTime = currentTime + ms
     var scheduledTickIndex = GameTimer.msToTickIndex(scheduledTime)
     this.schedule.add(scheduledTickIndex, action)
+    
+//    console.log("SCHEDULE", scheduledTickIndex)        
 }
 
 // 1000 should be 10 ticks
