@@ -54,6 +54,7 @@
         
         
         
+        
         // Setup
         var size = 10
         var boxes = 80
@@ -73,7 +74,7 @@
         
         
         // State
-        var players = {}
+        var objects = {}
         
         
         // Draw
@@ -87,13 +88,12 @@
         Welcome.default = function() {}
         
         player.create = function(data) {            
-            players[data.uid] = data
+            objects[data.uid] = data
             draw(data.x, data.y, playerColor)
         }
         
         player.move = function(data) {
-            var player = players[data.uid]
-            console.log("UMM" + player.x + " " + player.y)
+            var player = objects[data.uid]
             clear(player.x, player.y)
             player.x = data.x
             player.y = data.y
