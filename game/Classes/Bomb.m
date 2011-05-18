@@ -18,13 +18,16 @@
 
 - (id) init {
 	if((self = [super init])) {
-		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"bomb.png"];
 		
-		self.sprite = [CCSprite spriteWithTexture:texture];
-		sprite.anchorPoint = ccp(0,0);
-        sprite.position = ccp(0,20);
-		
+		self.sprite = [CCSprite spriteWithFile:@"bomb.png"];
+		sprite.anchorPoint = ccp(0.5,0);
+        sprite.position = ccp(25,20);
+        
 		[self addChild:sprite];
+        
+        // make that bomb shake like a bobble head
+        [sprite runAction:[CCRepeatForever actionWithAction:[CCSequence actionOne:[CCRotateBy actionWithDuration:.3 angle:5] two:[CCRotateBy actionWithDuration:.3 angle:-5]]]]; 
+        
 	}
 	return self;
 }
