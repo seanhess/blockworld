@@ -46,6 +46,11 @@ exports.create = function (app, client, data) {
             })
 
             tiles.forEach(function(tile) {
+
+                // remove each one
+                tile.remove(function() {})
+                
+                // send remove message
                 app.sendAll(new Message(tile.type(), "destroy", tile))
             })
             

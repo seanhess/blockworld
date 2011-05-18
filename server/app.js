@@ -113,7 +113,7 @@ var App = module.exports = function() {
 
                 client.on('message', function(message) {
                 
-                    traffic.log("MESSAGE ", message)
+                    // traffic.log(" IN  ", message)
                     
                     try {
                         var filename = message.type.toLowerCase() + ".control"
