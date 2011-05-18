@@ -43,6 +43,8 @@
 		0243855E13836DFD00701434 /* Tree Short-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 0243855313836DFD00701434 /* Tree Short-hd.png */; };
 		0243855F13836DFD00701434 /* Tree Ugly-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 0243855413836DFD00701434 /* Tree Ugly-hd.png */; };
 		024385691383AC7500701434 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 024385681383AC7500701434 /* CCNode+Additions.m */; };
+		024385741383B30B00701434 /* bomb-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385721383B30B00701434 /* bomb-hd.png */; };
+		024385751383B30B00701434 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385731383B30B00701434 /* bomb.png */; };
 		029172F112D826BE00AEFDD8 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 029172F012D826BE00AEFDD8 /* MainMenu.m */; };
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
@@ -359,6 +361,8 @@
 		0243855413836DFD00701434 /* Tree Ugly-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree Ugly-hd.png"; sourceTree = "<group>"; };
 		024385671383AC7500701434 /* CCNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Additions.h"; sourceTree = "<group>"; };
 		024385681383AC7500701434 /* CCNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Additions.m"; sourceTree = "<group>"; };
+		024385721383B30B00701434 /* bomb-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bomb-hd.png"; path = "../Classes/bomb-hd.png"; sourceTree = "<group>"; };
+		024385731383B30B00701434 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bomb.png; path = ../Classes/bomb.png; sourceTree = "<group>"; };
 		029172EF12D826BE00AEFDD8 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		029172F012D826BE00AEFDD8 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0291730112D827DC00AEFDD8 /* ServerCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommunicator.h; sourceTree = "<group>"; };
@@ -721,6 +725,8 @@
 		0243853313836B2B00701434 /* planet cute */ = {
 			isa = PBXGroup;
 			children = (
+				024385721383B30B00701434 /* bomb-hd.png */,
+				024385731383B30B00701434 /* bomb.png */,
 				0243854A13836DFD00701434 /* SpeechBubble-hd.png */,
 				0243854B13836DFD00701434 /* Character Boy-hd.png */,
 				0243854C13836DFD00701434 /* Character Pink Girl-hd.png */,
@@ -1521,6 +1527,8 @@
 				0243855D13836DFD00701434 /* Tree Tall-hd.png in Resources */,
 				0243855E13836DFD00701434 /* Tree Short-hd.png in Resources */,
 				0243855F13836DFD00701434 /* Tree Ugly-hd.png in Resources */,
+				024385741383B30B00701434 /* bomb-hd.png in Resources */,
+				024385751383B30B00701434 /* bomb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1846,6 +1854,7 @@
 				024384F4138359A500701434 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "deception-client" */ = {
 			isa = XCConfigurationList;
