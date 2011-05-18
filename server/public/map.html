@@ -75,7 +75,7 @@
         
         // State
         var players = {}
-        var walls = {}
+        var tiles = {}
         
         
         // Draw
@@ -95,7 +95,7 @@
         
         player.move = function(data) {
             var player = players[data.playerId]
-            if (!walls[player.x + "|" + player.y]) 
+            if (!tiles[tileId(player)]) 
                 clear(player.x, player.y)
             player.x = data.x
             player.y = data.y
@@ -104,8 +104,7 @@
         
         player.destroy = function(data) {
             var player = players[data.playerId]
-            if (!walls[player.x + "|" + player.y]) 
-                clear(player.x, player.y)    
+            clear(player.x, player.y)            
             delete players[data.playerId]
         }
         
@@ -113,8 +112,29 @@
         
         var wall = control.wall = {}
         wall.create = function(data) {
-            walls[data.wallId] = data
+            tiles[data.wallId] = data
             draw(data.x, data.y, wallColor)
+        }
+
+        wall.destroy = function(data) {
+            var wall = tiles[data.wallId]
+            clear(wall.x, wall.y)
+            delete tiles[data.wallId]
+        }
+        
+        
+        
+        
+        var bomb = control.bomb = {}
+        bomb.create = function(data) {
+            tiles[data.bombId] = data
+            draw(data.x, data.y, bombColor)
+        }
+        
+        bomb.destroy = function(data) {
+            var bomb = tiles[data.bombId]
+            clear(bomb.x, bomb.y)
+            delete tiles[data.bombId]
         }
         
         
@@ -129,6 +149,10 @@
         
         
         // Helpers
+        
+        function tileId(obj) {
+            return obj.x + "|" + obj.y
+        }
         
         function tile(x, y) {
             return {x: zero + x*size, y: zero - y*size}
