@@ -7,7 +7,7 @@ var Wall = module.exports = function(x, y) {
 }
 
 // extend Tile
-Wall.prototype = new Tile()
+//Wall.prototype = new Tile()
 
 Wall.prototype.toMessage = function() {
     return new Wall.MessageCreate(this)

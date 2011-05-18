@@ -1,38 +1,47 @@
-// Abstract Base class
+// Tiles 
 
-var Stateable = require("./Stateable")
+var assert = require('assert')
 
-var Tile = module.exports = function() {
-    Stateable.call(this)
+
+
+var mongo = require('mongo')
+var db = mongo.db("localhost", 27017, "bb")
+db.collection('tiles')
+
+
+exports.MixinTo = function(Class) {
+
+    assert.ok(Class, "Missing class for Tile mixin")
+
+    Class.prototype.tiles = Class.tiles = function() {
+        return db.tiles
+    }
+    
+    Class.prototype.type = function(value) {
+        if (value) this.source.type = value
+        return this.source.type
+    }
+    
+    Class.prototype.position = function(x, y) {
+        this.source.x = x
+        this.source.y = y
+    }
+    
+    Class.prototype.x = function () {
+        return this.source.x
+    }
+
+    Class.prototype.y = function () {
+        return this.source.y
+    }    
+    
+    Class.prototype.toValue = function() {
+        return this.source
+    }
+    
 }
 
-Tile.prototype = new Stateable()
-
-Tile.prototype.position = function(x, y) {
-    this.source.x = x
-    this.source.y = y
-    if (!this.source.uid) // don't overwrite it if someone has already set it
-        this.source.uid = this.type() + "_" + x + "|" + y
-}
-
-Tile.prototype.x = function() {
-    return this.source.x
-}
-
-Tile.prototype.y = function() {
-    return this.source.y
-}
-
-Tile.Type = "Tile"
-
-Tile.tileId = function(x, y) {
-    return x + "|" + y
-}
 
 
-// Wall.Type = "map"
-// Wall.ActionCreate = "addWall"
-// 
-// Wall.MessageCreate = function(wall) {
-//     return new Message(Wall.Type, Wall.ActionCreate, wall)
-// }
+
+

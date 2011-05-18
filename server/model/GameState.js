@@ -9,10 +9,6 @@ var _ = require("underscore")
 var Wall = require('../model/Wall')
 var Tile = require('../model/Tile')
 
-// mongo
-var mongo = require('mongo')
-var db = mongo.db("localhost", 27017, "bb")
-db.collection('state')
 
 
 var GameState = module.exports = function() {
@@ -43,12 +39,12 @@ GameState.prototype.add = function(item, persist) {
         this.moveTo(item, item.x(), item.y())
     }
 
-    if (persist) {
-        var value = item.toValue()
-        value._id = item.uid()
-        value.type = item.type()
-        db.state.save(value)
-    }
+//    if (persist) {
+//        var value = item.toValue()
+//        value._id = item.uid()
+//        value.type = item.type()
+//        db.state.save(value)
+//    }
 }
 
 GameState.prototype.remove = function(item, persist) {
@@ -100,20 +96,7 @@ GameState.prototype.hitObjects = function(hitArea) {
 }
 
 GameState.prototype.loadFromDb = function(cb) {
-    
-    var self = this
-
-    db.state.find({}).toArray(function(err, objects) {
-        if (err) return cb(err)
-        
-        self.everything = {}
-        
-        objects.forEach(function(obj) {
-            self.add(new Wall(obj.x, obj.y), false)
-        })
-        
-        cb()
-    })
+    return cb()
 }
 
 

@@ -8,7 +8,7 @@ var Bomb = module.exports = function(x, y) {
 }
 
 // extend Tile
-Bomb.prototype = new Tile()
+//Bomb.prototype = new Tile()
 
 Bomb.prototype.toMessage = function() {
     return new Bomb.MessageCreate(this)

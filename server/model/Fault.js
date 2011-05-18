@@ -7,6 +7,7 @@ Fault.prototype.toString = function() {
     return this.fault + " " + this.message
 }
 
+Fault.Error = 'err'
 Fault.JsonParsingError = 'json'
 Fault.InvalidType = 'invalid.type'
 Fault.InvalidMethod = 'invalid.method'

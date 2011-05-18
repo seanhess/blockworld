@@ -2,12 +2,10 @@
 var Message = require("./Message")
 var Tile = require("./Tile")
 
-var sys = require('sys')
-
-
 var Player = module.exports = function(nickname, x, y) {
-    Tile.call(this)
-	this.nickname(nickname)
+    this.source = {}
+    this.type(Player.Type) // required!
+    this.nickname(nickname)    
 	this.position(x, y)
     
     if (!x || !y) {
@@ -17,58 +15,80 @@ var Player = module.exports = function(nickname, x, y) {
     }
 }
 
-Player.prototype = new Tile()
-
-Player.prototype.toMessage = function() {
-    return new Player.MessageCreate(this)
+Player.fromValue = function(doc) {
+    var player = new Player()
+    player.source = doc
+    return player
 }
 
-Player.prototype.type = function() {
-    return Player.Type
-}
+Player.Type = "player"
+Player.ActionCreate = "create"
+Player.ActionYou = "you"
+Player.ActionMove = "move"
+
+Tile.MixinTo(Player)
 
 Player.prototype.nickname = function(nick) {
+
 	if(nick) {
 		this.source.nickname = nick
-		this.uid(this.type() + this.source.nickname)
+        this.source.playerId = nick
 	} 
     
     return this.source.nickname
 }
 
-Player.prototype.x = function () {
-    return this.source.x
+Player.prototype.playerId = function() {
+    return this.source.playerId
 }
 
-Player.prototype.y = function () {
-    return this.source.y
-}
-
-Player.prototype.move = function(x, y) {
-    this.source.x = x
-    this.source.y = y
+Player.prototype.create = function(cb) {
+    this.tiles().insert(this.source, function(err) {
+        cb(err == null)
+    })
 }
 
 
+//Player.idAvailable = function(playerId, cb) {
+//
+//    // slow, careful check to make sure the id is available
+//    
+//    this.tiles().count({_id:playerId}, function(err, count) {
+//        if (err) return cb(err)
+//        cb(null, (count == 0))
+//    })
+//    
+//}
 
 
 Player.getRandomSpawnLocation = function() {
     return {x:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis), y:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis)}
 }
 
-Player.generatePlayerId = function() {
-	return Math.floor(Math.random() * 10000000)
+Player.allPlayers = function(cb) {
+    this.tiles().find({type:Player.Type}).toArray(function(err, players) {
+        if (err) return cb(err)
+        cb(null, players.map(function(doc) {
+            return Player.fromValue(doc)
+        }))
+    })
 }
+
+Player.clearAll = function() {
+    this.tiles().remove({type:Player.Type})
+}
+
+Player.moveTo = function(playerId, x, y, cb) {
+    this.tiles().update({playerId:playerId}, {$set: {x: x, y: y}}, cb)
+}
+
 
 
 // Messages
 
 
 
-Player.Type = "player"
-Player.ActionCreate = "create"
-Player.ActionYou = "you"
-Player.ActionMove = "move"
+
 
 Player.MessageCreate = function(player) {
     return new Message(Player.Type, Player.ActionCreate, player) // needs: {nickname:nickname}

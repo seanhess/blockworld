@@ -14,7 +14,7 @@ exports.playerCreate = function (assert) {
         client.send(new Player.MessageCreate({nickname:nickname}))
         helpers.gather(client, function(err, messages) {
             assert.ifError(err)
-            
+                        
             assert.ok(_(messages).any(function(message) {
                 return message.type == Player.Type && message.action == Player.ActionYou
             }), "didn't receive player.you")
@@ -25,7 +25,9 @@ exports.playerCreate = function (assert) {
 
             client.send(new Player.MessageCreate({nickname:nickname + "2"}))
             helpers.gather(client, function(err, messages) {
-                assert.equal(messages.length, 3, "Didn't get all the messages")
+                assert.ifError(err)
+                
+                assert.equal(messages.length, 3, "Didn't get all the messages. May mean you accidentally sent your user twice")
                 assert.finish()
             })
         })
@@ -48,17 +50,22 @@ exports.playerMove = function (assert) {
                 helpers.gather(secondClient, function(err, messages) {
                     assert.ifError(err)
                     
-                    var player = _(messages).detect(function(message) {
+                    var message = _(messages).detect(function(message) {
                         return (message.action == Player.ActionYou)
                     }).data
                     
-                    assert.ok(player, "Couldn't find the second player")
+                    assert.ok(message, "Couldn't find the second player")
+                    assert.ok(message._id, "Changed id field")
                     
-                    player.x = 1
-                    player.y = 1
-                    player.playerId = player.uid
+                    var move = {
+                        x: 1, 
+                        y: 1, 
+                        playerId: message._id
+                    }
                     
-                    secondClient.send(new Player.MessageMove(player))
+                    console.log("UMMM", move)
+                    
+                    secondClient.send(new Player.MessageMove(move))
                     helpers.gather(client, function(err, messages) {
                         assert.ifError(err)
                         
@@ -76,7 +83,6 @@ exports.playerMove = function (assert) {
         })
     })
 }
-
 
 
 
