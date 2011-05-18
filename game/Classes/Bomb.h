@@ -11,4 +11,6 @@
 
 @interface Bomb : Item
 
+- (CCParticleSystem*) explotion;
+
 @end

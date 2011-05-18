@@ -85,8 +85,11 @@
 	
 	bomb.cell = self;
 	
-	if(bomb)
+    
+	if(bomb) {
 		[self addChild:bomb z:1];
+    } 
+    
 }
 
 - (void) dealloc {

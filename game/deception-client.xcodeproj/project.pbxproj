@@ -45,6 +45,8 @@
 		024385691383AC7500701434 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 024385681383AC7500701434 /* CCNode+Additions.m */; };
 		024385741383B30B00701434 /* bomb-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385721383B30B00701434 /* bomb-hd.png */; };
 		024385751383B30B00701434 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385731383B30B00701434 /* bomb.png */; };
+		024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0243857F1383B9FF00701434 /* SmokeParticleEmitter.mm */; };
+		024385821383BA2200701434 /* Smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385811383BA2200701434 /* Smoke.png */; };
 		029172F112D826BE00AEFDD8 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 029172F012D826BE00AEFDD8 /* MainMenu.m */; };
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
@@ -363,6 +365,9 @@
 		024385681383AC7500701434 /* CCNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Additions.m"; sourceTree = "<group>"; };
 		024385721383B30B00701434 /* bomb-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bomb-hd.png"; path = "../Classes/bomb-hd.png"; sourceTree = "<group>"; };
 		024385731383B30B00701434 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bomb.png; path = ../Classes/bomb.png; sourceTree = "<group>"; };
+		0243857E1383B9FF00701434 /* SmokeParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmokeParticleEmitter.h; sourceTree = "<group>"; };
+		0243857F1383B9FF00701434 /* SmokeParticleEmitter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SmokeParticleEmitter.mm; sourceTree = "<group>"; };
+		024385811383BA2200701434 /* Smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Smoke.png; sourceTree = "<group>"; };
 		029172EF12D826BE00AEFDD8 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		029172F012D826BE00AEFDD8 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0291730112D827DC00AEFDD8 /* ServerCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommunicator.h; sourceTree = "<group>"; };
@@ -762,6 +767,15 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		024385771383B9CE00701434 /* Particle Effects */ = {
+			isa = PBXGroup;
+			children = (
+				0243857E1383B9FF00701434 /* SmokeParticleEmitter.h */,
+				0243857F1383B9FF00701434 /* SmokeParticleEmitter.mm */,
+			);
+			name = "Particle Effects";
+			sourceTree = "<group>";
+		};
 		029172ED12D8267D00AEFDD8 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -796,6 +810,7 @@
 		029173D212D83CE300AEFDD8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				024385771383B9CE00701434 /* Particle Effects */,
 				029178AA12D8999D00AEFDD8 /* Commands */,
 				029173DB12D8409700AEFDD8 /* World */,
 				029173DA12D8409100AEFDD8 /* HUD */,
@@ -1048,6 +1063,7 @@
 		50F414EB1069373D002A0D5E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				024385811383BA2200701434 /* Smoke.png */,
 				0243853313836B2B00701434 /* planet cute */,
 				E02BB762126CC1E0006E46A2 /* iTunesArtwork */,
 				62D6A4C612D870830061C6B5 /* GameTrack.mp3 */,
@@ -1529,6 +1545,7 @@
 				0243855F13836DFD00701434 /* Tree Ugly-hd.png in Resources */,
 				024385741383B30B00701434 /* bomb-hd.png in Resources */,
 				024385751383B30B00701434 /* bomb.png in Resources */,
+				024385821383BA2200701434 /* Smoke.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1572,6 +1589,7 @@
 				029178B612D89ADA00AEFDD8 /* Move.m in Sources */,
 				0243851C13835E5100701434 /* JSONKit.m in Sources */,
 				024385691383AC7500701434 /* CCNode+Additions.m in Sources */,
+				024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

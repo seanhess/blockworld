@@ -7,7 +7,10 @@
  *
  */
 
-#include "Bomb.h"
+#import "Bomb.h"
+#import "Cell.h"
+#import "SmokeParticleEmitter.h"
+
 
 @implementation Bomb
 
@@ -22,6 +25,12 @@
 		[self addChild:sprite];
 	}
 	return self;
+}
+
+- (CCParticleSystem*) explotion {
+    CCParticleSystem* emitter = [SmokeParticleEmitter node];
+    emitter.position = ccpAdd(self.cell.position, ccp(10,50));
+    return emitter;
 }
 
 @end

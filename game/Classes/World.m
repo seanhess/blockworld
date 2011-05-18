@@ -93,8 +93,14 @@
 
 - (void) destroyAtPoint:(CGPoint)point {
 	Cell* cell = [self cellAtPoint:point];
-	cell.bomb = nil;
+	
+    if(cell.bomb) { 
+        [self addChild:[cell.bomb explotion] z:INT32_MAX]; 
+    }
+    
+    cell.bomb = nil;
 	cell.item = nil;
+    
 }
 
 - (void) movePress:(CGPoint)point {
