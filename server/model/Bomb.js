@@ -37,19 +37,13 @@ Bomb.prototype.playerId = function(value) {
 }
 
 Bomb.prototype.hitArea = function() {
-    var points = []
-    
-    var x = this.x()
-    var y = this.y()
-    
-    // manual for now
-    for (var x = this.x()-Bomb.BlastSize; x < this.x()+Bomb.BlastSize; x++) {
-        for (var y = this.y()-Bomb.BlastSize; y < this.y()+Bomb.BlastSize; y++) {
-            points.push({x:x, y:y})    
-        }
-    }    
-    
-    return points
+
+    var query = {   
+        x: {$gte: this.x()-1, lte: this.x()+1},
+        y: {$gte: this.y()-1, lte: this.y()+1}
+    }
+
+    return query
 }
 
 Bomb.prototype.create = function(cb) {

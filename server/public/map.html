@@ -95,10 +95,18 @@
         
         player.move = function(data) {
             var player = players[data.playerId]
-            if (!walls[player.x + "|" + player.y]) clear(player.x, player.y)
+            if (!walls[player.x + "|" + player.y]) 
+                clear(player.x, player.y)
             player.x = data.x
             player.y = data.y
             draw(data.x, data.y, playerColor)
+        }
+        
+        player.destroy = function(data) {
+            var player = players[data.playerId]
+            if (!walls[player.x + "|" + player.y]) 
+                clear(player.x, player.y)    
+            delete players[data.playerId]
         }
         
         
@@ -108,6 +116,9 @@
             walls[data.wallId] = data
             draw(data.x, data.y, wallColor)
         }
+        
+        
+        
 
 
             // clearRect
