@@ -14,92 +14,109 @@
 #import "Settings.h"
 
 @interface MainMenu()
-- (void) verifyName:(NSString*)name;
+- (void) verifyName;
 - (void) startGame;
+- (UITextField*) nameField;
 @end
 
-// HelloWorld implementation
+
+
 @implementation MainMenu
 
 +(id) scene {
 	
-	// 'scene' is an autorelease object.
 	CCScene *scene = [CCScene node];
 	
-	// 'layer' is an autorelease object.
 	MainMenu *layer = [MainMenu node];
 	
-	// add layer as a child to scene
 	[scene addChild:layer];
 	
-	// return the scene
 	return scene;
 }
 
-// on "init" you need to initialize your instance
+
 -(id) init {
 	
-	// always call "super" init
-	// Apple recommends to re-assign "self" with the "super" return value
-	if( (self=[super init] )) {
+	if((self = [super init])) {
 		
-		
-		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
 		
-		// create and initialize a Label		
-		statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
-		
-		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
-			if(status == connected) { 
-				[statusLabel setString:@"Connected"]; 
-			}
-			if(status == disconnected) { 
-				[statusLabel setString:@"Disconnected"]; 
-			}
-			if(status == sending) { [statusLabel setString:@"Sending"]; }
-			if(status == receiving) { [statusLabel setString:@"Receiving"]; }
-		};
 
-		[[ServerCommunicator instance] connect];
-		
-		nameField = [[[UITextField alloc] initWithFrame:CGRectMake(120, 30, 250, 35)] autorelease];
-		nameField.placeholder = @"Your nickname, kiddo";
-		nameField.backgroundColor = [UIColor blackColor];
-		nameField.borderStyle = UITextBorderStyleRoundedRect;
-		nameField.font = [UIFont systemFontOfSize:22];
-		nameField.returnKeyType = UIReturnKeyDone;
-		nameField.keyboardType = UIKeyboardTypeNamePhonePad;
-		nameField.textColor = [UIColor blackColor];
-		nameField.delegate = self;
-		
+        
+		statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
+		statusLabel.position =  ccp(size.width/2, size.height/2);
+		[self addChild:statusLabel];
+        
+        
+        [CCMenuItemFont setFontName:@"Helvetica"];
+        [CCMenuItemFont setFontSize:22];        
+        startButton = [CCMenuItemFont itemFromString:@"Play" target:self selector:@selector(verifyName)];
+        startButton.position = ccp(0,0);
+        startButton.anchorPoint = ccp(.5,0);
+        startButton.disabledColor = ccc3(.5, .5, .5);
+        [startButton setColor:ccc3(255, 255, 255)];
+        CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
+        menu.position = ccp(size.width/2,size.height*3/5);
+        [self addChild:menu];
+        
+        
+        nameField = [self nameField];
         [[[CCDirector sharedDirector] openGLView] addSubview:nameField]; 
 		
         
-		// position the label on the center of the screen
-		statusLabel.position =  ccp(size.width/2, size.height/2);
+        
+		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
+            if(status == connected) { 
+                
+                [statusLabel setString:@"Connected"]; 
+            }
+			if(status == disconnected) { [statusLabel setString:@"Disconnected"]; }
+			if(status == sending) { [statusLabel setString:@"Sending"]; }
+			if(status == receiving) { [statusLabel setString:@"Receiving"]; }    
+		};
+
+
+		[[ServerCommunicator instance] connect];
 		
-		[self addChild:statusLabel];
 		
 	}
 	return self;
+}
+
+-(UITextField*) nameField {
+    
+    CGSize size = [[CCDirector sharedDirector] winSize];
+    
+    UITextField* textField = [[[UITextField alloc] initWithFrame:CGRectMake(size.width/2.f - 125.f, size.height*1/6, 250, 35)] autorelease];
+    textField.text = [Settings instance].nickname;
+    textField.placeholder = @"Your nickname, kiddo";
+    textField.backgroundColor = [UIColor blackColor];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.font = [UIFont systemFontOfSize:22];
+    textField.returnKeyType = UIReturnKeyDone;
+    textField.keyboardType = UIKeyboardTypeNamePhonePad;
+    textField.textColor = [UIColor blackColor];
+    textField.delegate = self;
+    
+    return textField;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     
 	[nameField resignFirstResponder];
 	
-	[self verifyName:textField.text];
+	[self verifyName];
 
 	return YES;
 }
 
 
-- (void) verifyName:(NSString*)name {
+- (void) verifyName {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
         [Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"uid"];
 		
         if([Settings instance].playerID) {
+            [Settings instance].nickname = nameField.text;
             [self startGame];
         } else {
             [statusLabel setString:@"Already Taken"];
@@ -108,26 +125,21 @@
 	
 	Create* command = [Create command];
 	[command setType:@"player"];
-	[command setPlayerNickname:name];
+	[command setPlayerNickname:nameField.text];
 	[command send];
 	
 }
 
 - (void) startGame {
 	[nameField removeFromSuperview];
-	//CCTurnOffTiles* animation = [CCTurnOffTiles actionWithSeed:234 grid:ccg(9,6) duration:2.0];
+
 	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
 
-// on "dealloc" you need to release all your retained objects
+
 - (void) dealloc {
-	
-	// in case you have something to dealloc, do it in this method
-	// in this particular example nothing needs to be released.
-	// cocos2d will automatically release all the children (Label)
-	
-	// don't forget to call "super dealloc"
+
 	[super dealloc];
 }
 @end

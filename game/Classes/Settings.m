@@ -11,7 +11,8 @@
 
 @implementation Settings
 
-@dynamic playerID, nickname;
+@dynamic nickname;
+@synthesize playerID;
 
 static Settings* instance;
 
@@ -24,11 +25,14 @@ static Settings* instance;
 }
 
 - (void) setNickname:(NSString *)nickname {
+    NSLog(@"saving %@", nickname);
     [[NSUserDefaults standardUserDefaults] setObject:nickname forKey:@"nickname"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString*) nickname {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"nickname"];
+    NSLog(@"loading %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"]);
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
 }
 
 

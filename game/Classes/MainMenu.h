@@ -16,6 +16,7 @@
 @interface MainMenu : CCLayer <UITextFieldDelegate> {
 	UITextField* nameField;
     CCLabelTTF *statusLabel;
+    CCMenuItemFont* startButton;
 }
 
 // returns a Scene that contains the MainMenu as the only child
