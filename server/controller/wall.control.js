@@ -10,7 +10,7 @@ var _ = require("underscore")
 // Add a wall tile
 exports.create = function (app, client, data) {
 
-    var wall = Wall.fromValue(data.x, data.y)
+    var wall = new Wall(data.x, data.y)
     
     assert.ok(!_(wall.x()).isUndefined(), "Missing X")
     assert.ok(!_(wall.y()).isUndefined(), "Missing Y")    

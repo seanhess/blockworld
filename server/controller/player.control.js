@@ -1,5 +1,6 @@
 var sys = require("sys")
 var Player = require("../model/Player")
+var Wall = require("../model/Wall")
 var Message = require("../model/Message")
 var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
@@ -12,16 +13,43 @@ exports.observe = function(app, client, data) {
     
     var messages = []
     
-    Player.allPlayers(function(err, players) {
         
-        players.forEach(function(player) {
-            if(you.playerId() != player.playerId())
-                messages.push(new Player.MessageCreate(player))
+        
+    players(function() {
+        walls(function() {
+            send()
         })
-        
+    })
+    
+    function players(cb) {
+        Player.allPlayers(function(err, players) {
+            if (err) return cb(err)
+            
+            players.forEach(function(player) {
+                if(you.playerId() != player.playerId())
+                    messages.push(new Player.MessageCreate(player))
+            })
+            
+            cb()
+        })
+    }
+    
+    function walls(cb) {
+        Wall.allWalls(function(err, walls) {
+            if (err) return cb(err)
+
+            walls.forEach(function(wall) {
+                messages.push(new Wall.MessageCreate(wall))
+            })
+            
+            cb()
+        })        
+    }
+    
+    function send() {
         // send the state
         client.send(messages)
-    })
+    }
     
 }
 

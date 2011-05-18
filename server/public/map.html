@@ -74,7 +74,8 @@
         
         
         // State
-        var objects = {}
+        var players = {}
+        var walls = {}
         
         
         // Draw
@@ -88,13 +89,13 @@
 
         var player = control.player = {}        
         player.create = function(data) {            
-            objects[data.uid] = data
+            players[data.playerId] = data
             draw(data.x, data.y, playerColor)
         }
         
         player.move = function(data) {
-            var player = objects[data.uid]
-            clear(player.x, player.y)
+            var player = players[data.playerId]
+            if (!walls[player.x + "|" + player.y]) clear(player.x, player.y)
             player.x = data.x
             player.y = data.y
             draw(data.x, data.y, playerColor)
@@ -104,7 +105,7 @@
         
         var wall = control.wall = {}
         wall.create = function(data) {
-            objects[data.uid] = data
+            walls[data.wallId] = data
             draw(data.x, data.y, wallColor)
         }
 
