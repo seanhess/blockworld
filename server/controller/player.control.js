@@ -54,8 +54,6 @@ exports.move = function (app, client, data) {
     // expects: data.x, data.y
     // expects: data.uid
     
-    console.log("DAT", data)
-    
     var player = Player.fromValue(data)    
         
     assert.ok(!_(player.x()).isUndefined(), "Missing X")

@@ -113,7 +113,7 @@
 
 - (void) verifyName {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
-        [Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"uid"];
+        [Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"playerId"];
 		
         if([Settings instance].playerID) {
             [Settings instance].nickname = nameField.text;

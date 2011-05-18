@@ -10,6 +10,9 @@ var Message = module.exports = function(type, action, data) {
         
     else 
         this.data = data
+        
+    // remove _id fields
+    delete this.data._id   
 }
 
 Message.prototype.toString = function() {

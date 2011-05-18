@@ -26,7 +26,7 @@ Player.ActionCreate = "create"
 Player.ActionYou = "you"
 Player.ActionMove = "move"
 
-Tile.MixinTo(Player)
+Tile.mixinTo(Player)
 
 Player.prototype.nickname = function(nick) {
 
@@ -43,7 +43,7 @@ Player.prototype.playerId = function() {
 }
 
 Player.prototype.create = function(cb) {
-    this.tiles().insert(this.source, function(err) {
+    this.tiles().insert(this.toValue(), function(err) {
         cb(err == null)
     })
 }

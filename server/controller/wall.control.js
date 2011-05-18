@@ -9,17 +9,17 @@ var _ = require("underscore")
 
 // Add a wall tile
 exports.create = function (app, client, data) {
-    
-    assert.ok(!_(data.x).isUndefined(), "Missing X")
-    assert.ok(!_(data.y).isUndefined(), "Missing Y")    
-    
-    var wall = new Wall(data.x, data.y)
 
-    console.log("ADDING WALL", data, wall.toValue())
+    var wall = Wall.fromValue(data.x, data.y)
+    
+    assert.ok(!_(wall.x()).isUndefined(), "Missing X")
+    assert.ok(!_(wall.y()).isUndefined(), "Missing Y")    
     
     // add the wall
-    app.state().add(wall, true)
+    wall.create(function(success) {
     
-    // send it out
+    })
+    
+    // send it out immediately
     app.sendOthers(client, new Wall.MessageCreate(wall))
 }

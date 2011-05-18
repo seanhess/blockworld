@@ -9,7 +9,7 @@ var db = mongo.db("localhost", 27017, "bb")
 db.collection('tiles')
 
 
-exports.MixinTo = function(Class) {
+exports.mixinTo = function(Class) {
 
     assert.ok(Class, "Missing class for Tile mixin")
 
@@ -41,6 +41,9 @@ exports.MixinTo = function(Class) {
     
 }
 
+exports.tileId = function(x, y) {
+    return x + "|" + y
+}
 
 
 

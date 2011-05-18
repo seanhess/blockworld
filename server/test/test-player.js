@@ -50,22 +50,17 @@ exports.playerMove = function (assert) {
                 helpers.gather(secondClient, function(err, messages) {
                     assert.ifError(err)
                     
-                    var message = _(messages).detect(function(message) {
+                    var playerData = _(messages).detect(function(message) {
                         return (message.action == Player.ActionYou)
                     }).data
                     
-                    assert.ok(message, "Couldn't find the second player")
-                    assert.ok(message._id, "Changed id field")
+                    assert.ok(playerData, "Couldn't find the second player")
                     
-                    var move = {
-                        x: 1, 
-                        y: 1, 
-                        playerId: message._id
-                    }
+                    var player = Player.fromValue(playerData)
+                    player.position(1, 1)                    
                     
-                    console.log("UMMM", move)
+                    secondClient.send(new Player.MessageMove(player))
                     
-                    secondClient.send(new Player.MessageMove(move))
                     helpers.gather(client, function(err, messages) {
                         assert.ifError(err)
                         
