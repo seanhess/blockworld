@@ -1,13 +1,13 @@
 
-// var World = require("../controller/World.js")
-
 var Message = require("./Message")
+var Tile = require("./Tile")
+
 var sys = require('sys')
 
 
 var Player = module.exports = function(nickname, x, y) {
-    this.source = {x:x, y:y}
 	this.nickname(nickname)
+	this.position(x, y)
     
     if (!x || !y) {
         var position = Player.getRandomSpawnLocation()
@@ -15,6 +15,8 @@ var Player = module.exports = function(nickname, x, y) {
         this.source.y = position.y
     }
 }
+
+Player.prototype = new Tile()
 
 Player.prototype.toMessage = function() {
     return new Player.MessageCreate(this)
@@ -35,7 +37,7 @@ Player.prototype.toValue = function() {
 Player.prototype.nickname = function(nick) {
 	if(nick) {
 		this.source.nickname = nick
-		this.source.uid = "Player_" + this.source.nickname
+		this.source.uid = this.type() + this.source.nickname
 	} else {
 		return this.source.nickname
 	}

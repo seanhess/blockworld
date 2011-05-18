@@ -19,32 +19,22 @@ exports.closesWithClientAndDelay = function(assert) {
 exports.faults = function(assert) {   
     helpers.setup(function(app, client) {
                         
-        client.sendRaw("random crap")
-                
+        client.send(new Message("thisshouldnotmatch", "okj", {}))
+        
         client.onFault(function(fault) {
-            assert.equal(fault.fault, Fault.JsonParsingError)
-                                        
-            client.sendRaw('{"something":"else"}') 
+            assert.equal(fault.fault, Fault.InvalidType)
+            
+            client.send(new Message("test", "fake", null))
             client.onFault(function(fault) {
-                assert.equal(fault.fault, Fault.InvalidType)
+                assert.equal(fault.fault, Fault.InvalidMethod)
                 
-                client.send(new Message("thisshouldnotmatch", "okj", {}))
+                client.send(new Message("test","throwSomething", {}))
                 client.onFault(function(fault) {
-                    assert.equal(fault.fault, Fault.InvalidType)
-                    
-                    client.send(new Message("test", "fake", null))
-                    client.onFault(function(fault) {
-                        assert.equal(fault.fault, Fault.InvalidMethod)
-                        
-                        client.send(new Message("test","throwSomething", {}))
-                        client.onFault(function(fault) {
-                            assert.equal(fault.fault, Fault.ControllerFault)
-                            assert.finish()                    
-                        })
-                    })
+                    assert.equal(fault.fault, Fault.ControllerFault)
+                    assert.finish()                    
                 })
             })
-        })        
+        })
     })
 }
 

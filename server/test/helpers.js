@@ -6,7 +6,6 @@ var TestClient = require("./TestClient")
 var TestPort = 3333
 var sharedApp
 var assert = require('assert')
-var Timeout = require("../utils/Timeout")
 var traffic = require("../utils/traffic")
 
 exports.setup = function(cb) {
@@ -34,6 +33,7 @@ exports.client = function(cb) {
         client.onMessage(function(message) {
             clearTimeout(timeout)                
             assert.equal(message.type, "Welcome", "Didn't receive welcome message first!")
+            client.onMessage(function() {})
             cb(client)
         })
         
@@ -55,7 +55,7 @@ exports.gather = function(client, cb) {
         
     client.onFault(function(fault) {
         clearTimeout(timeout)
-        return cb(fault)
+        return cb(new Error(fault.fault + " " +fault.message))
     })
 
     client.onMessage(function(message) {  

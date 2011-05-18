@@ -3,43 +3,38 @@
 
 var net = require("net")
 var sys = require('sys')
-var packetParser = require('../model/PacketParser')
 var App = require('../app')
 var traffic = require("../utils/traffic")
+var io = require('node-socket.io-client/socket.io').io
 
+var EventEmitter = require('events').EventEmitter
 
 var TestClient = module.exports = function() {
     
-    var stream = new net.Stream()
-    var onMessage, onError, onFault
-    
-    var packetParser = new PacketParser()
-    packetParser.onPacket(function(packet) {
-        // traffic.log("Data Packet " + packet)
-        var message = JSON.parse(packet)
-
-        if (message.fault) {
-            if (onFault) onFault(message)
-        }
-        else if (onMessage) {
-            onMessage(message)
-        }
-    })
-            
-    stream.on('data', function(data) {
-        // traffic.log("Data IN " + data)
-        packetParser.addData(data)
-    })
-    
-    stream.on('error', function(err) {
-        if (onError) onError(err)
-        else throw err
-    })
+    var socket = null
+    var onMessage, onFault
     
     this.connect = function(port, cb) {
-        stream.connect(port)
-        stream.on('connect', function() {
+        
+        socket = new io.Socket("localhost", {port:port})
+        socket.connect()
+    
+        socket.on('connect', function() {
             cb()
+        })
+        
+        socket.on('message', function(message) {
+            
+            if (message.fault) {
+                if (onFault) onFault(message)
+            }
+        
+            else if (onMessage) 
+                onMessage(message)
+        })
+        
+        socket.on('disconnect', function() {
+            
         })
     }
     
@@ -56,17 +51,10 @@ var TestClient = module.exports = function() {
     }
     
     this.end = function() {
-        stream.end()
+        socket.close()
     }
     
     this.send = function(message) {
-        var payload = JSON.stringify(message)
-        this.sendRaw(payload)
-    }
-    
-    this.sendRaw = function(data) {
-        // traffic.log("Data OUT (" + data+")")
-        stream.write(data + "\n", "utf8")
-    }
-    
+        socket.send(message)
+    }    
 }

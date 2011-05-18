@@ -1,5 +1,4 @@
 // Stateable items must have:
-// .type()
 // .uid()
 // .toMessage()
 
@@ -12,7 +11,6 @@ var GameState = module.exports = function() {
 }
 
 GameState.verify = function(item) {
-    if (!_(item.type).isFunction() || !item.type()) return false
     if (!_(item.uid).isFunction() || !item.uid()) return false
     if (!_(item.toMessage).isFunction() || !item.toMessage()) return false
     return true

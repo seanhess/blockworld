@@ -7,7 +7,7 @@ var path = require('path')
 var Fault = require('./model/Fault')
 
 var GameState = require("./model/GameState")
-// var GameTimer = require("./model/GameTimer")
+var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
 var traffic = require("./utils/traffic")
@@ -25,22 +25,28 @@ var App = module.exports = function() {
     var socket = null    
     
 	var state = new GameState()
-    // var timer = new GameTimer()
+    var timer = new GameTimer()
 	
 	this.state = function() {
 	    return state
 	}
 	
-    // this.timer = function() {
-    //     return timer
-    // }
+    this.timer = function() {
+        return timer
+    }
 	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing
+
 	    state = new GameState()
-        // timer = new GameTimer()
-        // timer.start()
-	    clients = {}
+        
+        if (socket) {
+            socket.clients = socket.clientsIndex = {};
+        }
+        
+	    if (timer) timer.stop()
+        timer = new GameTimer()
+        timer.start()
 	}
 	
 	this.sendAll = function(message) {
@@ -57,7 +63,7 @@ var App = module.exports = function() {
     this.start = function(port, cb) {
                     
         // web server
-        var server = express.createServer()
+        server = express.createServer()
         
         server.get('/', function(req, res) {
             res.send("Hello World")
@@ -67,13 +73,13 @@ var App = module.exports = function() {
             res.sendfile(path.join(__dirname, "public", "test.html"))
         })        
         
-        server.listen(port)
+        server.listen(port, cb)
         
         
         
         // socket
         
-        var socket = io.listen(server)
+        socket = io.listen(server)
         
         socket.on('connection', function(client) {
                 
@@ -81,8 +87,6 @@ var App = module.exports = function() {
             client.send(new Message("Welcome"))
 
             client.on('message', function(message) {
-                
-                console.log("Message", message)
                 
                 try {
                     var filename = message.type.toLowerCase() + ".control"
@@ -105,7 +109,7 @@ var App = module.exports = function() {
                     method(self, client, message.data)
                 }
                 catch (err) {
-                    traffic.log(err + "\n" + err.stack)
+                    traffic.log("CAUGHT " + err + "\n" + err.stack)
                     return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
                 }
             })
@@ -127,6 +131,8 @@ var App = module.exports = function() {
 
     
     this.close = function() {
+        timer.stop()
+        timer = null
         server.close()
     }
     
