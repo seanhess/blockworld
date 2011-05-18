@@ -17,6 +17,7 @@
 		
 		self.sprite = [CCSprite spriteWithTexture:texture];
 		sprite.anchorPoint = ccp(0,0);
+        sprite.position = ccp(0,20);
 		
 		[self addChild:sprite];
 	}

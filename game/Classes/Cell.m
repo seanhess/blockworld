@@ -40,7 +40,7 @@
             self.bush = [CCSprite spriteWithFile:[possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])]];
             self.bush.anchorPoint = ccp(0,0);
             self.bush.position = ccp(0,20);
-            [self addChild:self.bush z:1];
+            [self addChild:self.bush z:2];
         }
 
         
@@ -71,7 +71,7 @@
             self.bush = nil;
         }
         
-		[self addChild:item z:2];
+		[self addChild:item z:3];
         
     }
 }
@@ -86,7 +86,7 @@
 	bomb.cell = self;
 	
 	if(bomb)
-		[self addChild:bomb z:0];
+		[self addChild:bomb z:1];
 }
 
 - (void) dealloc {

@@ -22,7 +22,7 @@ Bomb.Type = "bomb"
 Bomb.ActionCreate = "create"
 Bomb.ActionDetonate = "detonate"
 
-Bomb.Delay = 1500
+Bomb.Delay = 3000
 
 Bomb.MessageCreate = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionCreate, bomb)

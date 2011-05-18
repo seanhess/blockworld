@@ -113,6 +113,8 @@
 	
 	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
 	Cell* cell = myplayer.cell;
+    
+    [self createBombAtPoint:cell.point];
 	
 	Create* command = [Create command];
     [command setPlayerID:[Settings instance].playerID];

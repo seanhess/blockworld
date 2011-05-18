@@ -19,7 +19,11 @@
 }
 
 -(void) execute {
-	[world destroyAtPoint:ccp(self.positionX, self.positionY)];
+    for(int i=-1;i<2;i++) {
+        for(int j=-1;j<2;j++) {
+            [world destroyAtPoint:ccp(self.positionX+i, self.positionY+j)];
+        }
+    }
 }
 
 
