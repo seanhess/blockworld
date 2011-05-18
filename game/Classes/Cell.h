@@ -20,8 +20,10 @@
 @property(nonatomic, readonly) CGPoint point;
 @property(nonatomic, retain) Item* item;
 @property(nonatomic, retain) Bomb* bomb;
+@property(nonatomic, assign) BOOL isOnScreen;
 
 + (Cell*) cellAtPoint:(CGPoint)point;
 - (id) initWithPoint:(CGPoint)p;
+
 
 @end

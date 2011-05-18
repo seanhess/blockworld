@@ -13,8 +13,10 @@
 
 @interface World : CCLayer {
 	NSMutableDictionary* board;
-	
+
 	BOOL layingWallsPress;
+    
+    CCSprite* smoke;
 }
 
 @property(nonatomic, assign) BOOL layingWallsPress;

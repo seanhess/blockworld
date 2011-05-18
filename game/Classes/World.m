@@ -23,6 +23,9 @@
 - (BOOL) canMoveToCell:(Cell*)cell;
 - (void) adjustCameraOnPlayer:(Player*)player;
 - (Player*) playerWithPlayerID:(NSString*) playerID;
+- (void) drawSeenCells;
+- (void) undrawUnseenCells;
+- (CGRect) visibleGridRect;
 @end
 
 @implementation World
@@ -164,6 +167,8 @@
         
 		[self addChild:cell z:-point.y];
 	}
+    
+    cell.isOnScreen = YES;
 	
 	return cell;
 }
@@ -175,6 +180,8 @@
 	[self.camera centerX:&x centerY:&y centerZ:&z];
 	[self.camera eyeX:&x eyeY:&y eyeZ:&z];
 	
+    float oldx = x, oldy = y, oldz = z;
+    
 	if(POINT_TO_PIXEL_X(player.cell.point.x) < x+SCREEN_FOLLOW_THRESHOLD)
 		x = POINT_TO_PIXEL_X(player.cell.point.x)-SCREEN_FOLLOW_THRESHOLD;
 	if(POINT_TO_PIXEL_X(player.cell.point.x) > x+screenRect.size.height-SCREEN_FOLLOW_THRESHOLD)
@@ -186,6 +193,43 @@
 	
 	[self.camera setCenterX:x centerY:y centerZ:0.0];
 	[self.camera setEyeX:x eyeY:y eyeZ:[CCCamera getZEye]];
+    
+    if(oldx != x || oldy != y || oldz != z) {
+        [self drawSeenCells];
+        [self undrawUnseenCells];
+    }
+}
+
+- (void) drawSeenCells {
+    CGRect visibleGridRect = [self visibleGridRect];
+    
+    for(int x=visibleGridRect.origin.x; x<CGRectGetMaxX(visibleGridRect); x++) {
+        for(int y=visibleGridRect.origin.y; y<CGRectGetMaxY(visibleGridRect); y++) {
+            [self cellAtPoint:ccp(x,y)].isOnScreen = YES;
+        }
+    }
+}
+
+- (void) undrawUnseenCells {
+    
+    CGRect visibleGridRect = [self visibleGridRect];
+    
+    for(Cell* cell in [board allValues]) {
+        if(!CGRectContainsPoint(visibleGridRect, cell.point)) {
+            cell.isOnScreen = NO;
+        }
+    }
+}
+
+- (CGRect) visibleGridRect {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    float padding = 1;
+    float x, y, z;
+    
+    [self.camera centerX:&x centerY:&y centerZ:&z];
+    
+    return CGRectMake(PIXEL_TO_POINT_X(x)-padding, PIXEL_TO_POINT_Y(y)-padding, (int)screenRect.size.height/PIXEL_PER_UNIT_X+padding*2, (int)screenRect.size.width/PIXEL_PER_UNIT_Y+padding*2);
 }
 
 - (id) keyForPoint:(CGPoint)point {

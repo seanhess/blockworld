@@ -18,7 +18,8 @@
 
 @implementation Cell
 
-@synthesize point, item, bomb, bush;
+@synthesize point, item, bomb, bush, isOnScreen;
+
 
 + (Cell*) cellAtPoint:(CGPoint)p {
 	return [[[Cell alloc] initWithPoint:p] autorelease];
@@ -90,6 +91,12 @@
 		[self addChild:bomb z:1];
     } 
     
+}
+
+- (void) setIsOnScreen:(BOOL)boolean {
+    isOnScreen = boolean;
+    
+    self.visible = boolean;
 }
 
 - (void) dealloc {
