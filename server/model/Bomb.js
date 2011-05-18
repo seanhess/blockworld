@@ -18,11 +18,28 @@ Bomb.prototype.type = function() {
     return Bomb.Type
 }
 
+Bomb.prototype.hitArea = function() {
+    var points = []
+    
+    var x = this.x()
+    var y = this.y()
+    
+    // manual for now
+    for (var x = this.x()-Bomb.BlastSize; x < this.x()+Bomb.BlastSize; x++) {
+        for (var y = this.y()-Bomb.BlastSize; y < this.y()+Bomb.BlastSize; y++) {
+            points.push({x:x, y:y})    
+        }
+    }    
+    
+    return points
+}
+
 Bomb.Type = "bomb"
 Bomb.ActionCreate = "create"
-Bomb.ActionDetonate = "detonate"
+Bomb.ActionDetonate = "destroy"
 
 Bomb.Delay = 3000
+Bomb.BlastSize = 1
 
 Bomb.MessageCreate = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionCreate, bomb)

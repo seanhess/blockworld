@@ -50,6 +50,10 @@ exports.move = function (app, client, data) {
     
     assert.ok(player, "Could not find player " + data.uid)
     
+    // must be called first, to update the state
+    app.state().moveTo(player, data.x, data.y)
+        
+    // now update the object itself
     player.move(data.x, data.y)
     
     app.sendOthers(client, new Player.MessageMove(player))

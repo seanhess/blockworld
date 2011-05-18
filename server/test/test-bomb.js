@@ -5,8 +5,14 @@ var Fault = require("../model/Fault")
 var App = require("../App")
 var Bomb = require("../model/Bomb")
 var Player = require("../model/Player")
+var Wall = require("../model/Wall")
 var Message = require("../model/Message")
 var _ = require("underscore")
+
+var GameState = require('../model/GameState')
+
+var bombs = require('../controller/bomb.control')
+var walls = require('../controller/wall.control')
 
 exports.addBomb = function (assert) {
 
@@ -46,6 +52,36 @@ exports.addBomb = function (assert) {
             })            
         })
     })                                        
+}
+
+exports.hits = function(assert) {
+    
+    var app = new App()
+    var client = {
+        send: function() {},
+        broadcast: function() {}
+    }
+    
+    var bomb = new Bomb(10, 10)
+        
+    bombs.create(app, client, bomb.toValue())
+
+    var wall = new Wall(10, 11)
+    walls.create(app, client, wall.toValue())
+    
+    assert.ok(bomb.hitArea().indexOf(function(item) {
+        return (item.x == 10 && item.y == 11)
+    } > -1), "Bomb hit area incorrect")
+    
+    var hits = app.state().hitObjects(bomb.hitArea()) 
+    console.log(hits)
+    
+    var index = hits.indexOf(function(item) {
+        return (item.uid() == wall.uid())
+    })
+    
+    assert.finish()
+    
 }
 
 

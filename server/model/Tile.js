@@ -25,6 +25,10 @@ Tile.prototype.y = function() {
 
 Tile.Type = "Tile"
 
+Tile.tileId = function(x, y) {
+    return x + "|" + y
+}
+
 
 // Wall.Type = "map"
 // Wall.ActionCreate = "addWall"

@@ -21,17 +21,17 @@ exports.create = function (app, client, data) {
     
     // schedule it for detonation
     app.timer().scheduleAhead(Bomb.Delay, function() {
-        
-        // var playersHit = bomb.hitTest(app.state(), Player.Type)
-        // var wallsHit = bomb.hitTest(app.state(), Wall.Type)
-        //         
-        // var messages = [new Bomb.MessageDetonate].concat()
-        
-        app.state().remove(bomb)
-        app.sendAll(new Bomb.MessageDetonate(bomb))
-        
-        // check for hits! 
-        // calculate surrouding tiles
+    
+        exports.detonate(app, client, bomb)
         
     })
+}
+
+exports.detonate = function(app, client, bomb) {
+    
+    // remove the bomb
+    app.state().remove(bomb)
+    
+    // send the destroy message
+    app.sendAll(new Bomb.MessageDetonate(bomb))
 }
