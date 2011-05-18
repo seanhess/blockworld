@@ -44,8 +44,7 @@ Player.prototype.playerId = function() {
 
 Player.prototype.create = function(cb) {
     this.tiles().insert(this.toValue(), function(err) {
-        console.log("CREATED", err)
-        if (err) throw err
+        if (err) console.log("ERR", err.toString())
         cb(err == null)
     })
 }
