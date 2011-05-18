@@ -15,7 +15,7 @@ var traffic = require("./utils/traffic")
 var io = require('socket.io')
 var express = require('express')
 
-var Player = require('./model/Player')
+var Tile = require('./model/Tile')
 
 
 
@@ -46,7 +46,7 @@ var App = module.exports = function() {
             socket.clients = socket.clientsIndex = {};
         }
         
-        Player.clearAll()
+        Tile.clearAll()
         
 	    if (timer) timer.stop()
         timer = new GameTimer()

@@ -44,6 +44,8 @@ Player.prototype.playerId = function() {
 
 Player.prototype.create = function(cb) {
     this.tiles().insert(this.toValue(), function(err) {
+        console.log("CREATED", err)
+        if (err) throw err
         cb(err == null)
     })
 }
@@ -72,10 +74,6 @@ Player.allPlayers = function(cb) {
             return Player.fromValue(doc)
         }))
     })
-}
-
-Player.clearAll = function() {
-    this.tiles().remove({type:Player.Type})
 }
 
 Player.moveTo = function(playerId, x, y, cb) {

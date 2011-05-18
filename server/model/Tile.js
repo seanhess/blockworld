@@ -46,5 +46,9 @@ exports.tileId = function(x, y) {
 }
 
 
+exports.clearAll = function() {
+    db.tiles.remove({})
+}
+
 
 

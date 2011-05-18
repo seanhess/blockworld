@@ -12,38 +12,24 @@ exports.observe = function(app, client, data) {
     var you = new Player(data.nickname)
     
     var messages = []
-    
         
-        
-    players(function() {
-        walls(function() {
+    attach(Player.allPlayers, Player, function() {
+        attach(Wall.allWalls, Wall, function() {
             send()
         })
     })
     
-    function players(cb) {
-        Player.allPlayers(function(err, players) {
-            if (err) return cb(err)
-            
-            players.forEach(function(player) {
-                if(you.playerId() != player.playerId())
-                    messages.push(new Player.MessageCreate(player))
-            })
-            
-            cb()
-        })
-    }
-    
-    function walls(cb) {
-        Wall.allWalls(function(err, walls) {
+    function attach(findMethod, Class, cb) {
+        findMethod.call(Class, function(err, objects) {
             if (err) return cb(err)
 
-            walls.forEach(function(wall) {
-                messages.push(new Wall.MessageCreate(wall))
+            objects.forEach(function(object) {
+                if (object instanceof Player && you.playerId() == object.playerId()) return
+                messages.push(new Class.MessageCreate(object))
             })
             
             cb()
-        })        
+        })    
     }
     
     function send() {
