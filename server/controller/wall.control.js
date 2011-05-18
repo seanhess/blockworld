@@ -14,8 +14,8 @@ exports.create = function (app, client, data) {
     assert.ok(!_(data.y).isUndefined(), "Missing Y")    
     
     var wall = new Wall(data.x, data.y)
-    
-    sys.puts(wall.uid())
+
+    console.log("ADDING WALL", data, wall.toValue())
     
     // add the wall
     app.state().add(wall)

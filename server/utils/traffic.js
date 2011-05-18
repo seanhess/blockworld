@@ -1,6 +1,5 @@
 // traffic log
 // only for logging traffic
 
-var sys = require('sys')
-exports.log = sys.puts
+exports.log = console.log
 // exports.puts = sys.puts

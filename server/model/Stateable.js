@@ -2,7 +2,7 @@
 // Need to implement .toMessage to work with GameState
 
 var Stateable = module.exports = function() {
-    this.source = {}
+    this.source = {} 
 }
 
 Stateable.prototype.type = function() {
@@ -13,7 +13,8 @@ Stateable.prototype.toValue = function() {
     return this.source
 }
 
-Stateable.prototype.uid = function() {
+Stateable.prototype.uid = function(value) {
+    if (value) this.source.uid = value
     return this.source.uid
 }
 

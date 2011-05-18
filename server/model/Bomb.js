@@ -3,6 +3,7 @@ var Message = require("./Message")
 var Tile = require("./Tile")
 
 var Bomb = module.exports = function(x, y) {
+    Tile.call(this)
     this.position(x,y)
 }
 

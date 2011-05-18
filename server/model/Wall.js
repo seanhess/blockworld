@@ -2,6 +2,7 @@ var Message = require("./Message")
 var Tile = require("./Tile")
 
 var Wall = module.exports = function(x, y) {
+    Tile.call(this)
     this.position(x,y)
 }
 
