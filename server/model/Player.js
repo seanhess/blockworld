@@ -22,9 +22,7 @@ Player.fromValue = function(doc) {
 }
 
 Player.Type = "player"
-Player.ActionCreate = "create"
-Player.ActionYou = "you"
-Player.ActionMove = "move"
+
 
 Tile.mixinTo(Player)
 
@@ -47,6 +45,10 @@ Player.prototype.create = function(cb) {
         if (err) console.log("ERR", err.toString())
         cb(err == null)
     })
+}
+
+Player.prototype.remove = function(cb) {
+    this.tiles().remove({playerId: this.playerId()}, cb)
 }
 
 
@@ -74,6 +76,10 @@ Player.moveTo = function(playerId, x, y, cb) {
 
 
 
+Player.ActionCreate = "create"
+Player.ActionYou = "you"
+Player.ActionMove = "move"
+Player.ActionDestroy = "destroy"
 
 Player.MessageCreate = function(player) {
     return new Message(Player.Type, Player.ActionCreate, player) // needs: {nickname:nickname}
@@ -87,6 +93,9 @@ Player.MessageMove = function(player) {
     return new Message(Player.Type, Player.ActionMove, player) // needs: {nickname:nickname}
 }
 
+Player.MessageDestroy = function(player) {
+    return new Message(Player.Type, Player.ActionDestroy, player) 
+}
 
 
 var SpawnRaduis = Player.SpawnRaduis = 10

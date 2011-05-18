@@ -53,6 +53,7 @@ exports.create = function (app, client, data) {
         
         // send created self    
         client.send(new Player.MessageYou(player))
+        app.setClientPlayer(client, player)
         
         // observe
         exports.observe(app, client, data)
@@ -61,6 +62,17 @@ exports.create = function (app, client, data) {
         app.sendAll(new Player.MessageCreate(player))
         
     })    
+}
+
+exports.leave = function(app, client, data) {
+    
+    var player = Player.fromValue(data)
+    
+    // remove from the game state
+    player.remove(function() {})
+    
+    app.sendAll(new Player.MessageDestroy(player))
+    
 }
 
 exports.move = function (app, client, data) {

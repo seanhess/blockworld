@@ -18,7 +18,7 @@ var express = require('express')
 var Tile = require('./model/Tile')
 
 
-
+var playerControl = require('./controller/player.control')
 
 var App = module.exports = function() {
     
@@ -28,6 +28,9 @@ var App = module.exports = function() {
     
 	var state = new GameState()
     var timer = new GameTimer()
+    
+    // clients -> players
+    var players = {}
 	
 	this.state = function() {
 	    return state
@@ -60,6 +63,14 @@ var App = module.exports = function() {
 	this.sendOthers = function(client, message) {
         client.broadcast(message)
 	}
+    
+    this.setClientPlayer = function(client, player) {
+        players[client.sessionId] = player
+    }
+    
+    this.getClientPlayer = function(client) {
+        return players[client.sessionId]
+    }
     
     
     
@@ -126,7 +137,10 @@ var App = module.exports = function() {
                 })
                 
                 client.on('disconnect', function () {
-                    console.log("Disconnected")
+                    var player = players[client.sessionId]
+                    
+                    if (player)
+                        playerControl.leave(self, client, player.toValue())
                 })
                 
             })
