@@ -50,18 +50,6 @@ Player.prototype.create = function(cb) {
 }
 
 
-//Player.idAvailable = function(playerId, cb) {
-//
-//    // slow, careful check to make sure the id is available
-//    
-//    this.tiles().count({_id:playerId}, function(err, count) {
-//        if (err) return cb(err)
-//        cb(null, (count == 0))
-//    })
-//    
-//}
-
-
 Player.getRandomSpawnLocation = function() {
     return {x:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis), y:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis)}
 }

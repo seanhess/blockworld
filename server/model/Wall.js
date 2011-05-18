@@ -33,8 +33,6 @@ Wall.prototype.create = function(cb) {
     })
 }
 
-
-
 Wall.allWalls = function(cb) {
     this.tiles().find({type:Wall.Type}).toArray(function(err, walls) {
         if (err) return cb(err)

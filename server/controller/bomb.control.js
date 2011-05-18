@@ -11,18 +11,20 @@ exports.create = function (app, client, data) {
     assert.ok(!_(data.x).isUndefined(), "Missing X")
     assert.ok(!_(data.y).isUndefined(), "Missing Y")    
     
-    var bomb = new Bomb(data.x, data.y)
+    var bomb = new Bomb(data.x, data.y, data.playerId)
     
-    // add the bomb
-    app.state().add(bomb)
+    // add the wall
+    bomb.create(function(success) {
     
-    // send it out
+    })
+    
+    // send it out immediately
     app.sendOthers(client, new Bomb.MessageCreate(bomb))
     
     // schedule it for detonation
     app.timer().scheduleAhead(Bomb.Delay, function() {
     
-        exports.detonate(app, client, bomb)
+        exports.detonate(app, client, bomb.toValue())
         
     })
 }
@@ -30,7 +32,8 @@ exports.create = function (app, client, data) {
 exports.detonate = function(app, client, bomb) {
     
     // remove the bomb
-    app.state().remove(bomb)
+    var bomb = Bomb.fromValue(bomb)
+    bomb.remove(function() {})
     
     // send the destroy message
     app.sendAll(new Bomb.MessageDetonate(bomb))
