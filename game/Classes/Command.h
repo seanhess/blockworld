@@ -27,6 +27,7 @@
 -(void) setType:(NSString *)type;
 -(void) setAction:(NSString *)action;
 -(void) setPoint:(CGPoint)point;
+-(void) setPlayerID:(NSString*)playerID;
 
 -(void) send;
 -(void) execute;
