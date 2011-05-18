@@ -47,6 +47,8 @@ static ServerCommunicator* instance = nil;
 }
 
 - (BOOL) sendMessageToServer:(NSString*)message {
+    NSLog(@"Sending message to server: %@", message);
+    
     [self.client send:message isJSON:YES];
     
     return YES;
