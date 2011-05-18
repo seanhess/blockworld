@@ -18,7 +18,7 @@ exports.create = function (app, client, data) {
     console.log("ADDING WALL", data, wall.toValue())
     
     // add the wall
-    app.state().add(wall)
+    app.state().add(wall, true)
     
     // send it out
     app.sendOthers(client, new Wall.MessageCreate(wall))

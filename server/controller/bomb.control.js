@@ -27,6 +27,7 @@ exports.create = function (app, client, data) {
         //         
         // var messages = [new Bomb.MessageDetonate].concat()
         
+        app.state().remove(bomb)
         app.sendAll(new Bomb.MessageDetonate(bomb))
         
         // check for hits! 

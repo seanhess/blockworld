@@ -7,7 +7,7 @@ var _ = require("underscore")
 
 // mongo
 var mongo = require('mongo')
-var db = mongo.db("localhost", 27017, "bombsandblocks")
+var db = mongo.db("localhost", 27017, "bb")
 db.collection('state')
 
 
@@ -29,19 +29,24 @@ GameState.prototype.allMessages = function() {
     return messages
 }
 
-GameState.prototype.add = function(item) {
+GameState.prototype.add = function(item, persist) {
     assert.ok(!this.exists(item.uid()))
     this.everything[item.uid()] = item
 
-    // it only needs to save Walls. 
-//    var value = item.toValue()
-//    value._id = item.uid()
-//    db.state.save(value)
+    if (persist) {
+        var value = item.toValue()
+        value._id = item.uid()
+        value.type = item.type()
+        db.state.save(value)
+    }
 }
 
-GameState.prototype.remove = function(item) {
+GameState.prototype.remove = function(item, persist) {
     delete this.everything[item.uid()]
-    db.state.remove({_id:item.uid()})
+    
+    if (persist) {
+        db.state.remove({_id:item.uid()})
+    }
 }
 
 GameState.prototype.exists = function(uid) {
