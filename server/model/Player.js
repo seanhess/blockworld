@@ -16,9 +16,7 @@ var Player = module.exports = function(nickname, x, y) {
 }
 
 Player.fromValue = function(doc) {
-    var player = new Player()
-    player.source = doc
-    return player
+    return Tile.fromValue(Player, doc)
 }
 
 Player.Type = "player"
@@ -57,12 +55,7 @@ Player.getRandomSpawnLocation = function() {
 }
 
 Player.allPlayers = function(cb) {
-    Tile.tiles().find({type:Player.Type}).toArray(function(err, players) {
-        if (err) return cb(err)
-        cb(null, players.map(function(doc) {
-            return Player.fromValue(doc)
-        }))
-    })
+    Tile.allWithClass(Player, cb)
 }
 
 Player.moveTo = function(playerId, x, y, cb) {

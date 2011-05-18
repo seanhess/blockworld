@@ -10,9 +10,7 @@ var Wall = module.exports = function(x, y) {
 }
 
 Wall.fromValue = function(value) {
-    var wall = new Wall()
-    wall.source = value
-    return wall
+    return Tile.fromValue(Wall, value)
 }
 
 Wall.Type = "wall"
@@ -33,12 +31,7 @@ Wall.prototype.create = function(cb) {
 }
 
 Wall.allWalls = function(cb) {
-    Tile.tiles().find({type:Wall.Type}).toArray(function(err, walls) {
-        if (err) return cb(err)
-        cb(null, walls.map(function(doc) {
-            return Wall.fromValue(doc)
-        }))
-    })
+    Tile.allWithClass(Wall, cb)
 }
 
 Wall.MessageCreate = function(wall) {

@@ -14,6 +14,12 @@ var Tile = module.exports = function(type) {
     this.type(type)
 }
 
+Tile.fromValue = function(Class, value) {
+    var obj = new Class()
+    obj.source = value
+    return obj
+}
+
 Tile.prototype.tiles = Tile.tiles = function() {
     return db.tiles
 }
@@ -46,6 +52,15 @@ Tile.tileId = function(x, y) {
 
 Tile.clearAll = function() {
     db.tiles.remove({})
+}
+
+Tile.allWithClass = function(Class, cb) {
+    Tile.tiles().find({type:Class.Type}).toArray(function(err, objects) {
+        if (err) return cb(err)
+        cb(null, objects.map(function(doc) {
+            return Class.fromValue.call(Class, doc)
+        }))
+    })    
 }
 
 

@@ -12,9 +12,7 @@ var Bomb = module.exports = function(x, y, playerId) {
 }
 
 Bomb.fromValue = function(value) {
-    var bomb = new Bomb()
-    bomb.source = value
-    return bomb
+    return Tile.fromValue(Bomb, value)
 }
 
 Bomb.Type = "bomb"
@@ -56,12 +54,7 @@ Bomb.prototype.remove = function(cb) {
 }
 
 Bomb.allBombs = function(cb) {
-    Tile.tiles().find({type:Bomb.Type}).toArray(function(err, bombs) {
-        if (err) return cb(err)
-        cb(null, bombs.map(function(doc) {
-            return Bomb.fromValue(doc)
-        }))
-    })
+    Tile.allWithClass(Bomb, cb)
 }
 
 
