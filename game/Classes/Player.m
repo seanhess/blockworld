@@ -31,9 +31,10 @@
         NSArray* possibleSprites = [NSArray arrayWithObjects:@"Character Boy.png", @"Character Cat Girl.png", @"Character Horn Girl.png", @"Character Princess Girl.png", nil];
         NSString* randomSprite = [possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])];
         
-		sprite = [CCSprite spriteWithFile:randomSprite];
+		self.sprite = [CCSprite spriteWithFile:randomSprite];
 		
 		sprite.anchorPoint = ccp(0,0);
+        sprite.position = ccp(0,20);
 		
 		[self addChild:sprite];
 	}
@@ -48,18 +49,11 @@
 		[self removeChild:nicknameLabel cleanup:YES];
 	
 	if(nickname) {
-		nicknameLabel = [CCLabelTTF labelWithString:nickname fontName:@"Helvetica" fontSize:11];
+		nicknameLabel = [CCLabelTTF labelWithString:nickname fontName:@"Helvetica" fontSize:20];
 		nicknameLabel.anchorPoint = ccp(0,0);
+        nicknameLabel.position = ccp(0,80);
 		[self addChild:nicknameLabel];
-		
-		[self positionSprite];
 	}
-}
-
-- (void) positionSprite {
-	[super positionSprite];
-	
-	nicknameLabel.position = ccp(POINT_TO_PIXEL_X(cell.point.x),POINT_TO_PIXEL_Y(cell.point.y)+30);
 }
 
 - (void) moveInDirection:(CGPoint)direction {

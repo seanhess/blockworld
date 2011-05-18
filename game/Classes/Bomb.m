@@ -15,7 +15,7 @@
 	if((self = [super init])) {
 		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"bomb.png"];
 		
-		sprite = [CCSprite spriteWithTexture:texture];
+		self.sprite = [CCSprite spriteWithTexture:texture];
 		sprite.anchorPoint = ccp(0,0);
 		
 		[self addChild:sprite];

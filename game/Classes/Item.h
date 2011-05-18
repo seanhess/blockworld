@@ -18,7 +18,6 @@
 }
 
 @property(nonatomic, assign) Cell* cell;
-
-- (void) positionSprite;
+@property(nonatomic, retain) CCSprite* sprite;
 
 @end

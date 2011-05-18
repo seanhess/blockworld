@@ -27,6 +27,12 @@
 	if((self = [super init])) {
 		point = p;
 		
+        
+        CCSprite* sprite = [CCSprite spriteWithFile:@"Grass Block.png"];
+        sprite.anchorPoint = ccp(0,0);
+        [self addChild:sprite z:1];
+        
+        
         NSArray* possibleSprites = [NSArray arrayWithObjects:@"Tree Tall.png", @"Tree Short.png", @"Tree Ugly.png", nil];
         
         if(arc4random()%10 < 1) {
@@ -35,13 +41,9 @@
         }
 
         
-		CCSprite* sprite = [CCSprite spriteWithFile:@"Grass Block.png"];
 		
-		sprite.anchorPoint = ccp(0,0);
+		self.position = ccp(POINT_TO_PIXEL_X(p.x), POINT_TO_PIXEL_Y(p.y));
 		
-		sprite.position = ccp(POINT_TO_PIXEL_X(p.x), POINT_TO_PIXEL_Y(p.y));
-		
-		[self addChild:sprite];
 		
 	} return self;
 }
@@ -57,6 +59,8 @@
 	item.cell.item = nil;
 	item.cell = self;
 	
+    
+    
 	if(item)
 		[self addChild:item z:2];
 }
