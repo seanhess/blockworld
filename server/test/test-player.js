@@ -56,6 +56,7 @@ exports.playerMove = function (assert) {
                     
                     player.x = 1
                     player.y = 1
+                    player.playerId = player.uid
                     
                     secondClient.send(new Player.MessageMove(player))
                     helpers.gather(client, function(err, messages) {
