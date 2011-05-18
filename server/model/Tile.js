@@ -9,46 +9,43 @@ var db = mongo.db("localhost", 27017, "bb")
 db.collection('tiles')
 
 
-exports.mixinTo = function(Class) {
-
-    assert.ok(Class, "Missing class for Tile mixin")
-
-    Class.prototype.tiles = Class.tiles = function() {
-        return db.tiles
-    }
-    
-    Class.prototype.type = function(value) {
-        if (value) this.source.type = value
-        return this.source.type
-    }
-    
-    Class.prototype.position = function(x, y) {
-        this.source.x = x
-        this.source.y = y
-    }
-    
-    Class.prototype.x = function () {
-        return this.source.x
-    }
-
-    Class.prototype.y = function () {
-        return this.source.y
-    }    
-    
-    Class.prototype.toValue = function() {
-        return this.source
-    }
-    
+var Tile = module.exports = function(type) {
+    this.source = {} // make sure you call Tile.call(this)!
+    this.type(type)
 }
 
-exports.tileId = function(x, y) {
+Tile.prototype.tiles = Tile.tiles = function() {
+    return db.tiles
+}
+
+Tile.prototype.type = function(value) {
+    if (value) this.source.type = value
+    return this.source.type
+}
+
+Tile.prototype.position = function(x, y) {
+    this.source.x = x
+    this.source.y = y
+}
+
+Tile.prototype.x = function () {
+    return this.source.x
+}
+
+Tile.prototype.y = function () {
+    return this.source.y
+}    
+
+Tile.prototype.toValue = function() {
+    return this.source
+}
+
+Tile.tileId = function(x, y) {
     return x + "|" + y
 }
 
-
-exports.clearAll = function() {
+Tile.clearAll = function() {
     db.tiles.remove({})
 }
-
 
 

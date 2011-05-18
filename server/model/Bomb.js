@@ -3,8 +3,7 @@ var Message = require("./Message")
 var Tile = require("./Tile")
 
 var Bomb = module.exports = function(x, y, playerId) {
-    this.source = {}
-    this.type(Bomb.Type)
+    Tile.call(this, Bomb.Type)
     this.position(x,y)
     this.playerId(playerId)
     
@@ -25,7 +24,7 @@ Bomb.ActionDetonate = "destroy"
 Bomb.Delay = 3000
 Bomb.BlastSize = 1
 
-Tile.mixinTo(Bomb)
+Bomb.prototype = new Tile()
 
 Bomb.prototype.bombId = function() {
     return this.source.bombId
@@ -47,17 +46,17 @@ Bomb.prototype.hitArea = function() {
 }
 
 Bomb.prototype.create = function(cb) {
-    this.tiles().insert(this.toValue(), function(err) {
+    Tile.tiles().insert(this.toValue(), function(err) {
         cb(err == null)
     })
 }
 
 Bomb.prototype.remove = function(cb) {
-    this.tiles().remove({bombId: this.bombId()})
+    Tile.tiles().remove({bombId: this.bombId()})
 }
 
 Bomb.allBombs = function(cb) {
-    this.tiles().find({type:Bomb.Type}).toArray(function(err, bombs) {
+    Tile.tiles().find({type:Bomb.Type}).toArray(function(err, bombs) {
         if (err) return cb(err)
         cb(null, bombs.map(function(doc) {
             return Bomb.fromValue(doc)

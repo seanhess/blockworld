@@ -3,8 +3,8 @@ var Message = require("./Message")
 var Tile = require("./Tile")
 
 var Player = module.exports = function(nickname, x, y) {
-    this.source = {}
-    this.type(Player.Type) // required!
+    Tile.call(this, Player.Type)
+
     this.nickname(nickname)    
 	this.position(x, y)
     
@@ -24,7 +24,7 @@ Player.fromValue = function(doc) {
 Player.Type = "player"
 
 
-Tile.mixinTo(Player)
+Player.prototype = new Tile()
 
 Player.prototype.nickname = function(nick) {
 
@@ -41,14 +41,14 @@ Player.prototype.playerId = function() {
 }
 
 Player.prototype.create = function(cb) {
-    this.tiles().insert(this.toValue(), function(err) {
+    Tile.tiles().insert(this.toValue(), function(err) {
         if (err) console.log("ERR", err.toString())
         cb(err == null)
     })
 }
 
 Player.prototype.remove = function(cb) {
-    this.tiles().remove({playerId: this.playerId()}, cb)
+    Tile.tiles().remove({playerId: this.playerId()}, cb)
 }
 
 
@@ -57,7 +57,7 @@ Player.getRandomSpawnLocation = function() {
 }
 
 Player.allPlayers = function(cb) {
-    this.tiles().find({type:Player.Type}).toArray(function(err, players) {
+    Tile.tiles().find({type:Player.Type}).toArray(function(err, players) {
         if (err) return cb(err)
         cb(null, players.map(function(doc) {
             return Player.fromValue(doc)
@@ -66,7 +66,7 @@ Player.allPlayers = function(cb) {
 }
 
 Player.moveTo = function(playerId, x, y, cb) {
-    this.tiles().update({playerId:playerId}, {$set: {x: x, y: y}}, cb)
+    Tile.tiles().update({playerId:playerId}, {$set: {x: x, y: y}}, cb)
 }
 
 

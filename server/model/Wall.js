@@ -2,8 +2,7 @@ var Message = require("./Message")
 var Tile = require("./Tile")
 
 var Wall = module.exports = function(x, y) {
-    this.source = {}
-    this.type(Wall.Type)
+    Tile.call(this, Wall.Type)
     this.position(x,y)
 
     // generate the id. Must call the constructor
@@ -19,7 +18,7 @@ Wall.fromValue = function(value) {
 Wall.Type = "wall"
 Wall.ActionCreate = "create"
 
-Tile.mixinTo(Wall)
+Wall.prototype = new Tile()
 
 Wall.prototype.wallId = function() {
     return this.source.wallId
@@ -28,13 +27,13 @@ Wall.prototype.wallId = function() {
 
 
 Wall.prototype.create = function(cb) {
-    this.tiles().insert(this.toValue(), function(err) {
+    Tile.tiles().insert(this.toValue(), function(err) {
         cb(err == null)
     })
 }
 
 Wall.allWalls = function(cb) {
-    this.tiles().find({type:Wall.Type}).toArray(function(err, walls) {
+    Tile.tiles().find({type:Wall.Type}).toArray(function(err, walls) {
         if (err) return cb(err)
         cb(null, walls.map(function(doc) {
             return Wall.fromValue(doc)
