@@ -13,6 +13,7 @@
 #import "HUD.h"
 #import "ServerCommunicator.h"
 #import "Command.h"
+#import "MainMenu.h"
 
 @implementation GameScene
 
@@ -58,8 +59,22 @@
 		[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* definition) {
 			[[Command commandWithDefinition:definition world:world] execute];
 		};
-		
-		
+        
+        
+        // watch for disconnects, and go back to the menu
+		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
+        
+            if(status == connected) {
+                
+            }
+			
+            if(status == disconnected) { 
+                [[CCDirector sharedDirector] replaceScene:[MainMenu scene]];                
+                [[ServerCommunicator instance] connect];
+            }
+            
+            else {}        
+        };
 	}
 	return self;
 }
