@@ -11,9 +11,13 @@
 #import "Item.h"
 #import "Bomb.h"
 
+@interface Cell()
+@property(nonatomic, retain) CCSprite* bush;
+@end
+
 @implementation Cell
 
-@synthesize point, item, bomb;
+@synthesize point, item, bomb, bush;
 
 + (Cell*) cellAtPoint:(CGPoint)p {
 	return [[[Cell alloc] initWithPoint:p] autorelease];
@@ -23,18 +27,15 @@
 	if((self = [super init])) {
 		point = p;
 		
-		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"grasses.png"];
-		
-		float rand = CCRANDOM_0_1();
-		CGRect rect = CGRectMake(105, 6, 40, 40);
-		if(rand > .8)
-			rect = CGRectMake(59, 6, 40, 40);
-		else if (rand > .1)
-			rect = CGRectMake(13, 6, 40, 40);
-			
-		
-		CCSpriteFrame* frame = [CCSpriteFrame frameWithTexture:texture rect:rect];
-		CCSprite* sprite = [CCSprite spriteWithSpriteFrame:frame];
+        NSArray* possibleSprites = [NSArray arrayWithObjects:@"Tree Tall.png", @"Tree Short.png", @"Tree Ugly.png", nil];
+        
+        if(arc4random()%10 < 1) {
+            self.bush = [CCSprite spriteWithFile:[possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])]];
+            [self addChild:self.bush z:1];
+        }
+
+        
+		CCSprite* sprite = [CCSprite spriteWithFile:@"Grass Block.png"];
 		
 		sprite.anchorPoint = ccp(0,0);
 		
@@ -57,7 +58,7 @@
 	item.cell = self;
 	
 	if(item)
-		[self addChild:item];
+		[self addChild:item z:2];
 }
 
 - (void) setBomb:(Bomb*)b {
@@ -70,11 +71,13 @@
 	bomb.cell = self;
 	
 	if(bomb)
-		[self addChild:bomb];
+		[self addChild:bomb z:0];
 }
 
 - (void) dealloc {
 	self.item = nil;
+    self.bomb = nil;
+    self.bush = nil;
 	
 	[super dealloc];
 }

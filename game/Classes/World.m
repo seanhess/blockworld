@@ -143,7 +143,13 @@
 	if(!cell) {
 		cell = [Cell cellAtPoint:point];
 		[board setObject:cell forKey:key];
-		[self addChild:cell];
+        
+        
+        // the cell z index will be the reverse y, the higher up the y,
+        // the lower drawing priority it will have, or the further in the
+        // background it will be
+        
+		[self addChild:cell z:-point.y];
 	}
 	
 	return cell;

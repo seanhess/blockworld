@@ -54,18 +54,22 @@ static ServerCommunicator* instance = nil;
 
 
 - (void)socketIoClient:(SocketIoClient *)client didReceiveMessage:(NSString *)message isJSON:(BOOL)isJSON {
-    messageReceivedCallback([message objectFromJSONString]);
+    if(messageReceivedCallback)
+        messageReceivedCallback([message objectFromJSONString]);
 }
 
 - (void)socketIoClientDidConnect:(SocketIoClient *)client {
-    statusChangedCallback(connected);
+    if(statusChangedCallback)
+        statusChangedCallback(connected);
 }
 
 - (void)socketIoClientDidDisconnect:(SocketIoClient *)client {
-    statusChangedCallback(disconnected);
+    if(statusChangedCallback)
+        statusChangedCallback(disconnected);
 }
 
 -(void) dealloc {
+    [statusChangedCallback release];
 	[messageReceivedCallback release]; 
 	
 	[super dealloc];
