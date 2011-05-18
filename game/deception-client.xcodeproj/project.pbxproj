@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024384EE138359A500701434 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCCBF1B80F6022AE0040855A /* Foundation.framework */; };
+		024384F9138359EF00701434 /* AsyncSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 024384F6138359EF00701434 /* AsyncSocket.h */; };
+		024384FA138359EF00701434 /* AsyncUdpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 024384F7138359EF00701434 /* AsyncUdpSocket.h */; };
+		024384FB138359EF00701434 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 024384F8138359EF00701434 /* WebSocket.h */; };
+		024384FF138359FF00701434 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 024384FC138359FF00701434 /* AsyncSocket.m */; };
+		02438500138359FF00701434 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 024384FD138359FF00701434 /* AsyncUdpSocket.m */; };
+		02438501138359FF00701434 /* WebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 024384FE138359FF00701434 /* WebSocket.m */; };
+		0243850913835A9D00701434 /* SocketIoClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243850513835A9D00701434 /* SocketIoClient.m */; };
+		0243850B13835AA600701434 /* SocketIoClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 0243850A13835AA600701434 /* SocketIoClient.h */; };
+		0243850C13835B4000701434 /* libsocketio-cocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 024384ED138359A500701434 /* libsocketio-cocoa.a */; };
+		0243850E13835BEF00701434 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0243850D13835BEF00701434 /* CFNetwork.framework */; };
+		0243851013835C3600701434 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0243850F13835C3600701434 /* CFNetwork.framework */; };
+		0243851C13835E5100701434 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243851B13835E5100701434 /* JSONKit.m */; };
 		029172F112D826BE00AEFDD8 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 029172F012D826BE00AEFDD8 /* MainMenu.m */; };
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
@@ -274,6 +287,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0243850213835A6000701434 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 024384EC138359A500701434;
+			remoteInfo = "socketio-cocoa";
+		};
 		506EE1A71030507B00A389B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -284,6 +304,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		024384ED138359A500701434 /* libsocketio-cocoa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsocketio-cocoa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		024384F1138359A500701434 /* socketio-cocoa-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "socketio-cocoa-Prefix.pch"; sourceTree = "<group>"; };
+		024384F6138359EF00701434 /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		024384F7138359EF00701434 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		024384F8138359EF00701434 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
+		024384FC138359FF00701434 /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		024384FD138359FF00701434 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		024384FE138359FF00701434 /* WebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSocket.m; sourceTree = "<group>"; };
+		0243850513835A9D00701434 /* SocketIoClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketIoClient.m; sourceTree = "<group>"; };
+		0243850A13835AA600701434 /* SocketIoClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIoClient.h; sourceTree = "<group>"; };
+		0243850D13835BEF00701434 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0243850F13835C3600701434 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0243851A13835E5100701434 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		0243851B13835E5100701434 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		029172EF12D826BE00AEFDD8 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		029172F012D826BE00AEFDD8 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0291730112D827DC00AEFDD8 /* ServerCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommunicator.h; sourceTree = "<group>"; };
@@ -570,10 +604,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		024384EA138359A500701434 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0243850E13835BEF00701434 /* CFNetwork.framework in Frameworks */,
+				024384EE138359A500701434 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0243851013835C3600701434 /* CFNetwork.framework in Frameworks */,
+				0243850C13835B4000701434 /* libsocketio-cocoa.a in Frameworks */,
 				DCCBF1B70F6022AE0040855A /* CoreGraphics.framework in Frameworks */,
 				DCCBF1B90F6022AE0040855A /* Foundation.framework in Frameworks */,
 				DCCBF1BB0F6022AE0040855A /* OpenGLES.framework in Frameworks */,
@@ -604,6 +649,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		024384EF138359A500701434 /* socketio-cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				024384F6138359EF00701434 /* AsyncSocket.h */,
+				024384FC138359FF00701434 /* AsyncSocket.m */,
+				024384F7138359EF00701434 /* AsyncUdpSocket.h */,
+				024384FD138359FF00701434 /* AsyncUdpSocket.m */,
+				0243850A13835AA600701434 /* SocketIoClient.h */,
+				0243850513835A9D00701434 /* SocketIoClient.m */,
+				024384F8138359EF00701434 /* WebSocket.h */,
+				024384FE138359FF00701434 /* WebSocket.m */,
+				0243850D13835BEF00701434 /* CFNetwork.framework */,
+				024384F0138359A500701434 /* Supporting Files */,
+			);
+			path = "socketio-cocoa";
+			sourceTree = "<group>";
+		};
+		024384F0138359A500701434 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				024384F1138359A500701434 /* socketio-cocoa-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0243851913835E1700701434 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				0243851A13835E5100701434 /* JSONKit.h */,
+				0243851B13835E5100701434 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		029172ED12D8267D00AEFDD8 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,6 +704,8 @@
 		0291734212D82B9C00AEFDD8 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				0243851913835E1700701434 /* JSONKit */,
+				024384EF138359A500701434 /* socketio-cocoa */,
 				504DFC6810AF1739006D82FE /* LICENSE.cocos2d */,
 				504DFC6910AF1739006D82FE /* LICENSE.cocosdenshion */,
 				506EDAA3102F461B00A389B3 /* cocos2d Sources */,
@@ -751,6 +832,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0243850F13835C3600701434 /* CFNetwork.framework */,
+				024384ED138359A500701434 /* libsocketio-cocoa.a */,
 				DCCBF1B60F6022AE0040855A /* CoreGraphics.framework */,
 				DCCBF1B80F6022AE0040855A /* Foundation.framework */,
 				DCCBF1BA0F6022AE0040855A /* OpenGLES.framework */,
@@ -1118,6 +1201,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		024384EB138359A500701434 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				024384F9138359EF00701434 /* AsyncSocket.h in Headers */,
+				024384FA138359EF00701434 /* AsyncUdpSocket.h in Headers */,
+				024384FB138359EF00701434 /* WebSocket.h in Headers */,
+				0243850B13835AA600701434 /* SocketIoClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		506EE05A10304ED200A389B3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1239,6 +1333,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		024384EC138359A500701434 /* socketio-cocoa */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 024384F2138359A500701434 /* Build configuration list for PBXNativeTarget "socketio-cocoa" */;
+			buildPhases = (
+				024384E9138359A500701434 /* Sources */,
+				024384EA138359A500701434 /* Frameworks */,
+				024384EB138359A500701434 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "socketio-cocoa";
+			productName = "socketio-cocoa";
+			productReference = 024384ED138359A500701434 /* libsocketio-cocoa.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		1D6058900D05DD3D006BFB54 /* deception-client */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "deception-client" */;
@@ -1250,6 +1361,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0243850313835A6000701434 /* PBXTargetDependency */,
 				506EE1A81030507B00A389B3 /* PBXTargetDependency */,
 			);
 			name = "deception-client";
@@ -1295,6 +1407,7 @@
 			targets = (
 				1D6058900D05DD3D006BFB54 /* deception-client */,
 				506EE05D10304ED200A389B3 /* cocos2d libraries */,
+				024384EC138359A500701434 /* socketio-cocoa */,
 			);
 		};
 /* End PBXProject section */
@@ -1329,6 +1442,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		024384E9138359A500701434 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				024384FF138359FF00701434 /* AsyncSocket.m in Sources */,
+				02438500138359FF00701434 /* AsyncUdpSocket.m in Sources */,
+				02438501138359FF00701434 /* WebSocket.m in Sources */,
+				0243850913835A9D00701434 /* SocketIoClient.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1353,6 +1477,7 @@
 				029178B012D89AC100AEFDD8 /* Create.m in Sources */,
 				029178B312D89ACA00AEFDD8 /* Destroy.m in Sources */,
 				029178B612D89ADA00AEFDD8 /* Move.m in Sources */,
+				0243851C13835E5100701434 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1463,6 +1588,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0243850313835A6000701434 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 024384EC138359A500701434 /* socketio-cocoa */;
+			targetProxy = 0243850213835A6000701434 /* PBXContainerItemProxy */;
+		};
 		506EE1A81030507B00A389B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 506EE05D10304ED200A389B3 /* cocos2d libraries */;
@@ -1471,6 +1601,37 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		024384F3138359A500701434 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/socketio_cocoa.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "socketio-cocoa/socketio-cocoa-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		024384F4138359A500701434 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/socketio_cocoa.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "socketio-cocoa/socketio-cocoa-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1561,7 +1722,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
@@ -1582,7 +1743,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1592,6 +1753,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		024384F2138359A500701434 /* Build configuration list for PBXNativeTarget "socketio-cocoa" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				024384F3138359A500701434 /* Debug */,
+				024384F4138359A500701434 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "deception-client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

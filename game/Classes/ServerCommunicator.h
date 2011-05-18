@@ -7,15 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <netinet/in.h> 
-#import <sys/socket.h> 
-#import <arpa/inet.h>
-#import "Blocks.h"
+#import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-
-// IP ADDRESS //
-#define SOCKET_ADDR "localhost"
+#define SOCKET_ADDR @"localhost"
 
 typedef enum server_status {
 	connected,
@@ -24,21 +19,19 @@ typedef enum server_status {
 	receiving
 } server_status;
 
+
+
 @class ServerRespondible;
 
-@interface ServerCommunicator : NSObject {
-	CFSocketRef sock;
-	
-	server_status status;
-	
+@interface ServerCommunicator : NSObject <SocketIoClientDelegate> {
+    
 	NSString* partialMessage;
-	
-	void(^statusChangedCallback)(server_status);
-	void(^messageReceivedCallback)(NSDictionary *);
+	server_status status;
+    
 }
 
-@property(nonatomic, copy) void(^statusChangedCallback)(server_status);
 @property(nonatomic, copy) void(^messageReceivedCallback)(NSDictionary *);
+@property(nonatomic, copy) void(^statusChangedCallback)(server_status);
 
 +(ServerCommunicator *) instance;
 
