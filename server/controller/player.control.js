@@ -6,7 +6,12 @@ var Fault = require("../model/Fault")
 var assert = require('assert')
 var _ = require('underscore')
 
+exports.observe = function(app, client, data) {
 
+    // send the state
+    client.send(app.state().allMessages())
+    
+}
 
 exports.create = function (app, client, data) {
 	assert.ok(data.nickname, "Missing nickname")
@@ -25,8 +30,8 @@ exports.create = function (app, client, data) {
     // add the player
     app.state().add(player)
     
-    // send the state
-    client.send(app.state().allMessages())
+    // observe
+    exports.observe(app, client, data)
     
     // announce to others
     app.sendOthers(client, new Player.MessageCreate(player))

@@ -65,13 +65,11 @@ var App = module.exports = function() {
         // web server
         server = express.createServer()
         
+        server.use(express.static(path.join(__dirname, '/public')));            
+                    
         server.get('/', function(req, res) {
             res.send("Hello World")
         })      
-        
-        server.get('/test', function(req, res) {
-            res.sendfile(path.join(__dirname, "public", "test.html"))
-        })        
         
         server.listen(port, cb)
         

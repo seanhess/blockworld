@@ -1,0 +1,145 @@
+
+<html>
+<head>
+    <style type="text/css">
+        * { margin: 0; padding: 0; overflow: hidden; }
+
+        #map {
+            /*background-color: #F3F3F3;*/
+            /*border: solid 1px #EEE;*/
+            width: 801px;
+            height: 801px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="map" width="801" height="801"/>
+
+<script src="/socket.io/socket.io.js"></script> 
+<script> 
+    
+    listen()
+
+    function listen() {
+        var socket = new io.Socket("localhost"); 
+        socket.connect();
+        
+        socket.send({type:"player", action:"observe", data:{}})
+     
+        socket.on('connect', function() {
+            console.log("connected")
+        }) 
+     
+        socket.on('message', function(message) {
+            console.log("message", JSON.stringify(message))
+            
+            if (message.fault) return alert("Fault " + message.message)
+            
+            var controller = control[message.type];
+
+            if (!controller) return alert("Missing controller " + message.type)
+            
+            var action = controller[message.action];
+            
+            if (!action) return alert("Missing action " + message.type + " " + message.action)
+
+            action(message.data)
+        }) 
+        
+        socket.on('disconnect', function() {
+            console.log("disconnected")
+        }) 
+        
+        
+        
+        // Setup
+        var size = 10
+        var boxes = 80
+        var total = boxes * size
+        var zero = total / 2;
+        
+        var map = document.getElementById("map")
+        var context = map.getContext("2d")   
+        
+        
+        
+        // Colors
+        var playerColor = "#00F";
+        var blockColor = "#333";
+        var bombColor = "#F00";
+        var gridColor = "#EEE";
+        
+        
+        // State
+        var players = {}
+        
+        
+        // Draw
+        drawGrid()
+        
+        // Controllers 
+        var control = {}
+        var player = control.player = {}
+        var Welcome = control.Welcome = {}
+
+        Welcome.default = function() {}
+        
+        player.create = function(data) {            
+            players[data.uid] = data
+            draw(data.x, data.y, playerColor)
+        }
+        
+        player.move = function(data) {
+            var player = players[data.uid]
+            console.log("UMM" + player.x + " " + player.y)
+            clear(player.x, player.y)
+            player.x = data.x
+            player.y = data.y
+            draw(data.x, data.y, playerColor)
+        }
+
+
+            // clearRect
+            // strokeRect
+            // strokeStyle = css color, pattern or gradient
+            // fillSTyle = css color, pattern or graident
+
+        
+        
+        // Helpers
+        
+        function tile(x, y) {
+            return {x: zero + x*size, y: zero - y*size}
+        }
+        
+        function draw(x, y, color) {
+            var point = tile(x, y)
+            context.fillStyle = color
+            context.fillRect(point.x + 1.5, point.y + 1.5, size - 2, size - 2)
+        }
+        
+        function clear(x, y) {
+            var point = tile(x, y)
+            context.clearRect(point.x + 1, point.y + 1, size - 1, size - 1)
+        }
+        
+        function drawGrid() {
+            for (var x = 0.5; x < total+1; x += size) {
+                context.moveTo(x, 0)
+                context.lineTo(x, total)
+            }
+            
+            for (var y = 0.5; y < total+1; y += size) {
+                context.moveTo(0, y)
+                context.lineTo(total, y)
+            }        
+            
+            context.strokeStyle = gridColor;
+            context.stroke();
+        }
+    }
+    
+</script>
+</body>
