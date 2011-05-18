@@ -28,7 +28,7 @@ Bomb.MessageCreate = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionCreate, bomb)
 }
 
-Bomb.MessageDetonateBomb = function(bomb) {
+Bomb.MessageDetonate = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionDetonate, bomb)
 }
 

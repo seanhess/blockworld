@@ -9,7 +9,7 @@ var Message = require("../model/Message")
 var _ = require("underscore")
 
 exports.addBomb = function (assert) {
-    return assert.finish()
+
     helpers.setup(function(app, client) {
         helpers.client(function(secondClient) {
             client.send(new Player.MessageCreate({nickname:"nick"}))
@@ -35,11 +35,11 @@ exports.addBomb = function (assert) {
                         assert.ifError(err)
                         
                         var message = _(messages).detect(function(message) {
-                            return message.type == Bomb.Type && message.action == Bomb.ActionDetonateBomb
+                            return message.type == Bomb.Type && message.action == Bomb.ActionDetonate
                         })
                         
-                        assert.ok(message, "Didn't receive Bomb.ActionDetonateBomb")
-                        
+                        assert.ok(message, "Didn't receive Bomb.ActionDetonate")
+                          
                         assert.finish()
                     })
                 })
