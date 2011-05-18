@@ -68,7 +68,7 @@
         
         // Colors
         var playerColor = "#00F";
-        var blockColor = "#333";
+        var wallColor = "#333";
         var bombColor = "#F00";
         var gridColor = "#EEE";
         
@@ -82,11 +82,11 @@
         
         // Controllers 
         var control = {}
-        var player = control.player = {}
-        var Welcome = control.Welcome = {}
 
+        var Welcome = control.Welcome = {}
         Welcome.default = function() {}
-        
+
+        var player = control.player = {}        
         player.create = function(data) {            
             objects[data.uid] = data
             draw(data.x, data.y, playerColor)
@@ -98,6 +98,14 @@
             player.x = data.x
             player.y = data.y
             draw(data.x, data.y, playerColor)
+        }
+        
+        
+        
+        var wall = control.wall = {}
+        wall.create = function(data) {
+            objects[data.uid] = data
+            draw(data.x, data.y, wallColor)
         }
 
 
