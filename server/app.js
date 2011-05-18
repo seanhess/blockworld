@@ -5,18 +5,25 @@ var path = require('path')
 
 
 var Fault = require('./model/Fault')
-var Client = require("./model/Client")
+
 var GameState = require("./model/GameState")
 // var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
 var traffic = require("./utils/traffic")
 
+var io = require('socket.io')
+var express = require('express')
+
+
+
+
 var App = module.exports = function() {
     
-	var clients = {}
-	var open = false
-	
+    var self = this
+    var server = null
+    var socket = null    
+    
 	var state = new GameState()
     // var timer = new GameTimer()
 	
@@ -37,96 +44,97 @@ var App = module.exports = function() {
 	}
 	
 	this.sendAll = function(message) {
-		for(var clientId in clients) {
-			clients[clientId].send(message)
-		}
+        socket.broadcast(message)
 	}
 	
 	this.sendOthers = function(client, message) {
-		for(var clientId in clients) {
-		    if (clientId != client.id())
-			    clients[clientId].send(message)
-		}
-	}
-
-	this.addClient = function (client) {
-		clients[client.id()] = client
-	}
-	
-	this.removeClient = function (client) {
-		delete clients[client.id()]
+        client.broadcast(message)
 	}
     
-    var self = this
     
-    var server = new net.Server()
     
-    server.on('connection', function(stream) {
-        
-        // self.resetTimeout()
-        
-        var client = new Client(self, stream)
-		self.addClient(client)
-		client.send(new Message("Welcome"))
-
-        client.onMessage(function(message) {
-            
-            try {
-                var filename = message.type.toLowerCase() + ".control"
-                var modulePath = path.join(__dirname, 'controller', filename)
-                var module = require(modulePath) 
-            }
-            catch (err) {
-                return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
-            }
-
-            var method = module[message.action]
-            
-            if (!method)
-                return client.send(new Fault(Fault.InvalidMethod, "Invalid Method " + message))
-                
-            if (!message.data)
-                return client.send(new Fault(Fault.InvalidData, "No Data"))   
-
-            try {
-                method(self, client, message.data)
-            }
-            catch (err) {
-                traffic.log(err + "\n" + err.stack)
-                return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
-            }
-        })
-		
-		client.onEnd(function () {
-			self.removeClient(client)
-		})
-		
-    })
     
-    server.on('close', function() {
-        // traffic.log("Closed ")
-    })
-
     this.start = function(port, cb) {
-        // traffic.log("Open ")
-        server.listen(port, '0.0.0.0', function() {
-            open = true
-            if (cb) cb()
+                    
+        // web server
+        var server = express.createServer()
+        
+        server.get('/', function(req, res) {
+            res.send("Hello World")
+        })      
+        
+        server.get('/test', function(req, res) {
+            res.sendfile(path.join(__dirname, "public", "test.html"))
+        })        
+        
+        server.listen(port)
+        
+        
+        
+        // socket
+        
+        var socket = io.listen(server)
+        
+        socket.on('connection', function(client) {
+                
+            // welcome message
+            client.send(new Message("Welcome"))
+
+            client.on('message', function(message) {
+                
+                console.log("Message", message)
+                
+                try {
+                    var filename = message.type.toLowerCase() + ".control"
+                    var modulePath = path.join(__dirname, 'controller', filename)
+                    var module = require(modulePath) 
+                }
+                catch (err) {
+                    return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
+                }
+
+                var method = module[message.action]
+                
+                if (!method)
+                    return client.send(new Fault(Fault.InvalidMethod, "Invalid Method " + message))
+                    
+                if (!message.data)
+                    return client.send(new Fault(Fault.InvalidData, "No Data"))   
+
+                try {
+                    method(self, client, message.data)
+                }
+                catch (err) {
+                    traffic.log(err + "\n" + err.stack)
+                    return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
+                }
+            })
+            
+            client.on('disconnect', function () {
+                console.log("Disconnected")
+            })
+            
         })
-    }
+        
+        server.on('close', function() {
+            // traffic.log("Closed ")
+        })              
+    }    
+    
+    
+
+
+
     
     this.close = function() {
-        // traffic.log("Close ")
         server.close()
-        open = false
     }
     
 
 
 }
 
-// App.OpenDelimiter = "<<<"
-// App.CloseDelimiter = ">>>"
+
 App.DefaultPort = 3000
 
 if (module == require.main) {
@@ -136,4 +144,3 @@ if (module == require.main) {
     app.start(port)
 }
 
-// {"type":"Players","action":"create","data":{}}

@@ -3,9 +3,11 @@ var sys = require('sys')
 var helpers = require("./helpers")
 
 exports.verifySetup = function(assert) {
+    
     helpers.setup(function(app, client) {
         assert.ok(app)
         assert.ok(client)
+        helpers.close()
         assert.finish()
     })
 }
