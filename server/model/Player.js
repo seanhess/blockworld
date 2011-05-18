@@ -6,6 +6,7 @@ var sys = require('sys')
 
 
 var Player = module.exports = function(nickname, x, y) {
+    Tile.call(this)
 	this.nickname(nickname)
 	this.position(x, y)
     
@@ -22,25 +23,17 @@ Player.prototype.toMessage = function() {
     return new Player.MessageCreate(this)
 }
 
-Player.prototype.uid = function () {
-    return this.source.uid;
-}
-
 Player.prototype.type = function() {
     return Player.Type
-}
-
-Player.prototype.toValue = function() {
-    return this.source
 }
 
 Player.prototype.nickname = function(nick) {
 	if(nick) {
 		this.source.nickname = nick
-		this.source.uid = this.type() + this.source.nickname
-	} else {
-		return this.source.nickname
-	}
+		this.uid(this.type() + this.source.nickname)
+	} 
+    
+    return this.source.nickname
 }
 
 Player.prototype.x = function () {

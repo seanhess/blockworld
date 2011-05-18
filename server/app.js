@@ -87,6 +87,8 @@ var App = module.exports = function() {
             client.send(new Message("Welcome"))
 
             client.on('message', function(message) {
+            
+                traffic.log("MESSAGE ", message)
                 
                 try {
                     var filename = message.type.toLowerCase() + ".control"

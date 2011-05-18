@@ -3,7 +3,7 @@
 var Stateable = require("./Stateable")
 
 var Tile = module.exports = function() {
-    
+    Stateable.call(this)
 }
 
 Tile.prototype = new Stateable()

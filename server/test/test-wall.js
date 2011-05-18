@@ -9,11 +9,12 @@ var Player = require("../model/Player")
 var Message = require("../model/Message")
 var _ = require("underscore")
 
-exports.addWall = function (assert) {
+exports.addWall = function(assert) {
     
     helpers.setup(function(app, client) {
         
         helpers.client(function(secondClient) {
+            client.send(new Player.MessageCreate({x:3, y:3, nickname:"hello"}))
             client.send(new Wall.MessageCreate({x:3, y:3}))
             // helpers.gather(secondClient, function(err, messages) {
             //     assert.ifError(err)
@@ -33,5 +34,3 @@ exports.addWall = function (assert) {
         })
     })
 }
-
-exports.addWall(assert)

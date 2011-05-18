@@ -39,9 +39,9 @@ exports.move = function (app, client, data) {
         
     assert.ok(!_(data.x).isUndefined(), "Missing X")
     assert.ok(!_(data.y).isUndefined(), "Missing Y")    
-    assert.ok(data.uid, "Missing uid")
+    assert.ok(data.playerId, "Missing uid")
     
-    var player = app.state().fetch(data.uid)
+    var player = app.state().fetch(data.playerId)
     
     assert.ok(player, "Could not find player " + data.uid)
     
