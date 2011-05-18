@@ -37,6 +37,8 @@
         
         if(arc4random()%10 < 1) {
             self.bush = [CCSprite spriteWithFile:[possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])]];
+            self.bush.anchorPoint = ccp(0,0);
+            self.bush.position = ccp(0,20);
             [self addChild:self.bush z:1];
         }
 
@@ -61,8 +63,16 @@
 	
     
     
-	if(item)
+	if(item) {
+        
+        if(self.bush) { 
+            [self removeChild:self.bush cleanup:YES];
+            self.bush = nil;
+        }
+        
 		[self addChild:item z:2];
+        
+    }
 }
 
 - (void) setBomb:(Bomb*)b {
