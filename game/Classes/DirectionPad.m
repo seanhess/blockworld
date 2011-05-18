@@ -23,44 +23,13 @@
 	if((self = [super init])) {
 		
         self.isTouchEnabled = YES;
-        
-		texture = [[CCTextureCache sharedTextureCache] addImage:@"dir_dpad.png"];
 		
-		CCSpriteFrame* frame = [CCSpriteFrame frameWithTexture:texture rect:CGRectMake(0, 0, 80, 80)];
-		CCSprite* sprite = [CCSprite spriteWithSpriteFrame:frame];
+		CCSprite* sprite = [CCSprite spriteWithFile:@"dpad.png"];
 		
 		sprite.position = ccp(0, 0);
 		
 		[self addChild:sprite];
 		
-		/*CCMenuItem* up = [CCMenuItem itemWithBlock:^(id sender) {
-			if(move) move(0,1);
-		}];
-		CCMenuItem* down = [CCMenuItem itemWithBlock:^(id sender) {
-			if(move) move(0,-1);
-		}];
-		CCMenuItem* left = [CCMenuItem itemWithBlock:^(id sender) {
-			if(move) move(-1,0);
-		}];
-		CCMenuItem* right = [CCMenuItem itemWithBlock:^(id sender) {
-			if(move) move(1,0);
-		}];
-		
-		up.contentSize = CGSizeMake(40, 40);
-		down.contentSize = CGSizeMake(40, 40);
-		left.contentSize = CGSizeMake(40, 40);
-		right.contentSize = CGSizeMake(40, 40);
-		
-		up.position = ccp(0, 30);
-		down.position = ccp(0, -30);
-		left.position = ccp(-35, 0);
-		right.position = ccp(35, 0);
-		
-		CCMenu* menu = [CCMenu menuWithItems:up, down, left, right, nil];
-		
-		menu.position = ccp(0,0);
-		
-		[self addChild:menu];*/
 		
 	} return self;
 }
@@ -92,10 +61,10 @@
 
 - (void) move:(NSTimer*)timer {
     
-    CGRect up = CGRectMake(-20, 10, 40, 30);
-    CGRect right = CGRectMake(10, -20, 30, 40);
-    CGRect down = CGRectMake(-20, -40, 40, 30);
-    CGRect left = CGRectMake(-40, -20, 30, 40);
+    CGRect up = CGRectMake(-30, 10, 60, 60);
+    CGRect right = CGRectMake(10, -30, 60, 60);
+    CGRect down = CGRectMake(-30, -60, 60, 60);
+    CGRect left = CGRectMake(-70, -30, 60, 60);
     
     CGPoint translatedPoint = ccpSub(currentTouch, self.position);
     

@@ -88,7 +88,7 @@
 	self.texture = [[CCTextureCache sharedTextureCache] addImage:@"Smoke.png"];
 	
 	// additive
-	self.blendAdditive = NO;
+	self.blendAdditive = YES;
 	
 	return self;
 }

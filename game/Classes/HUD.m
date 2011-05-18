@@ -15,12 +15,14 @@
 
 - (id) init {
 	if((self = [super init])) {
+        
+        CGSize size = [[CCDirector sharedDirector] winSize];
 		
 		directionPad = [DirectionPad node];
-		directionPad.position = ccp(420, 70);
+		directionPad.position = ccp(size.width-70, 60);
 		
 		actionPad = [ActionPad node];
-		actionPad.position = ccp(420, 180);
+		actionPad.position = ccp(40, 80);
 		
 		[self addChild:directionPad];
 		[self addChild:actionPad];

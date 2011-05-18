@@ -95,7 +95,10 @@
 	Cell* cell = [self cellAtPoint:point];
 	
     if(cell.bomb) { 
-        [self addChild:[cell.bomb explotion] z:INT32_MAX]; 
+        CCSprite* expletive = [cell.bomb expletive];
+        [self addChild:[cell.bomb explotion] z:cell.zOrder+100];
+        [self addChild:expletive z:cell.zOrder+101];
+        [Bomb animateExpletive:expletive];
     }
     
     cell.bomb = nil;

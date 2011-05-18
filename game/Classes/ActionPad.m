@@ -15,10 +15,10 @@
 
 -(id) init {
 	if((self = [super init])) {
-		CCMenuItemSprite* bombItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"bomb.png"] selectedSprite:[CCSprite spriteWithFile:@"bomb.png"] block:^(id sender) {
+		CCMenuItemSprite* bombItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"bomb button.png"] selectedSprite:[CCSprite spriteWithFile:@"bomb button.png"] block:^(id sender) {
 			if(bomb) bomb();
 		}];
-		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"brick.png"] selectedSprite:[CCSprite spriteWithFile:@"brick.png"] block:^(id sender) {
+		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] selectedSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] block:^(id sender) {
 			if(wall) wall();
 		}];
 		
