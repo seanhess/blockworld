@@ -42,6 +42,7 @@
 		0243855D13836DFD00701434 /* Tree Tall-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 0243855213836DFD00701434 /* Tree Tall-hd.png */; };
 		0243855E13836DFD00701434 /* Tree Short-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 0243855313836DFD00701434 /* Tree Short-hd.png */; };
 		0243855F13836DFD00701434 /* Tree Ugly-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 0243855413836DFD00701434 /* Tree Ugly-hd.png */; };
+		024385691383AC7500701434 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 024385681383AC7500701434 /* CCNode+Additions.m */; };
 		029172F112D826BE00AEFDD8 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 029172F012D826BE00AEFDD8 /* MainMenu.m */; };
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
@@ -356,6 +357,8 @@
 		0243855213836DFD00701434 /* Tree Tall-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree Tall-hd.png"; sourceTree = "<group>"; };
 		0243855313836DFD00701434 /* Tree Short-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree Short-hd.png"; sourceTree = "<group>"; };
 		0243855413836DFD00701434 /* Tree Ugly-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Tree Ugly-hd.png"; sourceTree = "<group>"; };
+		024385671383AC7500701434 /* CCNode+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCNode+Additions.h"; sourceTree = "<group>"; };
+		024385681383AC7500701434 /* CCNode+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCNode+Additions.m"; sourceTree = "<group>"; };
 		029172EF12D826BE00AEFDD8 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		029172F012D826BE00AEFDD8 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0291730112D827DC00AEFDD8 /* ServerCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommunicator.h; sourceTree = "<group>"; };
@@ -744,6 +747,15 @@
 			name = "planet cute";
 			sourceTree = "<group>";
 		};
+		024385661383AC6900701434 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				024385671383AC7500701434 /* CCNode+Additions.h */,
+				024385681383AC7500701434 /* CCNode+Additions.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		029172ED12D8267D00AEFDD8 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -765,6 +777,7 @@
 		0291734212D82B9C00AEFDD8 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				024385661383AC6900701434 /* Categories */,
 				0243851913835E1700701434 /* JSONKit */,
 				024384EF138359A500701434 /* socketio-cocoa */,
 				504DFC6810AF1739006D82FE /* LICENSE.cocos2d */,
@@ -1550,6 +1563,7 @@
 				029178B312D89ACA00AEFDD8 /* Destroy.m in Sources */,
 				029178B612D89ADA00AEFDD8 /* Move.m in Sources */,
 				0243851C13835E5100701434 /* JSONKit.m in Sources */,
+				024385691383AC7500701434 /* CCNode+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

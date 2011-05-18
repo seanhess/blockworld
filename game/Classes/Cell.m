@@ -10,6 +10,7 @@
 
 #import "Item.h"
 #import "Bomb.h"
+#import "Player.h"
 
 @interface Cell()
 @property(nonatomic, retain) CCSprite* bush;
@@ -65,7 +66,7 @@
     
 	if(item) {
         
-        if(self.bush) { 
+        if(self.bush && ![item isKindOfClass:[Player class]]) { 
             [self removeChild:self.bush cleanup:YES];
             self.bush = nil;
         }
