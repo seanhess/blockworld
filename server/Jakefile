@@ -2,6 +2,7 @@ var testing = require('async_testing')
 var path = require('path')
 
 desc('run all tests') 
-task('test', [], function() {
-    testing.run(path.join(__dirname, "test"), [])
+task('test', [], function(file) {
+    if (file) testing.run([path.join(__dirname, file)], [])
+    else testing.run(path.join(__dirname, "test"), [])
 })

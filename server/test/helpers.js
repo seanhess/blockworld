@@ -6,7 +6,6 @@ var TestClient = require("./TestClient")
 var TestPort = 3333
 var sharedApp
 var assert = require('assert')
-var Timeout = require("../utils/Timeout")
 var traffic = require("../utils/traffic")
 
 exports.setup = function(cb) {

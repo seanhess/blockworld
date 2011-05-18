@@ -7,7 +7,6 @@ exports.verifySetup = function(assert) {
     helpers.setup(function(app, client) {
         assert.ok(app)
         assert.ok(client)
-        helpers.close()
         assert.finish()
     })
 }

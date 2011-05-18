@@ -40,7 +40,10 @@ var App = module.exports = function() {
 	    state = new GameState()
         // timer = new GameTimer()
         // timer.start()
-	    clients = {}
+        
+        if (socket) {
+            socket.clients = socket.clientsIndex = {};
+        }
 	}
 	
 	this.sendAll = function(message) {
@@ -57,7 +60,7 @@ var App = module.exports = function() {
     this.start = function(port, cb) {
                     
         // web server
-        var server = express.createServer()
+        server = express.createServer()
         
         server.get('/', function(req, res) {
             res.send("Hello World")
@@ -67,13 +70,13 @@ var App = module.exports = function() {
             res.sendfile(path.join(__dirname, "public", "test.html"))
         })        
         
-        server.listen(port)
+        server.listen(port, cb)
         
         
         
         // socket
         
-        var socket = io.listen(server)
+        socket = io.listen(server)
         
         socket.on('connection', function(client) {
                 
@@ -81,8 +84,6 @@ var App = module.exports = function() {
             client.send(new Message("Welcome"))
 
             client.on('message', function(message) {
-                
-                console.log("Message", message)
                 
                 try {
                     var filename = message.type.toLowerCase() + ".control"
