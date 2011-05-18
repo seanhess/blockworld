@@ -20,7 +20,7 @@
 
 -(void) execute {
 	if([[definition objectForKey:@"type"] isEqualToString:@"player"]) {
-		[world movePlayer:[self.data objectForKey:@"uid"] toPoint:ccp(self.positionX, self.positionY)];
+		[world movePlayer:[self.data objectForKey:@"playerId"] toPoint:ccp(self.positionX, self.positionY)];
 	}
 }
 

@@ -5,14 +5,15 @@
 var assert = require('assert')
 var _ = require("underscore")
 
-// mongo
-var mongo = require('mongo')
-var db = mongo.db("localhost", 27017, "bb")
-db.collection('state')
+// models
+var Wall = require('../model/Wall')
+var Tile = require('../model/Tile')
+
 
 
 var GameState = module.exports = function() {
     this.everything = {}
+    this.tiles = {}
 }
 
 GameState.verify = function(item) {
@@ -32,13 +33,18 @@ GameState.prototype.allMessages = function() {
 GameState.prototype.add = function(item, persist) {
     assert.ok(!this.exists(item.uid()))
     this.everything[item.uid()] = item
-
-    if (persist) {
-        var value = item.toValue()
-        value._id = item.uid()
-        value.type = item.type()
-        db.state.save(value)
+    
+    // keep track of where things are
+    if (item instanceof Tile) {
+        this.moveTo(item, item.x(), item.y())
     }
+
+//    if (persist) {
+//        var value = item.toValue()
+//        value._id = item.uid()
+//        value.type = item.type()
+//        db.state.save(value)
+//    }
 }
 
 GameState.prototype.remove = function(item, persist) {
@@ -49,6 +55,19 @@ GameState.prototype.remove = function(item, persist) {
     }
 }
 
+GameState.prototype.moveTo = function(item, x, y) {
+    
+    // Clear the old spot, then update the tile index
+    // Must be called before updating the object itself
+    
+    var oldId = Tile.tileId(item.x(), item.y())
+    var newId = Tile.tileId(x, y) 
+    
+    delete this.tiles[oldId]
+    this.tiles[newId] = item
+    
+}
+
 GameState.prototype.exists = function(uid) {
     return (!!this.everything[uid])
 }
@@ -57,8 +76,27 @@ GameState.prototype.fetch = function(uid) {
     return this.everything[uid]
 }
 
+GameState.prototype.hitObjects = function(hitArea) {
+
+    var hit = []
+    var self = this
+
+    hitArea.forEach(function(point) {
+        
+        // probably not the best way, but I need to get the uids back
+        
+        var tileId = Tile.tileId(point.x, point.y)
+        if (self.tiles[tileId]) 
+            hit.push(self.tiles[tileId])
+            
+    })
+    
+    return hit
+    
+}
+
 GameState.prototype.loadFromDb = function(cb) {
-    cb()
+    return cb()
 }
 
 

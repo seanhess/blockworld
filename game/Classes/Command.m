@@ -25,7 +25,7 @@
 	
 	if([[definition objectForKey:@"action"] isEqualToString:@"create"])
 		command = [[Create alloc] initWithDefinition:definition world:world];	
-	if([[definition objectForKey:@"action"] isEqualToString:@"detonate"])
+	if([[definition objectForKey:@"action"] isEqualToString:@"destroy"])
 		command = [[Destroy alloc] initWithDefinition:definition world:world];	
 	if([[definition objectForKey:@"action"] isEqualToString:@"move"])
 		command = [[Move alloc] initWithDefinition:definition world:world];	

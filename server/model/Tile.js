@@ -1,34 +1,66 @@
-// Abstract Base class
+// Tiles 
 
-var Stateable = require("./Stateable")
+var assert = require('assert')
 
-var Tile = module.exports = function() {
-    Stateable.call(this)
+
+
+var mongo = require('mongo')
+var db = mongo.db("localhost", 27017, "bb")
+db.collection('tiles')
+
+
+var Tile = module.exports = function(type) {
+    this.source = {} // make sure you call Tile.call(this)!
+    this.type(type)
 }
 
-Tile.prototype = new Stateable()
+Tile.fromValue = function(Class, value) {
+    var obj = new Class()
+    obj.source = value
+    return obj
+}
+
+Tile.prototype.tiles = Tile.tiles = function() {
+    return db.tiles
+}
+
+Tile.prototype.type = function(value) {
+    if (value) this.source.type = value
+    return this.source.type
+}
 
 Tile.prototype.position = function(x, y) {
     this.source.x = x
     this.source.y = y
-    if (!this.source.uid) // don't overwrite it if someone has already set it
-        this.source.uid = this.type() + "_" + x + "|" + y
 }
 
-Tile.prototype.x = function() {
+Tile.prototype.x = function () {
     return this.source.x
 }
 
-Tile.prototype.y = function() {
+Tile.prototype.y = function () {
     return this.source.y
+}    
+
+Tile.prototype.toValue = function() {
+    return this.source
 }
 
-Tile.Type = "Tile"
+Tile.tileId = function(x, y) {
+    return x + "|" + y
+}
+
+Tile.clearAll = function() {
+    db.tiles.remove({})
+}
+
+Tile.allWithClass = function(Class, cb) {
+    Tile.tiles().find({type:Class.Type}).toArray(function(err, objects) {
+        if (err) return cb(err)
+        cb(null, objects.map(function(doc) {
+            return Class.fromValue.call(Class, doc)
+        }))
+    })    
+}
 
 
-// Wall.Type = "map"
-// Wall.ActionCreate = "addWall"
-// 
-// Wall.MessageCreate = function(wall) {
-//     return new Message(Wall.Type, Wall.ActionCreate, wall)
-// }

@@ -1,5 +1,6 @@
 var sys = require("sys")
 var Player = require("../model/Player")
+var Wall = require("../model/Wall")
 var Message = require("../model/Message")
 var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
@@ -8,8 +9,33 @@ var _ = require('underscore')
 
 exports.observe = function(app, client, data) {
 
-    // send the state
-    client.send(app.state().allMessages())
+    var you = new Player(data.nickname)
+    
+    var messages = []
+        
+    attach(Player.allPlayers, Player, function() {
+        attach(Wall.allWalls, Wall, function() {
+            send()
+        })
+    })
+    
+    function attach(findMethod, Class, cb) {
+        findMethod.call(Class, function(err, objects) {
+            if (err) return cb(err)
+
+            objects.forEach(function(object) {
+                if (object instanceof Player && you.playerId() == object.playerId()) return
+                messages.push(new Class.MessageCreate(object))
+            })
+            
+            cb()
+        })    
+    }
+    
+    function send() {
+        // send the state
+        client.send(messages)
+    }
     
 }
 
@@ -17,40 +43,57 @@ exports.create = function (app, client, data) {
 	assert.ok(data.nickname, "Missing nickname")
     var nickname = data.nickname
     var player = new Player(nickname)
-    
-    // DUMP STATE // 
-    // sys.puts("PLAYER? " + GameState.verify(player))
+            
+    // create it first (this isn't timely)
+    player.create(function(success) {
 
-    if (app.state().exists(player.uid())) 
-        return client.send(new Fault(Fault.PlayerExists, "Player Exists: " + nickname))
+        if (!success)
+            return client.send(new Fault(Fault.PlayerExists, "Player Exists: " + nickname))
+            
+        
+        // send created self    
+        client.send(new Player.MessageYou(player))
+        app.setClientPlayer(client, player)
+        
+        // observe
+        exports.observe(app, client, data)
+        
+        // announce to others
+        app.sendAll(new Player.MessageCreate(player))
+        
+    })    
+}
+
+exports.leave = function(app, client, data) {
     
-    // send created self    
-    client.send(new Player.MessageYou(player))
+    var player = Player.fromValue(data)
     
-    // add the player
-    app.state().add(player)
+    // remove from the game state
+    player.remove(function() {})
     
-    // observe
-    exports.observe(app, client, data)
+    app.sendAll(new Player.MessageDestroy(player))
     
-    // announce to others
-    app.sendOthers(client, new Player.MessageCreate(player))
 }
 
 exports.move = function (app, client, data) {
     
     // expects: data.x, data.y
     // expects: data.uid
+    
+    var player = Player.fromValue(data)    
         
-    assert.ok(!_(data.x).isUndefined(), "Missing X")
-    assert.ok(!_(data.y).isUndefined(), "Missing Y")    
-    assert.ok(data.playerId, "Missing playerId")
+    assert.ok(!_(player.x()).isUndefined(), "Missing X")
+    assert.ok(!_(player.y()).isUndefined(), "Missing Y")    
+    assert.ok(player.playerId(), "Missing playerId")
     
-    var player = app.state().fetch(data.playerId)
+    Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
+        // if something goes wrong, report it
+        if (err) {
+            client.send(Fault.Error, err)
+        }
+    })
     
-    assert.ok(player, "Could not find player " + data.uid)
-    
-    player.move(data.x, data.y)
-    
+    // send immediately (this is timely)
+
     app.sendOthers(client, new Player.MessageMove(player))
 }
