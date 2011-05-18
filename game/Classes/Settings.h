@@ -10,10 +10,10 @@
 
 
 @interface Settings : NSObject {
-	NSString* playerID;
 }
 
 @property(nonatomic, retain) NSString* playerID;
+@property(nonatomic, retain) NSString* nickname;
 
 +(Settings*) instance;
 

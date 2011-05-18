@@ -14,7 +14,7 @@
 
 
 -(id) init {
-	return [self initWithTotalParticles:40];
+	return [self initWithTotalParticles:6];
 }
 
 -(id) initWithTotalParticles:(int)p
@@ -33,10 +33,10 @@
 	angleVar = 360;
 	
 	// speed of particles
-	self.speed = 120;
+	self.speed = 40;
 	self.speedVar = 5;
     
-	
+    
 	// radial
 	self.radialAccel = 0.0;
 	self.radialAccelVar = 0;
@@ -52,8 +52,8 @@
 	life = 0.6f;
 	lifeVar = 0.2f;
 	
-    startSpin = 200.f;
-    startSpinVar = 100.f;
+    startSpin = 100.f;
+    startSpinVar = 50.f;
     endSpin = 20.f;
     endSpinVar = 0.f;
     
@@ -88,7 +88,7 @@
 	self.texture = [[CCTextureCache sharedTextureCache] addImage:@"Smoke.png"];
 	
 	// additive
-	self.blendAdditive = YES;
+	self.blendAdditive = NO;
 	
 	return self;
 }

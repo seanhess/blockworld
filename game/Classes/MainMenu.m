@@ -48,7 +48,7 @@
 		CGSize size = [[CCDirector sharedDirector] winSize];
 		
 		// create and initialize a Label		
-		CCLabelTTF *statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
+		statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
 		
 		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
 			if(status == connected) { 
@@ -63,7 +63,7 @@
 
 		[[ServerCommunicator instance] connect];
 		
-		nameField = [[UITextField alloc] initWithFrame:CGRectMake(120, 30, 250, 35)];
+		nameField = [[[UITextField alloc] initWithFrame:CGRectMake(120, 30, 250, 35)] autorelease];
 		nameField.placeholder = @"Your nickname, kiddo";
 		nameField.backgroundColor = [UIColor blackColor];
 		nameField.borderStyle = UITextBorderStyleRoundedRect;
@@ -73,9 +73,9 @@
 		nameField.textColor = [UIColor blackColor];
 		nameField.delegate = self;
 		
-		[[[CCDirector sharedDirector] openGLView] addSubview:nameField]; 
+        [[[CCDirector sharedDirector] openGLView] addSubview:nameField]; 
 		
-		
+        
 		// position the label on the center of the screen
 		statusLabel.position =  ccp(size.width/2, size.height/2);
 		
@@ -86,7 +86,7 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
-	//dismiss keyboard
+    
 	[nameField resignFirstResponder];
 	
 	[self verifyName:textField.text];
@@ -97,8 +97,13 @@
 
 - (void) verifyName:(NSString*)name {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
-		[Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"uid"];
-		[self startGame];
+        [Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"uid"];
+		
+        if([Settings instance].playerID) {
+            [self startGame];
+        } else {
+            [statusLabel setString:@"Already Taken"];
+        }
 	};
 	
 	Create* command = [Create command];

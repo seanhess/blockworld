@@ -15,6 +15,7 @@
 // HelloWorld Layer
 @interface MainMenu : CCLayer <UITextFieldDelegate> {
 	UITextField* nameField;
+    CCLabelTTF *statusLabel;
 }
 
 // returns a Scene that contains the MainMenu as the only child

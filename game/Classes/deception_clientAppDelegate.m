@@ -12,6 +12,7 @@
 #import "GameConfig.h"
 #import "MainMenu.h"
 #import "RootViewController.h"
+#import "Settings.h"
 
 @implementation deception_clientAppDelegate
 
@@ -38,8 +39,13 @@
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
 }
+
+
+
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+
+    
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
