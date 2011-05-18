@@ -61,68 +61,78 @@ var App = module.exports = function() {
     
     
     this.start = function(port, cb) {
-                    
-        // web server
-        server = express.createServer()
+    
+    
+        state.loadFromDb(function() {
         
-        server.use(express.static(path.join(__dirname, '/public')));            
-                    
-        server.get('/', function(req, res) {
-            res.send("Hello World")
-        })      
-        
-        server.listen(port, cb)
-        
-        
-        
-        // socket
-        
-        socket = io.listen(server)
-        
-        socket.on('connection', function(client) {
-                
-            // welcome message
-            client.send(new Message("Welcome"))
-
-            client.on('message', function(message) {
+            // timer
+            timer.start()
             
-                traffic.log("MESSAGE ", message)
-                
-                try {
-                    var filename = message.type.toLowerCase() + ".control"
-                    var modulePath = path.join(__dirname, 'controller', filename)
-                    var module = require(modulePath) 
-                }
-                catch (err) {
-                    return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
-                }
-
-                var method = module[message.action]
-                
-                if (!method)
-                    return client.send(new Fault(Fault.InvalidMethod, "Invalid Method " + message))
+        
+            // web server
+            server = express.createServer()
+            
+            server.use(express.static(path.join(__dirname, '/public')));            
+                        
+            server.get('/', function(req, res) {
+                res.send("Hello World")
+            })      
+            
+            server.listen(port, cb)
+            
+            
+            
+            // socket
+            
+            socket = io.listen(server)
+            
+            socket.on('connection', function(client) {
                     
-                if (!message.data)
-                    return client.send(new Fault(Fault.InvalidData, "No Data"))   
+                // welcome message
+                client.send(new Message("Welcome"))
 
-                try {
-                    method(self, client, message.data)
-                }
-                catch (err) {
-                    traffic.log("CAUGHT " + err + "\n" + err.stack)
-                    return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
-                }
+                client.on('message', function(message) {
+                
+                    traffic.log("MESSAGE ", message)
+                    
+                    try {
+                        var filename = message.type.toLowerCase() + ".control"
+                        var modulePath = path.join(__dirname, 'controller', filename)
+                        var module = require(modulePath) 
+                    }
+                    catch (err) {
+                        return client.send(new Fault(Fault.InvalidType, "Invalid Type - Error Loading Module " + message + " " + modulePath + " " + err))
+                    }
+
+                    var method = module[message.action]
+                    
+                    if (!method)
+                        return client.send(new Fault(Fault.InvalidMethod, "Invalid Method " + message))
+                        
+                    if (!message.data)
+                        return client.send(new Fault(Fault.InvalidData, "No Data"))   
+
+                    try {
+                        method(self, client, message.data)
+                    }
+                    catch (err) {
+                        traffic.log("CAUGHT " + err + "\n" + err.stack)
+                        return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
+                    }
+                })
+                
+                client.on('disconnect', function () {
+                    console.log("Disconnected")
+                })
+                
             })
             
-            client.on('disconnect', function () {
-                console.log("Disconnected")
-            })
-            
+            server.on('close', function() {
+                // traffic.log("Closed ")
+            })  
+                    
         })
-        
-        server.on('close', function() {
-            // traffic.log("Closed ")
-        })              
+                                
     }    
     
     
