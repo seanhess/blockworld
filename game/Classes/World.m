@@ -86,6 +86,7 @@
 		Create* command = [Create command];
 		[command setType:@"wall"];
 		[command setPoint:oldCell.point];
+        [command setPlayerID:[Settings instance].playerID];
 		[command send];
 	}
 }
@@ -114,6 +115,7 @@
 	Cell* cell = myplayer.cell;
 	
 	Create* command = [Create command];
+    [command setPlayerID:[Settings instance].playerID];
 	[command setType:@"bomb"];
 	[command setPoint:cell.point];
 	[command send];

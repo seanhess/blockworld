@@ -24,8 +24,4 @@
 	}
 }
 
-- (void) setPlayerID:(NSString*)playerID {
-	[self.data setObject:playerID forKey:@"uid"];
-}
-
 @end

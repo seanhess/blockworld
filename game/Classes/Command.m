@@ -56,7 +56,7 @@
 }
 
 -(void) execute {
-	[self doesNotRecognizeSelector:_cmd];
+	[self doesNotRecognizeSelector:_cmd];   
 }
 
 -(void) setAction:(NSString *)action {
@@ -70,6 +70,10 @@
 -(void) setPoint:(CGPoint)point {
 	[self.data setObject:[NSNumber numberWithInt:point.x] forKey:@"x"];
 	[self.data setObject:[NSNumber numberWithInt:point.y] forKey:@"y"];
+}
+
+- (void) setPlayerID:(NSString*)playerID {
+	[self.data setObject:playerID forKey:@"playerId"];
 }
 
 -(NSMutableDictionary*) data {
