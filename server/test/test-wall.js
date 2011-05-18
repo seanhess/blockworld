@@ -29,6 +29,7 @@ exports.addWall = function (assert) {
             // 
             //     assert.finish()
             // })
+            assert.finish()
         })
     })
 }

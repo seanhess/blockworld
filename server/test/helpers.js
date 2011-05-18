@@ -20,7 +20,7 @@ exports.setup = function(cb) {
     if (sharedApp) return client()
     
     // sys.puts("Loading App")
-    // traffic.log = function() {}
+    traffic.log = function() {}
     sharedApp = new App()
     sharedApp.start(TestPort, function() {
         client()

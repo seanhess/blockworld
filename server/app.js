@@ -40,8 +40,10 @@ var App = module.exports = function() {
 
 	    state = new GameState()
         
-        socket.clients = socket.clientsIndex = {};
-
+        if (socket) {
+            socket.clients = socket.clientsIndex = {};
+        }
+        
 	    if (timer) timer.stop()
         timer = new GameTimer()
         timer.start()
@@ -107,7 +109,7 @@ var App = module.exports = function() {
                     method(self, client, message.data)
                 }
                 catch (err) {
-                    traffic.log(err + "\n" + err.stack)
+                    traffic.log("CAUGHT " + err + "\n" + err.stack)
                     return client.send(new Fault(Fault.ControllerFault, "Controller Fault " + message + " _ \nWithError:" + err + "\n" + err.stack))
                 }
             })
