@@ -16,6 +16,8 @@
 #import "Create.h"
 #import "Move.h"
 #import "Settings.h"
+#import "GameOver.h"
+
 
 @interface World()
 - (id) keyForPoint:(CGPoint)point;
@@ -26,11 +28,12 @@
 - (void) drawSeenCells;
 - (void) undrawUnseenCells;
 - (CGRect) visibleGridRect;
+- (void) playerDidDie;
 @end
 
 @implementation World
 
-@synthesize layingWallsPress;
+@synthesize layingWallsPress, hideHUD, showHUD;
 
 - (id) init {
 	if((self = [super init])) {
@@ -97,6 +100,14 @@
 - (void) destroyAtPoint:(CGPoint)point {
 	Cell* cell = [self cellAtPoint:point];
 	
+    
+    Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
+    if(myplayer.cell.point.x == point.x && myplayer.cell.point.y) {
+        
+        [self playerDidDie];
+    }
+    
+    
     if(cell.bomb) { 
         CCSprite* expletive = [cell.bomb expletive];
         [self addChild:[cell.bomb explotion] z:cell.zOrder+100];
@@ -139,6 +150,18 @@
 	return !cell.item && !cell.bomb;
 }
 
+- (void) playerDidDie {
+    float x, y, z;
+    [self.camera centerX:&x centerY:&y centerZ:&z];
+    
+    GameOver* gameOver = [GameOver node];
+    [self addChild:gameOver z:INT_MAX];
+    gameOver.position = ccp(x,y);
+    gameOver.anchorPoint = ccp(0,0);
+    
+    self.hideHUD();
+}
+
 - (Player*) playerWithPlayerID:(NSString*) playerID {
 	for(Cell* cell in [board allValues]) {
 		if(cell.item && [cell.item isKindOfClass:[Player class]]) {
@@ -177,8 +200,8 @@
 	CGRect screenRect = [[UIScreen mainScreen] bounds];
 	
 	float x, y, z;
+    
 	[self.camera centerX:&x centerY:&y centerZ:&z];
-	[self.camera eyeX:&x eyeY:&y eyeZ:&z];
 	
     float oldx = x, oldy = y, oldz = z;
     

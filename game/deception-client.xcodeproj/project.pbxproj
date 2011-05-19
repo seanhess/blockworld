@@ -113,6 +113,8 @@
 		02A7EE31138472010010E859 /* explative18.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE09138472010010E859 /* explative18.png */; };
 		02A7EE32138472010010E859 /* explative19-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE0A138472010010E859 /* explative19-hd.png */; };
 		02A7EE33138472010010E859 /* explative19.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE0B138472010010E859 /* explative19.png */; };
+		02D2EEFC138497700026F55A /* GameOver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 02D2EEFB138497700026F55A /* GameOver.mm */; };
+		02D2EEFE138499F70026F55A /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 02D2EEFD138499F70026F55A /* gameover.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
 		504DFBCE10AF12E9006D82FE /* CLScoreServerPost.h in Headers */ = {isa = PBXBuildFile; fileRef = 504DFBC810AF12E9006D82FE /* CLScoreServerPost.h */; };
@@ -498,6 +500,9 @@
 		02A7EE09138472010010E859 /* explative18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explative18.png; sourceTree = "<group>"; };
 		02A7EE0A138472010010E859 /* explative19-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "explative19-hd.png"; sourceTree = "<group>"; };
 		02A7EE0B138472010010E859 /* explative19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explative19.png; sourceTree = "<group>"; };
+		02D2EEFA138497700026F55A /* GameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOver.h; sourceTree = "<group>"; };
+		02D2EEFB138497700026F55A /* GameOver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameOver.mm; sourceTree = "<group>"; };
+		02D2EEFD138499F70026F55A /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
 		1F3B9A2C0EF2145700286867 /* deception_clientAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = deception_clientAppDelegate.h; path = Classes/deception_clientAppDelegate.h; sourceTree = SOURCE_ROOT; };
@@ -837,6 +842,7 @@
 				0243855213836DFD00701434 /* Tree Tall-hd.png */,
 				0243855313836DFD00701434 /* Tree Short-hd.png */,
 				0243855413836DFD00701434 /* Tree Ugly-hd.png */,
+				02D2EEFD138499F70026F55A /* gameover.png */,
 				0243853413836DF500701434 /* Tree Ugly.png */,
 				0243853513836DF500701434 /* Character Boy.png */,
 				0243853613836DF500701434 /* Tree Tall.png */,
@@ -908,6 +914,7 @@
 		029173D212D83CE300AEFDD8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				02D2EEF81384975C0026F55A /* Overlays */,
 				024385771383B9CE00701434 /* Particle Effects */,
 				029178AA12D8999D00AEFDD8 /* Commands */,
 				029173DB12D8409700AEFDD8 /* World */,
@@ -1035,6 +1042,15 @@
 				02A7EE0B138472010010E859 /* explative19.png */,
 			);
 			name = Explatives;
+			sourceTree = "<group>";
+		};
+		02D2EEF81384975C0026F55A /* Overlays */ = {
+			isa = PBXGroup;
+			children = (
+				02D2EEFA138497700026F55A /* GameOver.h */,
+				02D2EEFB138497700026F55A /* GameOver.mm */,
+			);
+			name = Overlays;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -1738,6 +1754,7 @@
 				02A7EE31138472010010E859 /* explative18.png in Resources */,
 				02A7EE32138472010010E859 /* explative19-hd.png in Resources */,
 				02A7EE33138472010010E859 /* explative19.png in Resources */,
+				02D2EEFE138499F70026F55A /* gameover.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1782,6 +1799,7 @@
 				0243851C13835E5100701434 /* JSONKit.m in Sources */,
 				024385691383AC7500701434 /* CCNode+Additions.m in Sources */,
 				024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */,
+				02D2EEFC138497700026F55A /* GameOver.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

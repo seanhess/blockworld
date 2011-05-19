@@ -34,10 +34,14 @@
 
 -(id) init {
 	if((self = [super init])) {
-		// add World
+		
+        
+        // add World
 		world = [World node];
 		[self addChild:world];
 		
+        
+        
 		// add HUD
 		hud = [HUD node];
 		[self addChild:hud];
@@ -55,10 +59,27 @@
 			world.layingWallsPress = !world.layingWallsPress;
 		}];
 		
+        
+        
+        //world to hud actions
+        [world setHideHUD:^{
+            hud.visible = NO;
+        }];
+        
+        [world setShowHUD:^{
+            hud.visible = YES;
+        }];
+        
+        
+        
+        
 		// server call backs
 		[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* definition) {
 			[[Command commandWithDefinition:definition world:world] execute];
 		};
+        
+        
+        
         
         
         // watch for disconnects, and go back to the menu

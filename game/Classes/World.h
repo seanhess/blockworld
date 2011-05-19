@@ -20,6 +20,8 @@
 }
 
 @property(nonatomic, assign) BOOL layingWallsPress;
+@property(nonatomic, copy) void(^hideHUD)();
+@property(nonatomic, copy) void(^showHUD)();
 
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
 - (void) createWallAtPoint:(CGPoint)point;
