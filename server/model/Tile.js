@@ -71,5 +71,9 @@ Tile.isOccupied = function(x, y, cb) {
     Tile.tiles().find({x:x, y:y}).count(cb)
 }
 
+Tile.clearTypes = function(types, cb) {
+    Tile.tiles().remove({type: {$in: types}}, cb)
+}
+
 
 

@@ -9,8 +9,6 @@ var Wall = require("../model/Wall")
 var Message = require("../model/Message")
 var _ = require("underscore")
 
-var GameState = require('../model/GameState')
-
 var bombs = require('../controller/bomb.control')
 var walls = require('../controller/wall.control')
 
