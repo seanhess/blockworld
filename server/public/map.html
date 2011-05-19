@@ -21,7 +21,7 @@
     listen()
 
     function listen() {
-        var socket = new io.Socket("localhost"); 
+        var socket = new io.Socket("dev.seanhess.net"); 
         socket.connect();
         
         socket.send({type:"player", action:"observe", data:{}})
