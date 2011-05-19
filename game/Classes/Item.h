@@ -19,5 +19,10 @@
 
 @property(nonatomic, assign) Cell* cell;
 @property(nonatomic, retain) CCSprite* sprite;
+@property(nonatomic, retain) NSString* cachedSpriteName;
+@property(nonatomic, assign) BOOL isOnScreen;
+
+- (void) drawAllSprites;
+- (void) removeAllSprites;
 
 @end

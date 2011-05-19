@@ -23,22 +23,27 @@
 	if((self = [super init])) {
 		self.playerID = p;
 		
-		/*left = CGRectMake(0, 0, 25, 35);
-		right = CGRectMake(50, 0, 25, 35);
-		up = CGRectMake(100, 0, 25, 35);
-		down = CGRectMake(150, 0, 25, 35);*/
-		
         NSArray* possibleSprites = [NSArray arrayWithObjects:@"Character Boy.png", @"Character Cat Girl.png", @"Character Horn Girl.png", @"Character Princess Girl.png", nil];
-        NSString* randomSprite = [possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])];
+        self.cachedSpriteName = [possibleSprites objectAtIndex:(arc4random() % [possibleSprites count])];
         
-		self.sprite = [CCSprite spriteWithFile:randomSprite];
-		
-		sprite.anchorPoint = ccp(0,0);
-        sprite.position = ccp(0,20);
-		
-		[self addChild:sprite];
+        self.isOnScreen = YES;
 	}
 	return self;
+}
+
+- (void) drawAllSprites {
+    [super drawAllSprites];
+    
+    sprite.anchorPoint = ccp(0,0);
+    sprite.position = ccp(0,20);
+    
+    self.nickname = self.nickname;
+}
+
+- (void)removeAllSprites {
+    [super removeAllSprites];
+    
+    self.nickname = nil;
 }
 
 - (void) setNickname:(NSString *)nick {
@@ -56,15 +61,11 @@
 	}
 }
 
-- (void) moveInDirection:(CGPoint)direction {
-	/*if(direction.x > 0) [sprite setTextureRect:right];
-	if(direction.x < 0) [sprite setTextureRect:left];
-	if(direction.y > 0) [sprite setTextureRect:up];
-	if(direction.y < 0) [sprite setTextureRect:down];*/
-}
+- (void) moveInDirection:(CGPoint)direction {}
 
 - (void) dealloc {
 	[playerID release];
+    [nickname release];
 	
 	[super dealloc];
 }

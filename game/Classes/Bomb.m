@@ -19,18 +19,28 @@
 - (id) init {
 	if((self = [super init])) {
 		
-		self.sprite = [CCSprite spriteWithFile:@"bomb.png"];
-		sprite.anchorPoint = ccp(0.5,0);
-        sprite.position = ccp(25,20);
+		self.cachedSpriteName = @"bomb.png";
         
-		[self addChild:sprite];
-        
-        // make that bomb shake like a bobble head
-        [sprite runAction:[CCRepeatForever actionWithAction:[CCSequence actionOne:[CCRotateBy actionWithDuration:.3 angle:5] two:[CCRotateBy actionWithDuration:.3 angle:-5]]]]; 
-        
+        self.isOnScreen = YES;
 	}
 	return self;
 }
+
+
+- (void) drawAllSprites {
+    [super drawAllSprites];
+    
+    [sprite runAction:[CCRepeatForever actionWithAction:[CCSequence actionOne:[CCRotateBy actionWithDuration:.3 angle:5] two:[CCRotateBy actionWithDuration:.3 angle:-5]]]]; 
+    
+    sprite.anchorPoint = ccp(0.5,0);
+    sprite.position = ccp(25,20);
+    
+}
+
+- (void)removeAllSprites {
+    [super removeAllSprites];
+}
+
 
 - (CCParticleSystem*) explotion {
     CCParticleSystem* emitter = [SmokeParticleEmitter node];

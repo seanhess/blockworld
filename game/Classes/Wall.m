@@ -13,15 +13,23 @@
 
 - (id) init {
 	if((self = [super init])) {
-		CCTexture2D* texture = [[CCTextureCache sharedTextureCache] addImage:@"Stone Block.png"];
-		
-		self.sprite = [CCSprite spriteWithTexture:texture];
-		sprite.anchorPoint = ccp(0,0);
-        sprite.position = ccp(0,20);
-		
-		[self addChild:sprite];
+		self.cachedSpriteName = @"Stone Block.png";
+        
+        self.isOnScreen = YES;
 	}
 	return self;
+}
+
+- (void) drawAllSprites {
+    [super drawAllSprites];
+    
+    sprite.anchorPoint = ccp(0,0);
+    sprite.position = ccp(0,20);
+    
+}
+
+- (void)removeAllSprites {
+    [super removeAllSprites];
 }
 
 @end
