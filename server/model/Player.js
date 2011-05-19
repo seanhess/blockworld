@@ -6,13 +6,7 @@ var Player = module.exports = function(nickname, x, y) {
     Tile.call(this, Player.Type)
 
     this.nickname(nickname)    
-	this.position(x, y)
-    
-    if (!x || !y) {
-        var position = Player.getRandomSpawnLocation()
-        this.source.x = position.x
-        this.source.y = position.y
-    }
+	this.position(x || 0, y || 0) // default to 0
 }
 
 Player.fromValue = function(doc) {
@@ -52,6 +46,14 @@ Player.prototype.remove = function(cb) {
 
 Player.getRandomSpawnLocation = function() {
     return {x:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis), y:Math.floor(Math.random() * ((SpawnRaduis * 2) + 1) - SpawnRaduis)}
+}
+
+Player.prototype.spawn = function() {
+    
+    // Add the spawn location to the current position for extra randomness
+
+    var point = Player.getRandomSpawnLocation()
+    this.position(point.x + this.x(), point.y + this.y())
 }
 
 Player.allPlayers = function(cb) {

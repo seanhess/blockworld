@@ -8,6 +8,28 @@ var sharedApp
 var assert = require('assert')
 var traffic = require("../utils/traffic")
 
+exports.simple = function(cb) {
+
+    var app = new App()
+    var timer = app.timer()
+    
+    app.resetStateForTesting()
+    
+    var socket = {
+        broadcast: function() {}
+    }
+    
+    app.socket(socket)
+
+    var client = {
+        send: function() {},
+        broadcast: function() {}
+    }
+
+    cb(app, client, socket, timer)
+
+}
+
 exports.setup = function(cb) {
     
     function client() {
