@@ -24,13 +24,13 @@
 	Command* command = nil;
 	
 	if([[definition objectForKey:@"action"] isEqualToString:@"create"])
-		command = [[Create alloc] initWithDefinition:definition world:world];	
+		command = [[[Create alloc] initWithDefinition:definition world:world] autorelease];	
 	if([[definition objectForKey:@"action"] isEqualToString:@"destroy"])
-		command = [[Destroy alloc] initWithDefinition:definition world:world];	
+		command = [[[Destroy alloc] initWithDefinition:definition world:world] autorelease];	
 	if([[definition objectForKey:@"action"] isEqualToString:@"move"])
-		command = [[Move alloc] initWithDefinition:definition world:world];	
+		command = [[[Move alloc] initWithDefinition:definition world:world] autorelease];	
 	
-	return [command autorelease];
+	return command;
 }
 
 -(id) initWithDefinition:(NSDictionary*)def world:w {

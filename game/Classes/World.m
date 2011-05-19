@@ -102,7 +102,7 @@
 	
     
     Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-    if(myplayer.cell.point.x == point.x && myplayer.cell.point.y) {
+    if(myplayer.cell.point.x == point.x && myplayer.cell.point.y == point.y) {
         
         [self playerDidDie];
     }
