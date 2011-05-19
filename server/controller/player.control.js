@@ -1,6 +1,7 @@
 var sys = require("sys")
 var Player = require("../model/Player")
 var Wall = require("../model/Wall")
+var Tile = require("../model/Tile")
 var Message = require("../model/Message")
 var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
@@ -83,17 +84,27 @@ exports.move = function (app, client, data) {
     var player = Player.fromValue(data)    
         
     assert.ok(!_(player.x()).isUndefined(), "Missing X")
-    assert.ok(!_(player.y()).isUndefined(), "Missing Y")    
+    assert.ok(!_(player.y()).isUndefined(), "Missing Y")
     assert.ok(player.playerId(), "Missing playerId")
     
-    Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
-        // if something goes wrong, report it
-        if (err) {
-            client.send(Fault.Error, err)
+    Tile.isOccupied(player.x(), player.y(), function(err, occupied) {
+
+        // If the Tile is occupied, find out where they used to be and move them back
+        if (occupied) {
+            return Player.findPlayer(player.playerId(), function(err, player) {
+                if (player) 
+                    app.sendAll(new Player.MessageMove(player))
+            })
         }
+            
+        // Otherwise, update the server
+        Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
+            
+        })
     })
     
+    
     // send immediately (this is timely)
-
     app.sendOthers(client, new Player.MessageMove(player))
+    
 }

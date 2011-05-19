@@ -67,5 +67,9 @@ Tile.tilesInRange = function(range, cb) {
     Tile.tiles().find(range).toArray(cb)
 }
 
+Tile.isOccupied = function(x, y, cb) {
+    Tile.tiles().find({x:x, y:y}).count(cb)
+}
+
 
 

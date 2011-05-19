@@ -62,6 +62,12 @@ Player.moveTo = function(playerId, x, y, cb) {
     Tile.tiles().update({playerId:playerId}, {$set: {x: x, y: y}}, cb)
 }
 
+Player.findPlayer = function(playerId, cb) {
+    Tile.tiles().findOne({playerId:playerId}, function(err, player) {
+        cb(null, player)
+    })
+}
+
 
 
 // Messages

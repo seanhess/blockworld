@@ -68,10 +68,12 @@ var App = module.exports = function() {
 	}
 	
 	this.sendAll = function(message) {
+        traffic.log(" OUT " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
         socket.broadcast(message)
 	}
 	
 	this.sendOthers = function(client, message) {
+        traffic.log(" OUT " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
         client.broadcast(message)
 	}
     
@@ -119,7 +121,7 @@ var App = module.exports = function() {
 
                 client.on('message', function(message) {
                 
-                    // traffic.log(" IN  ", message)
+                    traffic.log(" IN  " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
                     
                     try {
                         var filename = message.type.toLowerCase() + ".control"
