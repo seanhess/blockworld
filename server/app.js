@@ -6,7 +6,6 @@ var path = require('path')
 
 var Fault = require('./model/Fault')
 
-var GameState = require("./model/GameState")
 var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
@@ -16,6 +15,8 @@ var traffic = require("./utils/traffic")
 
 // models
 var Tile = require('./model/Tile')
+var Player = require('./model/Player')
+var Bomb = require('./model/Bomb')
 
 // vendor
 var io = require('socket.io')
@@ -32,15 +33,10 @@ var App = module.exports = function() {
     var server = null
     var socket = null    
     
-	var state = new GameState()
     var timer = new GameTimer()
     
     // clients -> players
     var players = {}
-	
-	this.state = function() {
-	    return state
-	}
 	
     this.timer = function() {
         return timer
@@ -53,8 +49,6 @@ var App = module.exports = function() {
 	
 	this.resetStateForTesting = function() {
 	    // should only be called from testing
-
-	    state = new GameState()
         
         if (socket) {
             socket.clients = socket.clientsIndex = {};
@@ -68,10 +62,12 @@ var App = module.exports = function() {
 	}
 	
 	this.sendAll = function(message) {
+        traffic.log(" OUT " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
         socket.broadcast(message)
 	}
 	
 	this.sendOthers = function(client, message) {
+        traffic.log(" OUT " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
         client.broadcast(message)
 	}
     
@@ -88,8 +84,7 @@ var App = module.exports = function() {
     
     this.start = function(port, cb) {
     
-    
-        state.loadFromDb(function() {
+        Tile.clearTypes([Player.Type, Bomb.Type], function() {
         
             // timer
             timer.start()
@@ -119,7 +114,7 @@ var App = module.exports = function() {
 
                 client.on('message', function(message) {
                 
-                    // traffic.log(" IN  ", message)
+                    traffic.log(" IN  " + message.type + "." + message.action + " " + JSON.stringify(message.data))        
                     
                     try {
                         var filename = message.type.toLowerCase() + ".control"

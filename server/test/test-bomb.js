@@ -9,8 +9,6 @@ var Wall = require("../model/Wall")
 var Message = require("../model/Message")
 var _ = require("underscore")
 
-var GameState = require('../model/GameState')
-
 var bombs = require('../controller/bomb.control')
 var walls = require('../controller/wall.control')
 
@@ -49,63 +47,52 @@ exports.addBomb = function (assert) {
 
 exports.hits = function(assert) {
     
-    var app = new App()
-    var timer = app.timer()
-    
-    app.resetStateForTesting()
-    
-    var socket = {
-        broadcast: function() {}
-    }
-    
-    app.socket(socket)
+    helpers.simple(function(app, client, socket, timer) {
 
-    var client = {
-        send: function() {},
-        broadcast: function() {}
-    }
-
-    var wall = new Wall(10, 10)
-    walls.create(app, client, wall.toValue())
-    
-    Bomb.Delay = 300 // enough time to hit it
-    
-    var bomb = new Bomb(09, 09)    
-    bombs.create(app, client, bomb.toValue())
-    
-    timer.start()
-    
-    var hitWall = false
-    var hitBomb = false
-    var finished = false
-    
-    socket.broadcast = function(message) {
+        var wall = new Wall(10, 10)
+        walls.create(app, client, wall.toValue())
         
-        if (message.data.wallId == wall.wallId()) hitWall = true
-        if (message.data.bombId == bomb.bombId()) hitBomb = true
-
-        if (hitWall && hitBomb) {
-            assert.ok(!finished, "Finished twice!")
-            finished = true
-            bombAgain()
-        }
-    }
-    
-    
-    
-    function bombAgain() {
-        var bomb = new Bomb(11, 11)
-        bombs.create(app, client, bomb.toValue())     
+        Bomb.Delay = 300 // enough time to hit it
+        
+        var bomb = new Bomb(09, 09)    
+        bombs.create(app, client, bomb.toValue())
+        
+        timer.start()
+        
+        var hitWall = false
+        var hitBomb = false
+        var finished = false
         
         socket.broadcast = function(message) {
-
-            assert.ok(message.data.bombId, "Possibly didn't clear old tiles")
-            assert.equal(message.data.bombId, bomb.bombId(), "Possibly didn't clear old tiles")
             
-            assert.finish()
-        }   
-    }
-    
+            if (message.data.wallId == wall.wallId()) hitWall = true
+            if (message.data.bombId == bomb.bombId()) hitBomb = true
+
+            if (hitWall && hitBomb) {
+                assert.ok(!finished, "Finished twice!")
+                finished = true
+                bombAgain()
+            }
+        }
+        
+        
+        
+        function bombAgain() {
+            var bomb = new Bomb(11, 11)
+            bombs.create(app, client, bomb.toValue())     
+            
+            socket.broadcast = function(message) {
+
+                assert.ok(message.data.bombId, "Possibly didn't clear old tiles")
+                assert.equal(message.data.bombId, bomb.bombId(), "Possibly didn't clear old tiles")
+                
+                timer.stop()
+                
+                assert.finish()
+            }   
+        }
+        
+    })
 }
 
 

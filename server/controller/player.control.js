@@ -1,11 +1,12 @@
 var sys = require("sys")
 var Player = require("../model/Player")
 var Wall = require("../model/Wall")
+var Tile = require("../model/Tile")
 var Message = require("../model/Message")
-var GameState = require("../model/GameState")
 var Fault = require("../model/Fault")
 var assert = require('assert')
 var _ = require('underscore')
+var traffic = require("../utils/traffic")
 
 exports.observe = function(app, client, data) {
 
@@ -44,24 +45,48 @@ exports.create = function (app, client, data) {
     var nickname = data.nickname
     var player = new Player(nickname)
             
-    // create it first (this isn't timely)
-    player.create(function(success) {
+    // create it first (this isn't time-sensitive, so just go)
+    
 
-        if (!success)
-            return client.send(new Fault(Fault.PlayerExists, "Player Exists: " + nickname))
+    
+    safeSpawn(function() {
+        player.create(function(success) {
+
+            if (!success)
+                return client.send(new Fault(Fault.PlayerExists, "Player Exists: " + nickname))
+                
+            // send created self    
+            client.send(new Player.MessageYou(player))
+            app.setClientPlayer(client, player)
             
+            // observe
+            exports.observe(app, client, data)
+            
+            // announce to others
+            app.sendAll(new Player.MessageCreate(player))
+        })       
+    })
+    
+    
+    
+    
+    // keep looking for a good spawn location 
+    function safeSpawn(cb) {
         
-        // send created self    
-        client.send(new Player.MessageYou(player))
-        app.setClientPlayer(client, player)
+        player.spawn()
         
-        // observe
-        exports.observe(app, client, data)
-        
-        // announce to others
-        app.sendAll(new Player.MessageCreate(player))
-        
-    })    
+        Tile.isOccupied(player.x(), player.y(), function(err, occupied) {
+
+            if (occupied) {
+                traffic.log("UNSAFE SPAWN")
+                return safeSpawn(cb)
+            }
+            
+            cb()
+        })
+    }    
+    
+ 
 }
 
 exports.leave = function(app, client, data) {
@@ -83,17 +108,27 @@ exports.move = function (app, client, data) {
     var player = Player.fromValue(data)    
         
     assert.ok(!_(player.x()).isUndefined(), "Missing X")
-    assert.ok(!_(player.y()).isUndefined(), "Missing Y")    
+    assert.ok(!_(player.y()).isUndefined(), "Missing Y")
     assert.ok(player.playerId(), "Missing playerId")
     
-    Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
-        // if something goes wrong, report it
-        if (err) {
-            client.send(Fault.Error, err)
+    Tile.isOccupied(player.x(), player.y(), function(err, occupied) {
+
+        // If the Tile is occupied, find out where they used to be and move them back
+        if (occupied) {
+            return Player.findPlayer(player.playerId(), function(err, player) {
+                if (player) 
+                    app.sendAll(new Player.MessageMove(player))
+            })
         }
+            
+        // Otherwise, update the server
+        Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
+            
+        })
     })
     
+    
     // send immediately (this is timely)
-
     app.sendOthers(client, new Player.MessageMove(player))
+    
 }
