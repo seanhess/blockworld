@@ -10,12 +10,18 @@ var GameState = require("./model/GameState")
 var GameTimer = require("./model/GameTimer")
 var Message = require("./model/Message")
 var sys = require("sys")
+
+// utils
 var traffic = require("./utils/traffic")
 
+// models
+var Tile = require('./model/Tile')
+
+// vendor
 var io = require('socket.io')
 var express = require('express')
+var cluster = require('cluster')
 
-var Tile = require('./model/Tile')
 
 
 var playerControl = require('./controller/player.control')
@@ -176,10 +182,10 @@ var App = module.exports = function() {
 
 App.DefaultPort = 3000
 
-if (module == require.main) {
+if (module == require.main) {    
     var port = process.ARGV[2] || App.DefaultPort
     var app = new App()
     traffic.log("App Start Main - " + port)
-    app.start(port)
+    app.start(port)    
 }
 

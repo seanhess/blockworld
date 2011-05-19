@@ -25,7 +25,7 @@ task('ls', 'test', function(host) {
 })
 
 task('deploy', 'deploy', function(host) {
-    host.ssh('cd /var/www/bb.seanhess.net/')
+    host.ssh('cd /var/www/bb.seanhess.net/ && git fetch && git reset --hard origin/master && service bb restart')
 })
 
 control.begin()
