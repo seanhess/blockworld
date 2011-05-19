@@ -10,7 +10,7 @@
 #import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-#define SOCKET_ADDR @"localhost"
+#define SOCKET_ADDR @"dev.seanhess.net"
 
 typedef enum server_status {
 	connected,
