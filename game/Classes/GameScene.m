@@ -64,10 +64,6 @@
         // watch for disconnects, and go back to the menu
 		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
         
-            if(status == connected) {
-                
-            }
-			
             if(status == disconnected) { 
                 [[CCDirector sharedDirector] replaceScene:[MainMenu scene]];                
                 [[ServerCommunicator instance] connect];
