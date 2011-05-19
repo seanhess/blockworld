@@ -288,8 +288,8 @@
 
 - (void) dealloc {
     NSLog(@"world dealloc'd");
-	[board release];
-    [players release];
+	//[board release];
+    //[players release];
 
 	[super dealloc];
 }
