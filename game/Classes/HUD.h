@@ -21,4 +21,6 @@
 - (void) setOnBombCallback:(void(^)())callback;
 - (void) setOnWallCallback:(void(^)())callback;
 
+- (void) cleanup;
+
 @end

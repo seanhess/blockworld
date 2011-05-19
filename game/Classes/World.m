@@ -15,11 +15,14 @@
 #import "Player.h"
 #import "Create.h"
 #import "Move.h"
+#import "MainMenu.h"
 #import "Settings.h"
-#import "GameOver.h"
+#import "HUD.h"
 
 
 @interface World()
+@property(nonatomic, retain) NSMutableDictionary* players;
+@property(nonatomic, retain) NSMutableDictionary* board;
 - (id) keyForPoint:(CGPoint)point;
 - (Cell*) cellAtPoint:(CGPoint)point;
 - (BOOL) canMoveToCell:(Cell*)cell;
@@ -28,16 +31,18 @@
 - (void) drawSeenCells;
 - (void) undrawUnseenCells;
 - (CGRect) visibleGridRect;
-- (void) playerDidDie;
+- (void) playerDidDie:(Player*)player;
+- (void) kickToMenu;
 @end
 
 @implementation World
 
-@synthesize layingWallsPress, hideHUD, showHUD;
+@synthesize layingWallsPress, hud, players, board;
 
 - (id) init {
 	if((self = [super init])) {
-		board = [NSMutableDictionary new];
+		self.board = [NSMutableDictionary dictionary];
+        self.players = [NSMutableDictionary dictionary];
 		
 		// init a 9x9 board
 		for(int i=-10; i<10; i++) {
@@ -50,15 +55,24 @@
 }
 
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point {
-	Player* player = nil;
-	if((player = [self playerWithPlayerID:playerID]))
-		[self movePlayer:playerID toPoint:point];
-	else 
-		[self cellAtPoint:point].item = player = [Player playerWithPlayerID:playerID];
+    
+    
+	Player* player = [self playerWithPlayerID:playerID];
 	
+    if(player)
+		[self movePlayer:playerID toPoint:point];
+	else {
+        player = [Player playerWithPlayerID:playerID];
+        [self.players setObject:player forKey:playerID];
+		[self cellAtPoint:point].item = player;
+    }
+	
+    
+    
 	if([playerID isEqualToString:[Settings instance].playerID]) 
 		[self adjustCameraOnPlayer:[self playerWithPlayerID:playerID]];
 	
+    
 	return player;
 }
 
@@ -101,18 +115,16 @@
 	Cell* cell = [self cellAtPoint:point];
 	
     
-    Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-    if(myplayer.cell.point.x == point.x && myplayer.cell.point.y == point.y) {
-        
-        [self playerDidDie];
+    if([cell.item isKindOfClass:[Player class]]) {        
+        [self playerDidDie:(Player*)cell.item];
     }
     
     
     if(cell.bomb) { 
-        CCSprite* expletive = [cell.bomb expletive];
+        
         [self addChild:[cell.bomb explotion] z:cell.zOrder+100];
-        [self addChild:expletive z:cell.zOrder+101];
-        [Bomb animateExpletive:expletive];
+        [self addChild:[cell.bomb expletive] z:cell.zOrder+101];
+        
     }
     
     cell.bomb = nil;
@@ -150,28 +162,36 @@
 	return !cell.item && !cell.bomb;
 }
 
-- (void) playerDidDie {
-    float x, y, z;
-    [self.camera centerX:&x centerY:&y centerZ:&z];
+- (void) playerDidDie:(Player*)player {
     
-    GameOver* gameOver = [GameOver node];
-    [self addChild:gameOver z:INT_MAX];
-    gameOver.position = ccp(x,y);
-    gameOver.anchorPoint = ccp(0,0);
+    [self.players removeObjectForKey:player.playerID];
     
-    self.hideHUD();
+    if([player.playerID isEqualToString:[Settings instance].playerID]) {
+
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        
+        CCSprite* sprite = [CCSprite spriteWithFile:@"gameover.png"];
+        sprite.scale = .2;
+        sprite.position = ccp(CGRectGetMidY(screenRect), CGRectGetMidX(screenRect));
+        [sprite runAction:[CCScaleTo actionWithDuration:.7 scale:1.f]];
+        [sprite runAction:[CCFadeIn actionWithDuration:.7]];
+        
+        [self.parent addChild:sprite];
+        
+        self.hud.visible = NO;
+        
+        [[CCScheduler sharedScheduler] scheduleSelector:@selector(kickToMenu) forTarget:self interval:2.f paused:NO];
+        
+    }
+}
+
+- (void) kickToMenu {
+    [self cleanup];
+    [[CCDirector sharedDirector] replaceScene:[MainMenu scene]];
 }
 
 - (Player*) playerWithPlayerID:(NSString*) playerID {
-	for(Cell* cell in [board allValues]) {
-		if(cell.item && [cell.item isKindOfClass:[Player class]]) {
-			if([((Player*)cell.item).playerID isEqualToString:playerID]) {
-				return (Player*)cell.item;
-			}
-		}
-	}
-	
-	return nil;
+    return [players objectForKey:playerID];
 }
 
 - (Cell*) cellAtPoint:(CGPoint)point {
@@ -259,8 +279,17 @@
 	return [NSString stringWithFormat:@"%.0f %.0f", point.x, point.y];
 }
 
+- (void) cleanup {
+    [super cleanup];
+    
+    [ServerCommunicator instance].messageReceivedCallback = nil;
+    [hud cleanup];
+}
+
 - (void) dealloc {
+    NSLog(@"world dealloc'd");
 	[board release];
+    [players release];
 
 	[super dealloc];
 }

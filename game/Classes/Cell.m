@@ -66,7 +66,7 @@
         self.bush.position = ccp(0,20);
         [self addChild:self.bush z:2];
     }
-    
+
 }
 
 - (void) removeAllSprites {
@@ -78,6 +78,7 @@
     
     self.grass = nil;
     self.bush = nil;
+
 }
 
 - (void) setItem:(Item *)i {
@@ -117,7 +118,7 @@
 	
     
 	if(bomb) {
-		[self addChild:bomb z:1];
+		[self addChild:bomb z:3];
     } 
     
 }

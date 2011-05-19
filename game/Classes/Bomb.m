@@ -49,16 +49,14 @@
 }
 
 
-+ (void) animateExpletive:(CCSprite*)sprite {
-    [sprite runAction:[CCScaleTo actionWithDuration:1.5f scale:1.f]];
-    [sprite runAction:[CCFadeOut actionWithDuration:1.5f]];
-}
-
 - (CCSprite*) expletive {
     CCSprite* expletive = [CCSprite spriteWithFile:[NSString stringWithFormat:@"explative%02d-hd.png", (arc4random()%20)]];
     expletive.scale = .6;
     expletive.position = ccpAdd(self.cell.position, ccp(10,50));
     expletive.anchorPoint = ccp(.5,.5);
+    [expletive runAction:[CCScaleTo actionWithDuration:1.5f scale:1.f]];
+    [expletive runAction:[CCFadeOut actionWithDuration:1.5f]];
+
     return expletive;
 }
 

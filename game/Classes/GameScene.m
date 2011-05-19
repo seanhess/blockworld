@@ -62,13 +62,7 @@
         
         
         //world to hud actions
-        [world setHideHUD:^{
-            hud.visible = NO;
-        }];
-        
-        [world setShowHUD:^{
-            hud.visible = YES;
-        }];
+        world.hud = hud;
         
         
         
@@ -86,7 +80,7 @@
 		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
         
             if(status == disconnected) { 
-                [[CCDirector sharedDirector] replaceScene:[MainMenu scene]];                
+                [[CCDirector sharedDirector] replaceScene:[MainMenu scene]];
                 [[ServerCommunicator instance] connect];
             }
             

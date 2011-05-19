@@ -32,4 +32,9 @@
     [super removeAllSprites];
 }
 
+- (void) dealloc {
+    NSLog(@"wall dealloc'd");
+    [super dealloc];
+}
+
 @end

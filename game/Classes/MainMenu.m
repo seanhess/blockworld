@@ -43,20 +43,21 @@
 		
 
         
-		statusLabel = [CCLabelTTF labelWithString:@"Disconnected" fontName:@"Helvetica" fontSize:64];
-		statusLabel.position =  ccp(size.width/2, size.height/2);
+		statusLabel = [CCLabelTTF labelWithString:@"Unknown" fontName:@"Helvetica" fontSize:24];
+		statusLabel.position =  ccp(size.width/2, size.height/4);
 		[self addChild:statusLabel];
         
         
         [CCMenuItemFont setFontName:@"Helvetica"];
-        [CCMenuItemFont setFontSize:22];        
-        startButton = [CCMenuItemFont itemFromString:@"Play" target:self selector:@selector(verifyName)];
+        [CCMenuItemFont setFontSize:64];
+        startButton = [CCMenuItemFont itemFromString:@"Spawn" target:self selector:@selector(verifyName)];
         startButton.position = ccp(0,0);
-        startButton.anchorPoint = ccp(.5,0);
+        startButton.anchorPoint = ccp(.5,.5);
         startButton.disabledColor = ccc3(.5, .5, .5);
-        [startButton setColor:ccc3(255, 255, 255)];
+        startButton.color = ccc3(255, 255, 255);
+        startButton.disabledColor = ccc3(100, 100, 100);
         CCMenu* menu = [CCMenu menuWithItems:startButton, nil];
-        menu.position = ccp(size.width/2,size.height*3/5);
+        menu.position = ccp(size.width/2,size.height/2);
         [self addChild:menu];
         
         
@@ -67,13 +68,16 @@
         
 		[ServerCommunicator instance].statusChangedCallback = ^(server_status status) {
             if(status == connected) { 
-                
+                startButton.isEnabled = YES;
                 [statusLabel setString:@"Connected"]; 
             }
-			if(status == disconnected) { [statusLabel setString:@"Disconnected"]; }
-			if(status == sending) { [statusLabel setString:@"Sending"]; }
-			if(status == receiving) { [statusLabel setString:@"Receiving"]; }    
+			if(status == disconnected) { 
+                startButton.isEnabled = NO;
+                [statusLabel setString:@"Disconnected"]; 
+            }
 		};
+        
+        [ServerCommunicator instance].statusChangedCallback([ServerCommunicator instance]->status);
 
 
 		[[ServerCommunicator instance] connect];
@@ -139,6 +143,7 @@
 
 
 - (void) dealloc {
+    [ServerCommunicator instance].statusChangedCallback = nil;
 
 	[super dealloc];
 }

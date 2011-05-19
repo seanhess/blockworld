@@ -48,5 +48,12 @@
 	actionPad.wall = cb;
 }
 
+- (void) cleanup {
+    [super cleanup];
+    
+    actionPad.wall = nil;
+    actionPad.bomb = nil;
+    directionPad.move = nil;
+}
 
 @end

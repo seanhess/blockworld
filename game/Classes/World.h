@@ -9,10 +9,9 @@
 
 #import "cocos2d.h"
 
-@class Player, Cell;
+@class Player, Cell, HUD;
 
 @interface World : CCLayer {
-	NSMutableDictionary* board;
 
 	BOOL layingWallsPress;
     
@@ -20,8 +19,7 @@
 }
 
 @property(nonatomic, assign) BOOL layingWallsPress;
-@property(nonatomic, copy) void(^hideHUD)();
-@property(nonatomic, copy) void(^showHUD)();
+@property(nonatomic, assign) HUD* hud;
 
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
 - (void) createWallAtPoint:(CGPoint)point;

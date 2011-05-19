@@ -63,13 +63,17 @@ static ServerCommunicator* instance = nil;
 }
 
 - (void)socketIoClientDidConnect:(SocketIoClient *)client {
+    status = connected;
+    
     if(statusChangedCallback)
-        statusChangedCallback(connected);
+        statusChangedCallback(status);
 }
 
 - (void)socketIoClientDidDisconnect:(SocketIoClient *)client {
+    status = disconnected;
+    
     if(statusChangedCallback)
-        statusChangedCallback(disconnected);
+        statusChangedCallback(status);
 }
 
 -(void) dealloc {

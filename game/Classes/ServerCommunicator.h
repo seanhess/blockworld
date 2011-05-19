@@ -10,13 +10,11 @@
 #import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-#define SOCKET_ADDR @"squid.local"
+#define SOCKET_ADDR @"localhost"
 
 typedef enum server_status {
-	connected,
-	disconnected,
-	sending,
-	receiving
+	disconnected = 0,
+    connected
 } server_status;
 
 
@@ -26,6 +24,8 @@ typedef enum server_status {
 @interface ServerCommunicator : NSObject <SocketIoClientDelegate> {
     
 	NSString* partialMessage;
+    
+    @public
 	server_status status;
     
 }

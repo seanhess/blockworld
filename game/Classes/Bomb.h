@@ -11,8 +11,6 @@
 
 @interface Bomb : Item
 
-+ (void) animateExpletive:(CCSprite*)sprite;
-
 - (CCParticleSystem*) explotion;
 - (CCSprite*) expletive;
 
