@@ -73,7 +73,6 @@
     [self.item removeAllSprites];
     
     [self removeChild:grass cleanup:YES];
-    if(self.item) { [self removeChild:self.item cleanup:YES]; }
     if(self.bushName) { [self removeChild:self.bush cleanup:YES]; }
     
     self.grass = nil;
