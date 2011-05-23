@@ -60,6 +60,7 @@
 	// Init the View Controller
 	viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 	viewController.wantsFullScreenLayout = YES;
+    viewController.view.multipleTouchEnabled = YES;
 	
 	//
 	// Create the EAGLView manually
@@ -72,6 +73,8 @@
 								   depthFormat:0						// GL_DEPTH_COMPONENT16_OES
 						];
 	
+    glView.multipleTouchEnabled = YES;
+    
 	// attach the openglView to the director
 	[director setOpenGLView:glView];
 	

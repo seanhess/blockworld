@@ -13,6 +13,7 @@
 
 @interface World : CCLayer {
 
+    float pinchDistance;
 	BOOL layingWallsPress;
     
     CCSprite* smoke;

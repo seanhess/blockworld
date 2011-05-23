@@ -19,6 +19,8 @@
 #import "Settings.h"
 #import "HUD.h"
 
+#import "CCNode+Additions.h"
+
 
 @interface World()
 @property(nonatomic, retain) NSMutableDictionary* players;
@@ -44,12 +46,8 @@
 		self.board = [NSMutableDictionary dictionary];
         self.players = [NSMutableDictionary dictionary];
 		
-		// init a 9x9 board
-		for(int i=-10; i<10; i++) {
-			for (int j=-10; j<10; j++) {
-				[self cellAtPoint:ccp(i,j)];
-			}
-		}
+        self.isTouchEnabled = YES;
+        
 		
 	} return self;
 }
@@ -144,6 +142,8 @@
 }
 
 - (void) bombPress {
+    
+    
 	layingWallsPress = NO;
 	
 	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
@@ -277,6 +277,24 @@
 
 - (id) keyForPoint:(CGPoint)point {
 	return [NSString stringWithFormat:@"%.0f %.0f", point.x, point.y];
+}
+
+- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    if([touches count] >= 2) {
+        CGPoint touchOne = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
+        CGPoint touchTwo = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:1]];
+        
+        pinchDistance = ccpDistance(touchOne, touchTwo);
+        
+        float x,y,z;
+        [self.camera centerX:&x centerY:&y centerZ:&z];
+        
+        [self.camera setEyeX:x eyeY:y eyeZ:pinchDistance];
+        
+        NSLog(@"pinch distance %f", pinchDistance);
+    } else {
+        NSLog(@"one touch detected");
+    }
 }
 
 - (void) cleanup {
