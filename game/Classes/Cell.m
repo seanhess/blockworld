@@ -82,6 +82,7 @@
 }
 
 - (void) setItem:(Item *)i {
+    
 	if(item)
 		[self removeChild:item cleanup:YES];
 	
@@ -108,6 +109,7 @@
 }
 
 - (void) setBomb:(Bomb*)b {
+    
 	if(bomb)
 		[self removeChild:bomb cleanup:YES];
 	
@@ -141,9 +143,9 @@
 }
 
 - (void) dealloc {
-	self.item = nil;
-    self.bomb = nil;
-    self.bush = nil;
+	[item release];
+    [bomb release];
+    [bush release];
 	
 	[super dealloc];
 }

@@ -44,8 +44,8 @@
 }
 
 - (void) dealloc {
-	[cell release];
 	[sprite release];
+    [cachedSpriteName release];
     
 	[super dealloc];
 }
