@@ -279,7 +279,7 @@
 	return [NSString stringWithFormat:@"%.0f %.0f", point.x, point.y];
 }
 
-- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+/*- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     if([touches count] >= 2) {
         CGPoint touchOne = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
         CGPoint touchTwo = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:1]];
@@ -295,7 +295,7 @@
     } else {
         NSLog(@"one touch detected");
     }
-}
+}*/
 
 - (void) cleanup {
     [super cleanup];
