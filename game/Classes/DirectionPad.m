@@ -8,12 +8,17 @@
 
 #import "DirectionPad.h"
 #import "CCNode+Additions.h"
+#import "CCLayer.h"
+
+#define DiagonalThresholdRatio 0.75 // 1 is perfect strictness
 
 @interface DirectionPad()
 @property(nonatomic, assign) NSTimer* timer;
 @property(nonatomic, assign) CGPoint currentTouch;
 - (void) move:(NSTimer*)timer;
 @end
+
+// How should this work, really? If their touch is still down... am I intercepting EVERYTHING? 
 
 @implementation DirectionPad
 
@@ -24,12 +29,10 @@
 		
         self.isTouchEnabled = YES;
 		
-		CCSprite* sprite = [CCSprite spriteWithFile:@"dpad.png"];
-		
+		CCSprite* sprite = [CCSprite spriteWithFile:@"dpad.png"];        
 		sprite.position = ccp(0, 0);
-		
+        sprite.opacity = 150;
 		[self addChild:sprite];
-		
 		
 	} return self;
 }
@@ -40,13 +43,13 @@
         self.timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(move:) userInfo:nil repeats:YES];
     }
     
-    currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
+    self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
     
     [self move:self.timer];
 }
 
 - (void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
+    self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
 }
 
 - (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -60,27 +63,35 @@
 }
 
 - (void) move:(NSTimer*)timer {
+
+    // Get the point
+    CGPoint translatedPoint = ccpSub(self.currentTouch, self.position);
     
-    CGRect up = CGRectMake(-30, 10, 60, 60);
-    CGRect right = CGRectMake(10, -30, 60, 60);
-    CGRect down = CGRectMake(-30, -60, 60, 60);
-    CGRect left = CGRectMake(-70, -30, 60, 60);
+    // A few things we'll need
+    CGFloat x = translatedPoint.x;
+    CGFloat y = translatedPoint.y;
+    CGFloat absX = fabs(x);
+    CGFloat absY = fabs(y);
+    CGFloat normX = (absX) ? x / absX : 0; // -1 or 1
+    CGFloat normY = (absY) ? y / absY : 0;    
+
+    // if they are equal, it is 1. If Y is zero, then go full-x
+    // If Y > X, will be < 1
+    // If Y < X, will be > 1
+    CGFloat xtoy = (absY) ? absX / absY : 100; 
     
-    CGPoint translatedPoint = ccpSub(currentTouch, self.position);
+    // more right than left
+    if (xtoy > 1) {
+        y = (1/xtoy < DiagonalThresholdRatio) ? 0 : normY; // -1 or 1;
+        x = normX;
+    }
     
+    else {
+        y = normY;
+        x = (xtoy < DiagonalThresholdRatio) ? 0 : normX; // -1 or 1;
+    }    
     
-    if(CGRectContainsPoint(up, translatedPoint)) {
-        move(0,1);
-    }
-    if(CGRectContainsPoint(right, translatedPoint)) {
-        move(1,0);
-    }
-    if(CGRectContainsPoint(down, translatedPoint)) {
-        move(0,-1);
-    }
-    if(CGRectContainsPoint(left, translatedPoint)) {
-        move(-1,0);
-    }
+    move(x, y);
 }
 
 
