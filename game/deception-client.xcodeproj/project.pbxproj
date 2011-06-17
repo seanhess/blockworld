@@ -1944,6 +1944,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1960,6 +1961,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "deception-client";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B7FFB273-0A46-4F1E-8F16-6FD307EA7DB9";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;

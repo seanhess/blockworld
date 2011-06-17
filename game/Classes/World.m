@@ -27,7 +27,6 @@
 @property(nonatomic, retain) NSMutableDictionary* board;
 - (id) keyForPoint:(CGPoint)point;
 - (Cell*) cellAtPoint:(CGPoint)point;
-- (BOOL) canMoveToCell:(Cell*)cell;
 - (void) adjustCameraOnPlayer:(Player*)player;
 - (Player*) playerWithPlayerID:(NSString*) playerID;
 - (void) drawSeenCells;
@@ -45,9 +44,10 @@
 	if((self = [super init])) {
 		self.board = [NSMutableDictionary dictionary];
         self.players = [NSMutableDictionary dictionary];
-		
         self.isTouchEnabled = YES;
         
+        [self drawSeenCells];
+        [self undrawUnseenCells];
 		
 	} return self;
 }
@@ -62,7 +62,7 @@
 	else {
         player = [Player playerWithPlayerID:playerID];
         [self.players setObject:player forKey:playerID];
-		[self cellAtPoint:point].item = player;
+		[self cellAtPoint:point].player = player;
     }
 	
     
@@ -75,23 +75,24 @@
 }
 
 - (void) createWallAtPoint:(CGPoint)point {
-	[self cellAtPoint:point].item = [Wall node];
+	[[self cellAtPoint:point] buildWall];
 }
 
 - (void) createBombAtPoint:(CGPoint)point {
-	[self cellAtPoint:point].bomb = [Bomb node];
+	[[self cellAtPoint:point] dropBomb];
 }
 
-- (void) movePlayer:(NSString*)playerID toPoint:(CGPoint)point {
+- (BOOL) movePlayer:(NSString*)playerID toPoint:(CGPoint)point {
 	Player* player = [self playerWithPlayerID:playerID];
 	Cell* newCell = [self cellAtPoint:point];
 	Cell* oldCell = player.cell;
 	
 	// dont move if you've hit a wall
-	if(![self canMoveToCell:newCell]) { return; }
+	if([newCell isOccupied]) { return NO; }
 	
 	// send the player to the new cell
-	newCell.item = player; 
+    oldCell.player = nil;
+	newCell.player = player;
 	
 	// set the sprite for the player
 	[player moveInDirection:ccpSub(newCell.point, oldCell.point)];
@@ -99,7 +100,7 @@
 	
 	// lay wall if needed
 	if(oldCell != newCell && layingWallsPress) {
-		oldCell.item = [Wall node];
+		[oldCell buildWall];
 		
 		Create* command = [Create command];
 		[command setType:@"wall"];
@@ -107,59 +108,31 @@
         [command setPlayerID:[Settings instance].playerID];
 		[command send];
 	}
+    
+    return YES;
 }
+
 
 - (void) destroyAtPoint:(CGPoint)point {
 	Cell* cell = [self cellAtPoint:point];
 	
     
-    if([cell.item isKindOfClass:[Player class]]) {        
-        [self playerDidDie:(Player*)cell.item];
-    }
-    
+    if(cell.player) { [self playerDidDie:cell.player]; }
     
     if(cell.bomb) { 
         
-        [self addChild:[cell.bomb explotion] z:cell.zOrder+100];
-        [self addChild:[cell.bomb expletive] z:cell.zOrder+101];
+        CCNode* explotion = [cell.bomb explotion];
+        CCNode* expletive = [cell.bomb expletive];
+        
+        explotion.position = ccpAdd(explotion.position, cell.position);
+        expletive.position = ccpAdd(expletive.position, cell.position); 
+        
+        [self addChild:explotion z:cell.zOrder+100];
+        [self addChild:expletive z:cell.zOrder+101];
         
     }
     
-    cell.bomb = nil;
-	cell.item = nil;
-    
-}
-
-- (void) movePress:(CGPoint)point {
-	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-	[self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
-	[self adjustCameraOnPlayer:myplayer];
-	
-	Move* command = [Move command];
-	[command setPlayerID:[Settings instance].playerID];
-	[command setPoint:myplayer.cell.point];
-	[command send];
-}
-
-- (void) bombPress {
-    
-    
-	layingWallsPress = NO;
-	
-	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-	Cell* cell = myplayer.cell;
-    
-    [self createBombAtPoint:cell.point];
-	
-	Create* command = [Create command];
-    [command setPlayerID:[Settings instance].playerID];
-	[command setType:@"bomb"];
-	[command setPoint:cell.point];
-	[command send];
-}
-
-- (BOOL) canMoveToCell:(Cell*)cell {
-	return !cell.item && !cell.bomb;
+    [cell blowUp];
 }
 
 - (void) playerDidDie:(Player*)player {
@@ -167,7 +140,7 @@
     [self.players removeObjectForKey:player.playerID];
     
     if([player.playerID isEqualToString:[Settings instance].playerID]) {
-
+        
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         
         CCSprite* sprite = [CCSprite spriteWithFile:@"gameover.png"];
@@ -181,8 +154,36 @@
         self.hud.visible = NO;
         
         [[CCScheduler sharedScheduler] scheduleSelector:@selector(kickToMenu) forTarget:self interval:2.f paused:NO];
-        
     }
+}
+
+- (void) movePress:(CGPoint)point {
+	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
+    
+	BOOL canMovePlayer = [self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
+    if(!canMovePlayer) { return; }
+    
+	[self adjustCameraOnPlayer:myplayer];
+	
+	Move* command = [Move command];
+	[command setPlayerID:[Settings instance].playerID];
+	[command setPoint:myplayer.cell.point];
+	[command send];
+}
+
+- (void) bombPress {
+	layingWallsPress = NO;
+	
+	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
+	Cell* cell = myplayer.cell;
+    
+    [self createBombAtPoint:cell.point];
+	
+	Create* command = [Create command];
+    [command setPlayerID:[Settings instance].playerID];
+	[command setType:@"bomb"];
+	[command setPoint:cell.point];
+	[command send];
 }
 
 - (void) kickToMenu {

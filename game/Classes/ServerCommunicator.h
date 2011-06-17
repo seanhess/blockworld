@@ -10,7 +10,7 @@
 #import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-#define SOCKET_ADDR @"squid.local"
+#define SOCKET_ADDR @"192.168.1.140"
 
 typedef enum server_status {
 	disconnected = 0,

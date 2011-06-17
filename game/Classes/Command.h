@@ -15,7 +15,7 @@
 	World* world;
 }
 
-@property(nonatomic, readonly) NSMutableDictionary* definition;
+@property(nonatomic, retain) NSMutableDictionary* definition;
 @property(nonatomic, readonly) NSMutableDictionary* data;
 @property(nonatomic, readonly) int positionX;
 @property(nonatomic, readonly) int positionY;

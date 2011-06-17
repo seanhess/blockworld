@@ -10,6 +10,7 @@
 
 #import "Item.h"
 #import "Bomb.h"
+#import "Wall.h"
 #import "Player.h"
 
 @interface Cell()
@@ -20,7 +21,7 @@
 
 @implementation Cell
 
-@synthesize point, item, bomb, bush, isOnScreen, bushName, grass;
+@synthesize point, wall, bomb, bush, isOnScreen, bushName, grass, player;
 
 
 + (Cell*) cellAtPoint:(CGPoint)p {
@@ -46,7 +47,8 @@
 }
 
 - (void) drawAllSprites {
-    [self.item drawAllSprites];
+    [self.wall drawAllSprites];
+    [self.bomb drawAllSprites];
     
     
     
@@ -70,7 +72,8 @@
 }
 
 - (void) removeAllSprites {
-    [self.item removeAllSprites];
+    [self.wall removeAllSprites];
+    [self.bomb removeAllSprites];
     
     [self removeChild:grass cleanup:YES];
     if(self.bushName) { [self removeChild:self.bush cleanup:YES]; }
@@ -80,48 +83,53 @@
 
 }
 
-- (void) setItem:(Item *)i {
+- (void) setPlayer:(Player *)newPlayer {
+    if(player == newPlayer) { return; }
     
-	if(item)
-		[self removeChild:item cleanup:YES];
-	
-	[item autorelease];	
-	item = [i retain];
-	
-	// make sure the items previous cell doesn't have it added
-	item.cell.item = nil;
-	item.cell = self;
-	
+    [player autorelease];
+    player = [newPlayer retain];
+    
+    if(!player) { return; }
     
     
-	if(item) {
-        
-        if(self.bush && ![item isKindOfClass:[Player class]]) { 
-            [self removeChild:self.bush cleanup:YES];
-            self.bush = nil;
-            self.bushName = nil;
-        }
-        
-		[self addChild:item z:3];
-        
+    NSLog(@"setting player to %f %f", self.point.x, self.point.y);
+    
+    player.cell = self;
+    
+    [player.parent removeChild:player cleanup:YES];
+    [self addChild:player z:4];
+}
+
+- (void) blowUp {
+    if(self.wall) { 
+        [self removeChild:self.wall cleanup:YES]; 
+        self.wall = nil; 
+    }
+    
+    if(self.bomb) {
+        [self removeChild:self.bomb cleanup:YES];
+        self.bomb = nil;
     }
 }
 
-- (void) setBomb:(Bomb*)b {
+- (void) buildWall {
+    if(self.wall) { [self removeChild:self.wall cleanup:YES]; } 
     
-	if(bomb)
-		[self removeChild:bomb cleanup:YES];
-	
-	[bomb autorelease];
-	bomb = [b retain];
-	
-	bomb.cell = self;
-	
+    self.wall = [Wall node];
     
-	if(bomb) {
-		[self addChild:bomb z:3];
-    } 
+    [self addChild:self.wall z:2];
+}
+
+- (void) dropBomb {
+    if(self.bomb) { [self removeChild:self.bomb cleanup:YES]; }
     
+    self.bomb = [Bomb node];
+    
+    [self addChild:self.bomb z:3];
+}
+
+- (BOOL) isOccupied {
+    return self.bomb || self.wall;
 }
 
 - (void) setIsOnScreen:(BOOL)boolean {
@@ -142,7 +150,8 @@
 }
 
 - (void) dealloc {
-	[item release];
+    [player release];
+	[wall release];
     [bomb release];
     [bush release];
 	

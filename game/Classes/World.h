@@ -25,7 +25,7 @@
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
 - (void) createWallAtPoint:(CGPoint)point;
 - (void) createBombAtPoint:(CGPoint)point;
-- (void) movePlayer:(NSString*)playerID toPoint:(CGPoint)point;
+- (BOOL) movePlayer:(NSString*)playerID toPoint:(CGPoint)point;
 - (void) destroyAtPoint:(CGPoint)point;
 
 // hud functions

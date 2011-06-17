@@ -13,11 +13,13 @@
 #import "Destroy.h"
 #import "Move.h"
 #import "ServerCommunicator.h"
-#import "CJSONSerializer.h"
+#import "JSONKit.h"
 
 @implementation Command
 
-@dynamic data, positionX, positionY, definition;
+@synthesize definition;
+
+@dynamic data, positionX, positionY;
 
 // used by incoming request
 +(id) commandWithDefinition:(NSDictionary*)definition world:(World*)world {
@@ -35,7 +37,7 @@
 
 -(id) initWithDefinition:(NSDictionary*)def world:w {
 	if((self = [super init])) {
-		definition = [[def mutableCopy] retain];
+		definition = [def mutableCopy];
 		world = [w retain];
 	} return self;
 }
@@ -47,12 +49,12 @@
 
 -(id) init {
 	if((self = [super init])) {
-		definition = [NSMutableDictionary new];
+		self.definition = [NSMutableDictionary dictionary];
 	} return self;
 }
 
 -(void) send {
-	[[ServerCommunicator instance] sendMessageToServer:[[CJSONSerializer serializer] serializeDictionary:definition]];
+	[[ServerCommunicator instance] sendMessageToServer:[definition JSONString]];
 }
 
 -(void) execute {
@@ -92,7 +94,7 @@
 }
 
 - (void) dealloc {
-	[definition release];
+    //[definition release];
 	[world release];
 	
 	[super dealloc];
