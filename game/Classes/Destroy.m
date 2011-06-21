@@ -19,6 +19,12 @@
 }
 
 -(void) execute {
+	if([[definition objectForKey:@"type"] isEqualToString:@"player"]) {
+		NSString* playerID = [[definition objectForKey:@"data"] objectForKey:@"playerId"];
+	
+		[world playerDidDie:[world playerWithPlayerID:playerID]];
+	}
+
     [world destroyAtPoint:ccp(self.positionX, self.positionY)];
 }
 

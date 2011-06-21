@@ -27,6 +27,8 @@
 - (void) createBombAtPoint:(CGPoint)point;
 - (BOOL) movePlayer:(NSString*)playerID toPoint:(CGPoint)point;
 - (void) destroyAtPoint:(CGPoint)point;
+- (void) playerDidDie:(Player*)player;
+- (Player*) playerWithPlayerID:(NSString*)playerID;
 
 // hud functions
 - (void) movePress:(CGPoint)point;

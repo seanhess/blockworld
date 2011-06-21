@@ -153,6 +153,10 @@
 
 }
 
+- (NSString*) description {
+	return [NSString stringWithFormat:@"<%@ %f,%f>", NSStringFromClass([self class]), self.point.x, self.point.y];
+}
+
 - (void) dealloc {
     [player release];
 	[wall release];
