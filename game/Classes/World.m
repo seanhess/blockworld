@@ -139,6 +139,9 @@
     
     [self.players removeObjectForKey:player.playerID];
     
+	player.cell.player = nil;
+	
+	
     if([player.playerID isEqualToString:[Settings instance].playerID]) {
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];

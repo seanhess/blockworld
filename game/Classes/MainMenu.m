@@ -140,11 +140,4 @@
 	[[CCDirector sharedDirector] replaceScene:[GameScene scene]];
 }
 
-
-
-- (void) dealloc {
-    [ServerCommunicator instance].statusChangedCallback = nil;
-
-	[super dealloc];
-}
 @end

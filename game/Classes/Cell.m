@@ -87,6 +87,8 @@
     if(player == newPlayer) { return; }
     
     [player autorelease];
+	[player.parent removeChild:player cleanup:YES];
+	
     player = [newPlayer retain];
     
     if(!player) { return; }

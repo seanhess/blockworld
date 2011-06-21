@@ -54,7 +54,6 @@ static ServerCommunicator* instance = nil;
     return YES;
 }
 
-
 - (void)socketIoClient:(SocketIoClient *)client didReceiveMessage:(NSString *)message isJSON:(BOOL)isJSON {
     NSLog(@" < %@", message);
     
