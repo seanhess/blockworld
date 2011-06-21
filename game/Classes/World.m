@@ -28,11 +28,9 @@
 - (id) keyForPoint:(CGPoint)point;
 - (Cell*) cellAtPoint:(CGPoint)point;
 - (void) adjustCameraOnPlayer:(Player*)player;
-- (Player*) playerWithPlayerID:(NSString*) playerID;
 - (void) drawSeenCells;
 - (void) undrawUnseenCells;
 - (CGRect) visibleGridRect;
-- (void) playerDidDie:(Player*)player;
 - (void) kickToMenu;
 @end
 
@@ -137,11 +135,9 @@
 
 - (void) playerDidDie:(Player*)player {
     
-    [self.players removeObjectForKey:player.playerID];
-    
 	player.cell.player = nil;
 	
-	
+    
     if([player.playerID isEqualToString:[Settings instance].playerID]) {
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -158,6 +154,12 @@
         
         [[CCScheduler sharedScheduler] scheduleSelector:@selector(kickToMenu) forTarget:self interval:2.f paused:NO];
     }
+	
+	
+	// this must happen at the very last so the player doesn't get dealloc'd
+	// too soon.  it will crash if anything tries to access player after this
+	
+	[self.players removeObjectForKey:player.playerID];
 }
 
 - (void) movePress:(CGPoint)point {
