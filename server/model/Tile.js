@@ -32,6 +32,11 @@ Tile.prototype.position = function(x, y) {
     this.source.y = y
 }
 
+Tile.prototype.clearPosition = function() {
+    delete this.source.x
+    delete this.source.y
+}
+
 Tile.prototype.x = function () {
     return this.source.x
 }
