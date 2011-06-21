@@ -20,19 +20,14 @@ task('seanhess', 'config for main server', function() {
     return control.hosts({user: 'seanhess', role:'app'}, ["bb.seanhess.net"])
 })
 
-
 task('ls', 'test', function(host) {
     host.ssh('ls')
 })
 
 task('deploy', 'deploy', function(host) {
     host.ssh('cd /var/www/bb.seanhess.net/ && git fetch && git reset --hard origin/master', function() {
-        //host.ssh('sudo service bb restart')
+        host.ssh('/sbin/service bb restart')
     })
-})
-
-task('restart', 'restart', function(host) {
-    host.ssh('sudo /sbin/service bb restart')
 })
 
 control.begin()

@@ -13,6 +13,6 @@
     	"connect": "1.x.x",
         "express": "2.2.x",
         "mongodb": "0.9.2",        
-        "control": "0.1.x"      
+        "control": "0.1.9"      
     }
 }
