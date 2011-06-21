@@ -65,12 +65,16 @@ static ServerCommunicator* instance = nil;
 - (void)socketIoClientDidConnect:(SocketIoClient *)client {
     status = connected;
     
+    NSLog(@"did connect");
+    
     if(statusChangedCallback)
         statusChangedCallback(status);
 }
 
 - (void)socketIoClientDidDisconnect:(SocketIoClient *)client {
     status = disconnected;
+    
+    NSLog(@"did disconnect");
     
     if(statusChangedCallback)
         statusChangedCallback(status);

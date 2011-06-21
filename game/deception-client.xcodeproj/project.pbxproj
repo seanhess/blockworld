@@ -1944,6 +1944,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1961,7 +1962,8 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "deception-client";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B7FFB273-0A46-4F1E-8F16-6FD307EA7DB9";
+				PROVISIONING_PROFILE = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
@@ -1970,6 +1972,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1984,6 +1988,8 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "deception-client";
+				PROVISIONING_PROFILE = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
@@ -2020,7 +2026,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
@@ -2035,6 +2042,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2045,7 +2053,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bryce Redd (5U2F2GYLTY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = YES;
@@ -2055,6 +2064,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "C6214F0B-9668-4BA9-ADA5-C8B4595BBA7A";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

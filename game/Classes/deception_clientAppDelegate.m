@@ -13,6 +13,7 @@
 #import "MainMenu.h"
 #import "RootViewController.h"
 #import "Settings.h"
+#import "ServerCommunicator.h"
 
 @implementation deception_clientAppDelegate
 
@@ -42,8 +43,7 @@
 
 
 
-- (void) applicationDidFinishLaunching:(UIApplication*)application
-{
+- (void) applicationDidFinishLaunching:(UIApplication*)application {
 
     
 	// Init the window
@@ -122,28 +122,29 @@
 	[[CCDirector sharedDirector] runWithScene: [MainMenu scene]];		
 }
 
-
-- (void)applicationWillResignActive:(UIApplication *)application {
+- (void) applicationWillResignActive:(UIApplication *)application {
+    [[ServerCommunicator instance] disconnect];
 	[[CCDirector sharedDirector] pause];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void) applicationDidBecomeActive:(UIApplication *)application {
 	[[CCDirector sharedDirector] resume];
 }
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application {
 	[[CCDirector sharedDirector] purgeCachedData];
 }
 
--(void) applicationDidEnterBackground:(UIApplication*)application {
+- (void) applicationDidEnterBackground:(UIApplication*)application {
 	[[CCDirector sharedDirector] stopAnimation];
 }
 
--(void) applicationWillEnterForeground:(UIApplication*)application {
+- (void) applicationWillEnterForeground:(UIApplication*)application {
+    [[ServerCommunicator instance] connect];
 	[[CCDirector sharedDirector] startAnimation];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void) applicationWillTerminate:(UIApplication *)application {
 	CCDirector *director = [CCDirector sharedDirector];
 	
 	[[director openGLView] removeFromSuperview];
@@ -155,11 +156,11 @@
 	[director end];	
 }
 
-- (void)applicationSignificantTimeChange:(UIApplication *)application {
+- (void) applicationSignificantTimeChange:(UIApplication *)application {
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];
 }
 
-- (void)dealloc {
+- (void) dealloc {
 	[[CCDirector sharedDirector] release];
 	[window release];
 	[super dealloc];

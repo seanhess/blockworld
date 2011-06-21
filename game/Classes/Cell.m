@@ -114,6 +114,8 @@
 
 - (void) buildWall {
     if(self.wall) { [self removeChild:self.wall cleanup:YES]; } 
+    if(self.bushName) { self.bushName = nil; }
+    if(self.bush) { [self removeChild:self.bush cleanup:YES]; }
     
     self.wall = [Wall node];
     
