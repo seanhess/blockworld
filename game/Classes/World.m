@@ -99,7 +99,7 @@
 	
 	
 	// lay wall if needed
-	if(oldCell != newCell && layingWallsPress) {
+	if(oldCell != newCell && layingWallsPress && [[Settings instance].playerID isEqualToString:playerID]) {
 		[oldCell buildWall];
 		
 		Create* command = [Create command];
