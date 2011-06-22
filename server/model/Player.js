@@ -40,7 +40,7 @@ Player.prototype.create = function(cb) {
 }
 
 Player.prototype.remove = function(cb) {
-    Tile.tiles().remove({playerId: this.playerId()}, cb)
+    Tile.tiles().remove({type: Player.Type, playerId: this.playerId()}, cb)
 }
 
 
@@ -61,11 +61,11 @@ Player.allPlayers = function(cb) {
 }
 
 Player.moveTo = function(playerId, x, y, cb) {
-    Tile.tiles().update({playerId:playerId}, {$set: {x: x, y: y}}, cb)
+    Tile.tiles().update({type: Player.Type, playerId:playerId}, {$set: {x: x, y: y}}, cb)
 }
 
 Player.findPlayer = function(playerId, cb) {
-    Tile.tiles().findOne({playerId:playerId}, function(err, player) {
+    Tile.tiles().findOne({type: Player.Type, playerId:playerId}, function(err, player) {
         cb(null, player)
     })
 }

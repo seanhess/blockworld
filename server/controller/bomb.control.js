@@ -15,7 +15,7 @@ exports.create = function (app, client, data) {
     
     var bomb = new Bomb(data.x, data.y, data.playerId)
     
-    // add the wall
+    // add the bomb
     bomb.create(function(success) {
     
     })
@@ -25,48 +25,50 @@ exports.create = function (app, client, data) {
     
     // schedule it for detonation
     app.timer().scheduleAhead(Bomb.Delay, function() {
-    
-        var range = bomb.hitArea()
-        
-        var docs = Tile.tilesInRange(range, function(err, tileDocs) {
-            
-            // Convert them. There's probably a better place for this
-
-            var tiles = tileDocs.map(function(doc) {
-                
-                var Class = null
-                
-                     if (doc.type == Player.Type) Class = Player
-                else if (doc.type == Bomb.Type) Class = Bomb
-                else if (doc.type == Wall.Type) Class = Wall
-                else throw new Error("missing type " + doc.type)
-                
-                return Class.fromValue.call(Class, doc)
-                
-            })
-
-            tiles.forEach(function(tile) {
-
-                // remove each one
-                tile.remove(function() {})
-                
-                // send remove message
-                app.sendAll(new Message(tile.type(), "destroy", tile))
-            })
-            
+        Bomb.exists(bomb, function(exists) {
+            if (!exists) return; // bomb has already detonated
+            detonate(app, bomb)        
         })
-        
-        // exports.detonate(app, client, bomb.toValue())
-        
     })
 }
 
-//exports.detonate = function(app, client, bomb) {
-//    
-//    // remove the bomb
-//    var bomb = Bomb.fromValue(bomb)
-//    bomb.remove(function() {})
-//    
-//    // send the destroy message
-//    app.sendAll(new Bomb.MessageDetonate(bomb))
-//}
+function detonate(app, bomb) {
+    var range = bomb.hitArea()
+    
+    var docs = Tile.tilesInRange(range, function(err, tileDocs) {
+    
+        // Convert them. There's probably a better place for this
+
+        var tiles = tileDocs.map(function(doc) {
+            
+            var Class = null
+            
+                 if (doc.type == Player.Type) Class = Player
+            else if (doc.type == Bomb.Type) Class = Bomb
+            else if (doc.type == Wall.Type) Class = Wall
+            else throw new Error("missing type " + doc.type)
+            
+            return Class.fromValue.call(Class, doc)
+            
+        })
+
+        tiles.forEach(function(tile) {
+            destroyTile(app, tile)
+        })      
+    })       
+}
+
+// Called from within bomb.create
+function destroyTile(app, tile) {
+    
+    // remove the bomb
+    tile.remove(function() {})
+    
+    // send destroy message
+    app.sendAll(new Message(tile.type(), "destroy", tile))
+    
+    // check for bomb chain reactions
+    if (tile instanceof Bomb) {
+        detonate(app, tile)
+    }
+}

@@ -2,6 +2,7 @@ var sys = require("sys")
 var Player = require("../model/Player")
 var Wall = require("../model/Wall")
 var Tile = require("../model/Tile")
+var Bomb = require("../model/Bomb")
 var Message = require("../model/Message")
 var Fault = require("../model/Fault")
 var assert = require('assert')
@@ -126,12 +127,11 @@ exports.move = function (app, client, data) {
             
         // Otherwise, update the server
         Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
-            
+            // send immediately (this is timely)
+            app.sendOthers(client, new Player.MessageMove(player))            
         })
     })
     
-    
-    // send immediately (this is timely)
-    app.sendOthers(client, new Player.MessageMove(player))
+
     
 }
