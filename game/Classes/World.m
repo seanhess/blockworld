@@ -73,11 +73,11 @@
 }
 
 - (void) createWallAtPoint:(CGPoint)point {
-	[[self cellAtPoint:point] buildWall];
+	[[self cellAtPoint:point] buildWall:CGRectContainsPoint([self visibleGridRect], point)];
 }
 
 - (void) createBombAtPoint:(CGPoint)point {
-	[[self cellAtPoint:point] dropBomb];
+	[[self cellAtPoint:point] dropBomb:CGRectContainsPoint([self visibleGridRect], point)];
 }
 
 - (BOOL) movePlayer:(NSString*)playerID toPoint:(CGPoint)point {
@@ -98,7 +98,7 @@
 	
 	// lay wall if needed
 	if(oldCell != newCell && layingWallsPress && [[Settings instance].playerID isEqualToString:playerID]) {
-		[oldCell buildWall];
+		[oldCell buildWall:CGRectContainsPoint([self visibleGridRect], point)];
 		
 		Create* command = [Create command];
 		[command setType:@"wall"];

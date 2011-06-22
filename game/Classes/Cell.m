@@ -114,22 +114,22 @@
     }
 }
 
-- (void) buildWall {
+- (void) buildWall:(BOOL)visible {
     if(self.wall) { [self removeChild:self.wall cleanup:YES]; } 
     if(self.bushName) { self.bushName = nil; }
     if(self.bush) { [self removeChild:self.bush cleanup:YES]; }
     
     self.wall = [Wall node];
     
-    [self addChild:self.wall z:2];
+    if(visible) [self addChild:self.wall z:2];
 }
 
-- (void) dropBomb {
+- (void) dropBomb:(BOOL)visible {
     if(self.bomb) { [self removeChild:self.bomb cleanup:YES]; }
     
     self.bomb = [Bomb node];
     
-    [self addChild:self.bomb z:3];
+	if(visible) [self addChild:self.bomb z:3];
 }
 
 - (BOOL) isOccupied {
