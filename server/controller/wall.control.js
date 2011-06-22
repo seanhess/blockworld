@@ -17,9 +17,8 @@ exports.create = function (app, client, data) {
     
     // add the wall
     wall.create(function(success) {
-    
+        // send it out immediately
+        app.sendAll(new Wall.MessageCreate(wall))    
     })
     
-    // send it out immediately
-    app.sendOthers(client, new Wall.MessageCreate(wall))
 }
