@@ -90,25 +90,27 @@
             redraw()
         }
         
-//        window.onclick = function() {
-//            redraw()
-//        }
-        
         window.onmousedown = startDrag        
         window.onmouseup = stopDrag
+        
+        window.onmousewheel = function(e) {
+            zeroX += e.wheelDeltaX;
+            zeroY += e.wheelDeltaY;
+            redraw()
+        }
 
-        var startX = 0; 
-        var startY = 0;        
+        var startX = -zeroX; 
+        var startY = -zeroY;        
         function startDrag(e) {
             startX = e.screenX - zeroX;
             startY = e.screenY - zeroY;
             window.onmousemove = drag;  
-                             
         }
         
         function stopDrag(e) {
             window.onmousemove = null;
-            viewport.ontouchmove = null;            
+            startX = -zeroX;
+            startY = -zeroY;            
         }        
         
         function drag(e) {
@@ -122,8 +124,8 @@
         
         viewport.ontouchstart = function(e) {
             startDrag(toDrag(e))
-            viewport.ontouchmove = function(e) {
-                drag(toDrag(e))
+            viewport.ontouchmove = function(e) {    
+                drag(toDrag(e))                      
             };             
         };
         
@@ -131,9 +133,14 @@
             viewport.ontouchmove = null;
         }
         
-        function toDrag(e) {
+        function touchToDrag(e) {
             return {screenX: e.touches[0].pageX, screenY: e.touches[0].pageY};
         }
+        
+        function wheelToDrag(e) {
+            return {screenX: e.wheelDeltaX, screenY: e.wheelDeltaY};
+        }
+        
 
 //        viewport.scrollLeft = (map.width - window.innerWidth)/2
 //        viewport.scrollTop = (map.height - window.innerHeight)/2        
