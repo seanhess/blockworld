@@ -91,9 +91,11 @@
 	
 	if([playerID isEqualToString:[Settings instance].playerID]) { [self adjustCameraOnPlayer:player]; }
 	
+	
 	// send the player to the new cell
     oldCell.player = nil;
 	newCell.player = player;
+	
 	
 	// set the sprite for the player
 	[player moveInDirection:ccpSub(newCell.point, oldCell.point)];
@@ -101,7 +103,6 @@
 	
 	// lay wall if needed
 	if(oldCell != newCell && layingWallsPress && [[Settings instance].playerID isEqualToString:playerID]) {
-		[oldCell buildWall];
 		
 		Create* command = [Create command];
 		[command setType:@"wall"];
@@ -185,8 +186,7 @@
 	
 	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
 	Cell* cell = myplayer.cell;
-    
-    [self createBombAtPoint:cell.point];
+
 	
 	Create* command = [Create command];
     [command setPlayerID:[Settings instance].playerID];
