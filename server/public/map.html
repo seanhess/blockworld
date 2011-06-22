@@ -7,14 +7,33 @@
         #map {
             /*background-color: #F3F3F3;*/
             /*border: solid 1px #EEE;*/
+            /*position:absolute; */
+            background-color:#4A4;
+            overflow:auto;
         }
+        
+        body {
+            background-color:black;           
+        }
+        
+        #viewport {     
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+        
     </style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no"/>
 </head>
-<body style="background-color:white">
+<body>
 
-<canvas id="map" style="position:absolute"/>
+<div id="viewport">
+    <canvas id="map"/>
+</div>
 
 <script src="/socket.io/socket.io.js"></script> 
+
 <script> 
     
     listen()
@@ -30,7 +49,7 @@
         }) 
      
         socket.on('message', function(message) {
-            console.log("message", JSON.stringify(message))
+            //console.log("message", JSON.stringify(message))
             
             if (message.fault) return alert("Fault " + message.message)
             
@@ -52,7 +71,7 @@
         
         // Setup
         var size = 10
-        var boxes = 1000
+        var boxes = 200
         var total = boxes * size
         var zero = total / 2;
         
@@ -64,18 +83,23 @@
                 
         center()
         
-        function center() {            
-            map.style.left = -(map.width - window.innerWidth)/2
-            map.style.top = -(map.height - window.innerHeight)/2        
+        function center() {         
         }
         
         window.onresize = function() {
             center()
         }
         
+        viewport.scrollLeft = (map.width - window.innerWidth)/2
+        viewport.scrollTop = (map.height - window.innerHeight)/2        
+        
+        
+        console.log(map.width)
+        console.log(map.style.left)
+        
         // Colors
         var playerColor = "#00F";
-        var wallColor = "#333";
+        var wallColor = "#DDD";
         var bombColor = "#F00";
         var gridColor = "#EEE";
         
@@ -168,7 +192,7 @@
         function draw(x, y, color) {
             var point = tile(x, y)
             context.fillStyle = color
-            context.fillRect(point.x + 1.5, point.y + 1.5, size - 2, size - 2)
+            context.fillRect(point.x + 0.5, point.y + 0.5, size - 1, size - 1)
         }
         
         function clear(x, y) {
@@ -177,18 +201,19 @@
         }
         
         function drawGrid() {
-            for (var x = 0.5; x < total+1; x += size) {
-                context.moveTo(x, 0)
-                context.lineTo(x, total)
-            }
-            
-            for (var y = 0.5; y < total+1; y += size) {
-                context.moveTo(0, y)
-                context.lineTo(total, y)
-            }        
-            
-            context.strokeStyle = gridColor;
-            context.stroke();
+//            console.log("DRAWING GRID")
+//            for (var x = 0.5; x < total+1; x += size) {
+//                context.moveTo(x, 0)
+//                context.lineTo(x, total)
+//            }
+//            
+//            for (var y = 0.5; y < total+1; y += size) {
+//                context.moveTo(0, y)
+//                context.lineTo(total, y)
+//            }        
+//            
+//            context.strokeStyle = gridColor;
+//            context.stroke();
         }
     }
     
