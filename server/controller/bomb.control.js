@@ -17,12 +17,11 @@ exports.create = function (app, client, data) {
     
     // add the bomb
     bomb.create(function(success) {
-    
+
+        // send it out 
+        app.sendAll(new Bomb.MessageCreate(bomb))    
     })
-    
-    // send it out immediately
-    app.sendOthers(client, new Bomb.MessageCreate(bomb))
-    
+        
     // schedule it for detonation
     app.timer().scheduleAhead(Bomb.Delay, function() {
         Bomb.exists(bomb, function(exists) {
