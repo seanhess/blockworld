@@ -31,7 +31,7 @@ Wall.prototype.create = function(cb) {
 }
 
 Wall.prototype.remove = function(cb) {
-    Tile.tiles().remove({wallId: this.wallId()}, cb)
+    Tile.tiles().remove({type: Wall.Type, wallId: this.wallId()}, cb)
 }
 
 Wall.allWalls = function(cb) {

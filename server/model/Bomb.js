@@ -60,6 +60,12 @@ Bomb.allBombs = function(cb) {
 
 
 
+Bomb.exists = function(bomb, cb) {
+    Tile.tiles().findOne({type: Bomb.Type, bombId: bomb.bombId()}, function(err, doc) {
+        cb(!err && doc)
+    })
+}
+
 
 Bomb.MessageCreate = function(bomb) {
     return new Message(Bomb.Type, Bomb.ActionCreate, bomb)
