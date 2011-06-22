@@ -93,6 +93,9 @@ exports.leave = function(app, client, data) {
     
     var player = Player.fromValue(data)
     
+    // clear x and y so the clients don't think it is accurate
+    player.clearPosition()
+    
     // remove from the game state
     player.remove(function() {})
     
