@@ -134,7 +134,8 @@
 }
 
 - (void) playerDidDie:(Player*)player {
-    
+    if(!player) { return; }
+	
 	player.cell.player = nil;
 	
     
