@@ -7,13 +7,12 @@
         #map {
             /*background-color: #F3F3F3;*/
             /*border: solid 1px #EEE;*/
-            margin: 10px;
         }
     </style>
 </head>
-<body>
+<body style="background-color:white">
 
-<canvas id="map" width="801" height="801"/>
+<canvas id="map" style="position:absolute"/>
 
 <script src="/socket.io/socket.io.js"></script> 
 <script> 
@@ -51,18 +50,28 @@
         }) 
         
         
-        
-        
         // Setup
         var size = 10
-        var boxes = 80
+        var boxes = 1000
         var total = boxes * size
         var zero = total / 2;
         
-        var map = document.getElementById("map")
-        var context = map.getContext("2d")   
+        var map = document.getElementById("map");
+        var context = map.getContext("2d");
         
+        map.width = total;
+        map.height = total;
+                
+        center()
         
+        function center() {            
+            map.style.left = -(map.width - window.innerWidth)/2
+            map.style.top = -(map.height - window.innerHeight)/2        
+        }
+        
+        window.onresize = function() {
+            center()
+        }
         
         // Colors
         var playerColor = "#00F";

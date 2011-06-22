@@ -10,7 +10,7 @@
 #import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-#define SOCKET_ADDR @"bb.seanhess.net"
+#define SOCKET_ADDR @"localhost"
 
 typedef enum server_status {
 	disconnected = 0,
