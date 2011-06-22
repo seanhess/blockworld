@@ -73,11 +73,15 @@
 }
 
 - (void) createWallAtPoint:(CGPoint)point {
-	[[self cellAtPoint:point] buildWall:CGRectContainsPoint([self visibleGridRect], point)];
+	[[self cellAtPoint:point] buildWall];
 }
 
 - (void) createBombAtPoint:(CGPoint)point {
-	[[self cellAtPoint:point] dropBomb:CGRectContainsPoint([self visibleGridRect], point)];
+	[[self cellAtPoint:point] dropBomb];
+}
+
+- (void) sendMoveCommandToPoint:(CGPoint)point {
+
 }
 
 - (BOOL) movePlayer:(NSString*)playerID toPoint:(CGPoint)point {
@@ -85,8 +89,7 @@
 	Cell* newCell = [self cellAtPoint:point];
 	Cell* oldCell = player.cell;
 	
-	// dont move if you've hit a wall
-	if([newCell isOccupied]) { return NO; }
+	if([playerID isEqualToString:[Settings instance].playerID]) { [self adjustCameraOnPlayer:player]; }
 	
 	// send the player to the new cell
     oldCell.player = nil;
@@ -98,7 +101,7 @@
 	
 	// lay wall if needed
 	if(oldCell != newCell && layingWallsPress && [[Settings instance].playerID isEqualToString:playerID]) {
-		[oldCell buildWall:CGRectContainsPoint([self visibleGridRect], point)];
+		[oldCell buildWall];
 		
 		Create* command = [Create command];
 		[command setType:@"wall"];
@@ -166,14 +169,14 @@
 - (void) movePress:(CGPoint)point {
 	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
     
-	BOOL canMovePlayer = [self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
-    if(!canMovePlayer) { return; }
+	//BOOL canMovePlayer = [self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
+    //if(!canMovePlayer) { return; }
     
-	[self adjustCameraOnPlayer:myplayer];
+	//[self adjustCameraOnPlayer:myplayer];
 	
 	Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
-	[command setPoint:myplayer.cell.point];
+	[command setPoint:ccpAdd(myplayer.cell.point, point)];
 	[command send];
 }
 

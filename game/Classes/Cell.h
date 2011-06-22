@@ -29,8 +29,8 @@
 - (id) initWithPoint:(CGPoint)p;
 
 - (void) blowUp;
-- (void) buildWall:(BOOL)visible;
-- (void) dropBomb:(BOOL)visible;
+- (void) buildWall;
+- (void) dropBomb;
 
 
 @end
