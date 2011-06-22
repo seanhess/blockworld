@@ -192,12 +192,12 @@
         function draw(x, y, color) {
             var point = tile(x, y)
             context.fillStyle = color
-            context.fillRect(point.x + 0.5, point.y + 0.5, size - 1, size - 1)
+            context.fillRect(point.x, point.y, size - 1, size - 1)
         }
         
         function clear(x, y) {
             var point = tile(x, y)
-            context.clearRect(point.x + 1, point.y + 1, size - 1, size - 1)
+            context.clearRect(point.x , point.y, size, size)
         }
         
         function drawGrid() {
