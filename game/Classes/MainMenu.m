@@ -117,6 +117,12 @@
 
 - (void) verifyName {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
+		NSString* nickname = [[message objectForKey:@"data"] objectForKey:@"nickname"];
+		NSString* type = [message objectForKey:@"type"];
+		NSString* action = [message objectForKey:@"action"];
+		
+		if(![action isEqualToString:@"you"] || ![type isEqualToString:@"player"] || ![nickname isEqualToString:nameField.text]) { return; }
+	
         [Settings instance].playerID = [[message objectForKey:@"data"] objectForKey:@"playerId"];
 		
         if([Settings instance].playerID) {
