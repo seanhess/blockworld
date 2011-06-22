@@ -133,7 +133,7 @@
 }
 
 - (BOOL) isOccupied {
-    return self.bomb || self.wall;
+    return self.bomb || self.wall || self.player;
 }
 
 - (void) setIsOnScreen:(BOOL)boolean {
