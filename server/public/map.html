@@ -49,7 +49,7 @@
         }) 
      
         socket.on('message', function(message) {
-            //console.log("message", JSON.stringify(message))
+            console.log("message", JSON.stringify(message))
             
             if (message.fault) return alert("Fault " + message.message)
             
@@ -148,6 +148,7 @@
         // Types
         var WallType = "wall"
         var BombType = "bomb"
+        var PlayerType = "player"
         
         // Colors
         var playerColor = "#00F";
@@ -205,6 +206,24 @@
             var player = players[data.playerId]
             clear(player.x, player.y)            
             delete players[data.playerId]
+        }
+        
+        player.world = function(data) {
+            for (var i in data.tiles) {
+                var tile = data.tiles[i]
+                
+                if (tile.type == PlayerType) 
+                    player.create(tile)
+                
+                else if (tile.type == WallType) 
+                    wall.create(tile)
+                    
+                else if (tile.type == BombType)
+                    bomb.create(tile)
+                
+                else
+                    alert("Did not understand tile type: ", tile.type)
+            }
         }
         
         

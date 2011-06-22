@@ -66,6 +66,17 @@ Tile.allWithClass = function(Class, cb) {
     })    
 }
 
+Tile.allTiles = function(cb) {
+    // sends down the whole world
+    Tile.tiles().find({}).toArray(function(err, tiles) {
+        if (err) return cb(err)
+        tiles.forEach(function(tile) {
+            delete tile._id
+        })
+        cb(null, tiles)
+    })
+}
+
 Tile.tilesInRange = function(range, cb) {
     
     // can't return classes with circular dependency

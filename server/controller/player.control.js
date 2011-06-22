@@ -13,31 +13,10 @@ exports.observe = function(app, client, data) {
 
     var you = new Player(data.nickname)
     
-    var messages = []
-        
-    attach(Player.allPlayers, Player, function() {
-        attach(Wall.allWalls, Wall, function() {
-            send()
-        })
+    Tile.allTiles(function(err, tiles) {
+        var message = new Player.MessageWorld(tiles)
+        client.send(message)        
     })
-    
-    function attach(findMethod, Class, cb) {
-        findMethod.call(Class, function(err, objects) {
-            if (err) return cb(err)
-
-            objects.forEach(function(object) {
-                if (object instanceof Player && you.playerId() == object.playerId()) return
-                messages.push(new Class.MessageCreate(object))
-            })
-            
-            cb()
-        })    
-    }
-    
-    function send() {
-        // send the state
-        client.send(messages)
-    }
     
 }
 
@@ -63,8 +42,8 @@ exports.create = function (app, client, data) {
             // observe
             exports.observe(app, client, data)
             
-            // announce to others
-            app.sendAll(new Player.MessageCreate(player))
+            // announce to others (you will come down in the observe call)
+            app.sendOthers(new Player.MessageCreate(player))
         })       
     })
     

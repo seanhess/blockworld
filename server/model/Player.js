@@ -82,6 +82,7 @@ Player.ActionCreate = "create"
 Player.ActionYou = "you"
 Player.ActionMove = "move"
 Player.ActionDestroy = "destroy"
+Player.ActionWorld = "world"
 
 Player.MessageCreate = function(player) {
     return new Message(Player.Type, Player.ActionCreate, player) // needs: {nickname:nickname}
@@ -97,6 +98,10 @@ Player.MessageMove = function(player) {
 
 Player.MessageDestroy = function(player) {
     return new Message(Player.Type, Player.ActionDestroy, player) 
+}
+
+Player.MessageWorld = function(tiles) {
+    return new Message(Player.Type, Player.ActionWorld, {tiles:tiles})
 }
 
 
