@@ -7,7 +7,7 @@
 	#import <UIKit/UIKit.h>
 #endif
 
-#define MAX_NAME_LENGTH 10
+#define MAX_NAME_LENGTH 14
 #define PIXEL_PER_UNIT_X 50
 #define PIXEL_PER_UNIT_Y 40
 #define SCREEN_FOLLOW_THRESHOLD 150 // pixels from the edge
