@@ -126,6 +126,8 @@
 }
 
 - (void) verifyName {
+	if(![[nameField text] length]) { return; }
+	
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
 		NSString* nickname = [[message objectForKey:@"data"] objectForKey:@"nickname"];
 		NSString* type = [message objectForKey:@"type"];
