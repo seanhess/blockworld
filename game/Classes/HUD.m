@@ -19,10 +19,10 @@
         CGSize size = [[CCDirector sharedDirector] winSize];
 		
 		directionPad = [DirectionPad node];
-		directionPad.position = ccp(80, 80);
+		directionPad.position = ccp(80, 130);
 		
 		actionPad = [ActionPad node];
-		actionPad.position = ccp(size.width-60, 90);
+		actionPad.position = ccp(size.width-60, 140);
 		
 		[self addChild:directionPad];
 		[self addChild:actionPad];
