@@ -128,7 +128,7 @@ exports.move = function (app, client, data) {
         // Otherwise, update the server
         Player.moveTo(player.playerId(), player.x(), player.y(), function(err) {
             // send immediately (this is timely)
-            app.sendOthers(client, new Player.MessageMove(player))            
+            app.sendAll(new Player.MessageMove(player))            
         })
     })
     
