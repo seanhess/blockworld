@@ -114,6 +114,16 @@
 	return YES;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+	// we have to do this nonsense so if they've pasted something longer than the max
+	// length then they can press the backspace key still.
+	
+	if([string isEqualToString:@""]) return YES;
+	
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return !(newLength > MAX_NAME_LENGTH);
+}
 
 - (void) verifyName {
 	[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* message) {
