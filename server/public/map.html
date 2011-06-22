@@ -24,7 +24,7 @@
         
     </style>
     
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=no"/>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
 </head>
 <body>
 
@@ -94,8 +94,8 @@
         window.onmouseup = stopDrag
         
         window.onmousewheel = function(e) {
-            zeroX += e.wheelDeltaX;
-            zeroY += e.wheelDeltaY;
+            zeroX += Math.floor(e.wheelDeltaX);
+            zeroY += Math.floor(e.wheelDeltaY);
             redraw()
         }
 
@@ -123,9 +123,10 @@
         }
         
         viewport.ontouchstart = function(e) {
-            startDrag(toDrag(e))
+            startDrag(touchToDrag(e))
             viewport.ontouchmove = function(e) {    
-                drag(toDrag(e))                      
+                e.preventDefault()
+                drag(touchToDrag(e))                      
             };             
         };
         
@@ -136,11 +137,7 @@
         function touchToDrag(e) {
             return {screenX: e.touches[0].pageX, screenY: e.touches[0].pageY};
         }
-        
-        function wheelToDrag(e) {
-            return {screenX: e.wheelDeltaX, screenY: e.wheelDeltaY};
-        }
-        
+                
 
 //        viewport.scrollLeft = (map.width - window.innerWidth)/2
 //        viewport.scrollTop = (map.height - window.innerHeight)/2        
