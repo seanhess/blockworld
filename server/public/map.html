@@ -7,20 +7,20 @@
         #map {
             /*background-color: #F3F3F3;*/
             /*border: solid 1px #EEE;*/
-            /*position:absolute; */
+            position:relative;
             background-color:#4A4;
-            overflow:auto;
+            overflow:visible;
         }
         
         body {
             background-color:black;           
         }
         
-        #viewport {     
+/*        #viewport {     
             width: 100%;
             height: 100%;
             overflow: auto;
-        }
+        }*/
         
     </style>
     
@@ -29,7 +29,7 @@
 <body>
 
 <div id="viewport">
-    <canvas id="map"/>
+    <canvas id="map"></canvas>
 </div>
 
 <script src="/socket.io/socket.io.js"></script> 
@@ -45,7 +45,7 @@
         socket.send({type:"player", action:"observe", data:{}})
      
         socket.on('connect', function() {
-            console.log("connected")
+            //console.log("connected")
         }) 
      
         socket.on('message', function(message) {
@@ -70,32 +70,80 @@
         
         
         // Setup
-        var size = 10
-        var boxes = 200
+        var size = 10;
+        var boxes = 200;
         var total = boxes * size
-        var zero = total / 2;
         
         var map = document.getElementById("map");
         var context = map.getContext("2d");
         
-        map.width = total;
-        map.height = total;
+        var zeroX = Math.floor(-(map.width - window.innerWidth)/2);
+        var zeroY = Math.floor(-(map.height - window.innerHeight)/2);
+        
+        
+        map.width = window.innerWidth;
+        map.height = window.innerHeight;
                 
-        center()
-        
-        function center() {         
-        }
-        
         window.onresize = function() {
-            center()
+            map.width = window.innerWidth;
+            map.height = window.innerHeight;        
+            redraw()
         }
         
-        viewport.scrollLeft = (map.width - window.innerWidth)/2
-        viewport.scrollTop = (map.height - window.innerHeight)/2        
+//        window.onclick = function() {
+//            redraw()
+//        }
         
+        window.onmousedown = startDrag        
+        window.onmouseup = stopDrag
+
+        var startX = 0; 
+        var startY = 0;        
+        function startDrag(e) {
+            startX = e.screenX - zeroX;
+            startY = e.screenY - zeroY;
+            window.onmousemove = drag;  
+                             
+        }
         
-        console.log(map.width)
-        console.log(map.style.left)
+        function stopDrag(e) {
+            window.onmousemove = null;
+            viewport.ontouchmove = null;            
+        }        
+        
+        function drag(e) {
+
+            // UPDATE OFFSETS, then redraw using them. 
+            zeroX = Math.floor(e.screenX - startX);
+            zeroY = Math.floor(e.screenY - startY);
+
+            redraw()
+        }
+        
+        viewport.ontouchstart = function(e) {
+            startDrag(toDrag(e))
+            viewport.ontouchmove = function(e) {
+                drag(toDrag(e))
+            };             
+        };
+        
+        viewport.ontouchend = function() {
+            viewport.ontouchmove = null;
+        }
+        
+        function toDrag(e) {
+            return {screenX: e.touches[0].pageX, screenY: e.touches[0].pageY};
+        }
+
+//        viewport.scrollLeft = (map.width - window.innerWidth)/2
+//        viewport.scrollTop = (map.height - window.innerHeight)/2        
+        
+//        map.style.left = -(map.width - window.innerWidth)/2
+//        map.style.top = -(map.height - window.innerHeight)/2        
+
+        // Types
+        var WallType = "wall"
+        var BombType = "bomb"
         
         // Colors
         var playerColor = "#00F";
@@ -108,17 +156,33 @@
         var players = {}
         var tiles = {}
         
-        
-        // Draw
-        drawGrid()
+        function redraw() {
+            context.clearRect(0, 0, map.width, map.height)
+                  
+            for (var tileId in tiles) {
+                var tile = tiles[tileId]
+                var color = (tile.type == WallType) ? wallColor : bombColor;
+                
+                draw(tile.x, tile.y, color)
+            }
+            
+            for (var playerId in players) {
+                var player = players[playerId]
+                draw(player.x, player.y, playerColor)
+            }
+            
+//            console.log("DRAWN")
+        }
+
+
         
         // Controllers 
-        var control = {}
+        var control = {};
 
-        var Welcome = control.Welcome = {}
-        Welcome.default = function() {}
+        var Welcome = control.Welcome = {};
+        Welcome["default"] = function() {};
 
-        var player = control.player = {}        
+        var player = control.player = {};
         player.create = function(data) {            
             players[data.playerId] = data
             draw(data.x, data.y, playerColor)
@@ -186,7 +250,7 @@
         }
         
         function tile(x, y) {
-            return {x: zero + x*size, y: zero - y*size}
+            return {x: zeroX + x*size, y: zeroY - y*size}
         }
         
         function draw(x, y, color) {
@@ -200,22 +264,9 @@
             context.clearRect(point.x , point.y, size, size)
         }
         
-        function drawGrid() {
-//            console.log("DRAWING GRID")
-//            for (var x = 0.5; x < total+1; x += size) {
-//                context.moveTo(x, 0)
-//                context.lineTo(x, total)
-//            }
-//            
-//            for (var y = 0.5; y < total+1; y += size) {
-//                context.moveTo(0, y)
-//                context.lineTo(total, y)
-//            }        
-//            
-//            context.strokeStyle = gridColor;
-//            context.stroke();
-        }
     }
+    
+    
     
 </script>
 </body>
