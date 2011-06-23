@@ -59,21 +59,17 @@
 			world.layingWallsPress = !world.layingWallsPress;
 		}];
 		
-        
+		
+		
         
         //world to hud actions
         world.hud = hud;
-        
-        
         
         
 		// server call backs
 		[ServerCommunicator instance].messageReceivedCallback = ^(NSDictionary* definition) {
 			[[Command commandWithDefinition:definition world:world] execute];
 		};
-        
-        
-        
         
         
         // watch for disconnects, and go back to the menu

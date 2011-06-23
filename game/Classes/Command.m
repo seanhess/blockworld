@@ -11,6 +11,7 @@
 #import "World.h"
 #import "Create.h"
 #import "Destroy.h"
+#import "Global.h"
 #import "Move.h"
 #import "ServerCommunicator.h"
 #import "JSONKit.h"
@@ -31,6 +32,8 @@
 		command = [[[Destroy alloc] initWithDefinition:definition world:world] autorelease];	
 	if([[definition objectForKey:@"action"] isEqualToString:@"move"])
 		command = [[[Move alloc] initWithDefinition:definition world:world] autorelease];	
+	if([[definition objectForKey:@"action"] isEqualToString:@"world"])
+		command = [[[Global alloc] initWithDefinition:definition world:world] autorelease];
 	
 	return command;
 }

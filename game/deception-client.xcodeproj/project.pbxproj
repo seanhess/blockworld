@@ -45,6 +45,7 @@
 		024385691383AC7500701434 /* CCNode+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 024385681383AC7500701434 /* CCNode+Additions.m */; };
 		024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0243857F1383B9FF00701434 /* SmokeParticleEmitter.mm */; };
 		024385821383BA2200701434 /* Smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 024385811383BA2200701434 /* Smoke.png */; };
+		02526F2B13B403B10045D730 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 02526F2A13B403B10045D730 /* Global.m */; };
 		029172F112D826BE00AEFDD8 /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 029172F012D826BE00AEFDD8 /* MainMenu.m */; };
 		0291730312D827DC00AEFDD8 /* ServerCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0291730212D827DC00AEFDD8 /* ServerCommunicator.m */; };
 		029173D612D8406300AEFDD8 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 029173D512D8406300AEFDD8 /* GameScene.m */; };
@@ -413,6 +414,8 @@
 		0243857E1383B9FF00701434 /* SmokeParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmokeParticleEmitter.h; sourceTree = "<group>"; };
 		0243857F1383B9FF00701434 /* SmokeParticleEmitter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SmokeParticleEmitter.mm; sourceTree = "<group>"; };
 		024385811383BA2200701434 /* Smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Smoke.png; sourceTree = "<group>"; };
+		02526F2913B403B00045D730 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		02526F2A13B403B10045D730 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Global.m; sourceTree = "<group>"; };
 		029172EF12D826BE00AEFDD8 /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
 		029172F012D826BE00AEFDD8 /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		0291730112D827DC00AEFDD8 /* ServerCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommunicator.h; sourceTree = "<group>"; };
@@ -989,6 +992,8 @@
 				029178B212D89ACA00AEFDD8 /* Destroy.m */,
 				029178B412D89ADA00AEFDD8 /* Move.h */,
 				029178B512D89ADA00AEFDD8 /* Move.m */,
+				02526F2913B403B00045D730 /* Global.h */,
+				02526F2A13B403B10045D730 /* Global.m */,
 			);
 			name = Commands;
 			sourceTree = "<group>";
@@ -1786,6 +1791,7 @@
 				0243851C13835E5100701434 /* JSONKit.m in Sources */,
 				024385691383AC7500701434 /* CCNode+Additions.m in Sources */,
 				024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */,
+				02526F2B13B403B10045D730 /* Global.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

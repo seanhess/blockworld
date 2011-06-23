@@ -21,7 +21,6 @@
 
 -(void) execute {
 	if([[definition objectForKey:@"type"] isEqualToString:@"player"]) {
-		NSLog(@"creating %@ at %d %d", [self.data objectForKey:@"playerId"], self.positionX, self.positionY);
 		Player* player = [world createPlayerWithID:[self.data objectForKey:@"playerId"] atPoint:ccp(self.positionX, self.positionY)];
 		if([self.data objectForKey:@"nickname"]) player.nickname = [self.data objectForKey:@"nickname"];
 	}
