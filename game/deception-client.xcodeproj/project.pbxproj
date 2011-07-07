@@ -114,6 +114,7 @@
 		02A7EE31138472010010E859 /* explative18.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE09138472010010E859 /* explative18.png */; };
 		02A7EE32138472010010E859 /* explative19-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE0A138472010010E859 /* explative19-hd.png */; };
 		02A7EE33138472010010E859 /* explative19.png in Resources */ = {isa = PBXBuildFile; fileRef = 02A7EE0B138472010010E859 /* explative19.png */; };
+		02ADD6F113B7F3DD0009E937 /* SpriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 02ADD6F013B7F3DD0009E937 /* SpriteButton.m */; };
 		02D2EEFE138499F70026F55A /* gameover.png in Resources */ = {isa = PBXBuildFile; fileRef = 02D2EEFD138499F70026F55A /* gameover.png */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1F3B9A2D0EF2145700286867 /* deception_clientAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */; };
@@ -502,6 +503,8 @@
 		02A7EE09138472010010E859 /* explative18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explative18.png; sourceTree = "<group>"; };
 		02A7EE0A138472010010E859 /* explative19-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "explative19-hd.png"; sourceTree = "<group>"; };
 		02A7EE0B138472010010E859 /* explative19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explative19.png; sourceTree = "<group>"; };
+		02ADD6EF13B7F3DD0009E937 /* SpriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SpriteButton.h; sourceTree = "<group>"; };
+		02ADD6F013B7F3DD0009E937 /* SpriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteButton.m; sourceTree = "<group>"; };
 		02D2EEFD138499F70026F55A /* gameover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameover.png; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* deception-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "deception-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3B9A2B0EF2145700286867 /* deception_clientAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = deception_clientAppDelegate.m; path = Classes/deception_clientAppDelegate.m; sourceTree = SOURCE_ROOT; };
@@ -867,6 +870,8 @@
 			children = (
 				024385671383AC7500701434 /* CCNode+Additions.h */,
 				024385681383AC7500701434 /* CCNode+Additions.m */,
+				02ADD6EF13B7F3DD0009E937 /* SpriteButton.h */,
+				02ADD6F013B7F3DD0009E937 /* SpriteButton.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1792,6 +1797,7 @@
 				024385691383AC7500701434 /* CCNode+Additions.m in Sources */,
 				024385801383B9FF00701434 /* SmokeParticleEmitter.mm in Sources */,
 				02526F2B13B403B10045D730 /* Global.m in Sources */,
+				02ADD6F113B7F3DD0009E937 /* SpriteButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

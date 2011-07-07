@@ -36,16 +36,12 @@
 	directionPad.move = callback;
 }
 
-- (void) setOnBombCallback:(void(^)())callback {
-	Block cb = [[callback copy] autorelease];
-	
-	actionPad.bomb = cb;
+- (void) setBombCallback:(void(^)(BOOL))callback {	
+	actionPad.bomb = callback;
 }
 
-- (void) setOnWallCallback:(void(^)())callback {
-	Block cb = [[callback copy] autorelease];
-	
-	actionPad.wall = cb;
+- (void) setWallCallback:(void(^)(BOOL))callback {
+	actionPad.wall = callback;
 }
 
 - (void) cleanup {

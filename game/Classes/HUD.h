@@ -18,8 +18,8 @@
 }
 
 - (void) setMoveCallback:(void(^)(int, int))callback;
-- (void) setOnBombCallback:(void(^)())callback;
-- (void) setOnWallCallback:(void(^)())callback;
+- (void) setBombCallback:(void(^)(BOOL))callback;
+- (void) setWallCallback:(void(^)(BOOL))callback;
 
 - (void) cleanup;
 

@@ -36,7 +36,7 @@
 
 @implementation World
 
-@synthesize layingWallsPress, hud, players, board;
+@synthesize layingWallsPress, hud, players, board, holdingDownWallButton, holdingDownBombButton;
 
 - (id) init {
 	if((self = [super init])) {
@@ -101,19 +101,30 @@
 	[player moveInDirection:ccpSub(newCell.point, oldCell.point)];
 	
 	
-	// lay wall if needed
-	if(oldCell != newCell && layingWallsPress && [[Settings instance].playerID isEqualToString:playerID]) {
+	// lay wall or bomb if needed
+	if(oldCell != newCell && [[Settings instance].playerID isEqualToString:playerID]) {
 		
-		Create* command = [Create command];
-		[command setType:@"wall"];
-		[command setPoint:oldCell.point];
-        [command setPlayerID:[Settings instance].playerID];
-		[command send];
+		if(self.holdingDownWallButton) {
+					
+			Create* command = [Create command];
+			[command setType:@"wall"];
+			[command setPoint:oldCell.point];
+			[command setPlayerID:[Settings instance].playerID];
+			[command send];
+			
+		} else if(self.holdingDownBombButton) {
+		
+			Create* command = [Create command];
+			[command setType:@"bomb"];
+			[command setPoint:oldCell.point];
+			[command setPlayerID:[Settings instance].playerID];
+			[command send];
+		
+		}
 	}
     
     return YES;
 }
-
 
 - (void) destroyAtPoint:(CGPoint)point {
 	Cell* cell = [self cellAtPoint:point];
@@ -169,11 +180,6 @@
 
 - (void) movePress:(CGPoint)point {
 	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-    
-	//BOOL canMovePlayer = [self movePlayer:[Settings instance].playerID toPoint:ccpAdd(myplayer.cell.point, point)];
-    //if(!canMovePlayer) { return; }
-    
-	//[self adjustCameraOnPlayer:myplayer];
 	
 	Move* command = [Move command];
 	[command setPlayerID:[Settings instance].playerID];
@@ -181,18 +187,22 @@
 	[command send];
 }
 
-- (void) bombPress {
-	layingWallsPress = NO;
-	
-	Player* myplayer = [self playerWithPlayerID:[Settings instance].playerID];
-	Cell* cell = myplayer.cell;
+- (void) setHoldingDownBombButton:(BOOL)flag {
 
+	if (!self.holdingDownBombButton && flag) {
+		Player* player = [self playerWithPlayerID:[Settings instance].playerID];
+		Cell* cell = player.cell;
+
+		if(!cell.bomb) {
+			Create* command = [Create command];
+			[command setType:@"bomb"];
+			[command setPoint:cell.point];
+			[command setPlayerID:[Settings instance].playerID];
+			[command send];
+		}
+	}
 	
-	Create* command = [Create command];
-    [command setPlayerID:[Settings instance].playerID];
-	[command setType:@"bomb"];
-	[command setPoint:cell.point];
-	[command send];
+	holdingDownBombButton = flag;
 }
 
 - (void) kickToMenu {

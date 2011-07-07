@@ -13,14 +13,17 @@
 
 @interface World : CCLayer {
 
-    float pinchDistance;
-	BOOL layingWallsPress;
+    float pinchDistance; 
     
     CCSprite* smoke;
 }
 
 @property(nonatomic, assign) BOOL layingWallsPress;
 @property(nonatomic, assign) HUD* hud;
+
+@property(assign) BOOL holdingDownBombButton;
+@property(assign) BOOL holdingDownWallButton;
+
 
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;
 - (void) createWallAtPoint:(CGPoint)point;
@@ -32,6 +35,5 @@
 
 // hud functions
 - (void) movePress:(CGPoint)point;
-- (void) bombPress;
 
 @end

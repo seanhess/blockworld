@@ -51,14 +51,13 @@
 			[world movePress:ccp(x,y)];
 		}];
 		
-		[hud setOnBombCallback:^{
-			[world bombPress];
+		[hud setBombCallback:^(BOOL isPressed) {
+			world.holdingDownBombButton = isPressed;
 		}];
 		
-		[hud setOnWallCallback:^{
-			world.layingWallsPress = !world.layingWallsPress;
+		[hud setWallCallback:^(BOOL isPressed) {
+			world.layingWallsPress = isPressed;
 		}];
-		
 		
 		
         

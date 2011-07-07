@@ -15,11 +15,15 @@
 
 -(id) init {
 	if((self = [super init])) {
+		
+		[self setIsTouchEnabled:YES];
+	
 		CCMenuItemSprite* bombItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"bomb button.png"] selectedSprite:[CCSprite spriteWithFile:@"bomb button.png"] block:^(id sender) {
-			if(bomb) bomb();
+			if(bomb) bomb(YES);
 		}];
 		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] selectedSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] block:^(id sender) {
-			if(wall) wall();
+			NSLog(@"holding down wall");
+			if(wall) wall(YES);
 		}];
 		
 		bombItem.position = ccp(0, 30);
@@ -32,6 +36,13 @@
 		[self addChild:menu];
 	} 
 	return self;
+}
+
+- (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	NSLog(@"ended holding down");
+	
+	if(wall) wall(NO);
+	if(bomb) bomb(NO);
 }
 
 @end

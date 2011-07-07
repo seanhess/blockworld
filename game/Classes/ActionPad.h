@@ -11,11 +11,11 @@
 #import "Blocks.h"
 
 @interface ActionPad : CCLayer {
-	Block wall;
-	Block bomb;
+	void(^wall)(BOOL);
+	void(^bomb)(BOOL);
 }
 
-@property(nonatomic, copy) Block wall;
-@property(nonatomic, copy) Block bomb;
+@property(nonatomic, copy) void(^wall)(BOOL);
+@property(nonatomic, copy) void(^bomb)(BOOL);
 
 @end
