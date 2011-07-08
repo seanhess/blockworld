@@ -89,8 +89,6 @@
 	Cell* newCell = [self cellAtPoint:point];
 	Cell* oldCell = player.cell;
 	
-	if([playerID isEqualToString:[Settings instance].playerID]) { [self adjustCameraOnPlayer:player]; }
-	
 	
 	// send the player to the new cell
     oldCell.player = nil;
@@ -99,6 +97,10 @@
 	
 	// set the sprite for the player
 	[player moveInDirection:ccpSub(newCell.point, oldCell.point)];
+	
+	
+	// move the camera in the right direction
+	if([playerID isEqualToString:[Settings instance].playerID]) { [self adjustCameraOnPlayer:player]; }
 	
 	
 	// lay wall or bomb if needed
@@ -247,10 +249,13 @@
     
 	if(POINT_TO_PIXEL_X(player.cell.point.x) < x+SCREEN_FOLLOW_THRESHOLD)
 		x = POINT_TO_PIXEL_X(player.cell.point.x)-SCREEN_FOLLOW_THRESHOLD;
+		
 	if(POINT_TO_PIXEL_X(player.cell.point.x) > x+screenRect.size.height-SCREEN_FOLLOW_THRESHOLD)
 		x = POINT_TO_PIXEL_X(player.cell.point.x)-screenRect.size.height+SCREEN_FOLLOW_THRESHOLD;
+		
 	if(POINT_TO_PIXEL_Y(player.cell.point.y) < y+SCREEN_FOLLOW_THRESHOLD)
 		y = POINT_TO_PIXEL_Y(player.cell.point.y)-SCREEN_FOLLOW_THRESHOLD;
+		
 	if(POINT_TO_PIXEL_Y(player.cell.point.y) > y+screenRect.size.width-SCREEN_FOLLOW_THRESHOLD)
 		y = POINT_TO_PIXEL_Y(player.cell.point.y)-screenRect.size.width+SCREEN_FOLLOW_THRESHOLD;
 	

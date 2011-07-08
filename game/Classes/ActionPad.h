@@ -9,11 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Blocks.h"
+#import "SpriteButton.h"
 
-@interface ActionPad : CCLayer {
-	void(^wall)(BOOL);
-	void(^bomb)(BOOL);
-}
+@interface ActionPad : CCLayer <SpriteButtonDelegate> {}
 
 @property(nonatomic, copy) void(^wall)(BOOL);
 @property(nonatomic, copy) void(^bomb)(BOOL);

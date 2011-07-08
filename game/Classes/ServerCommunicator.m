@@ -47,7 +47,7 @@ static ServerCommunicator* instance = nil;
 }
 
 - (BOOL) sendMessageToServer:(NSString*)message {
-    NSLog(@" > %@", message);
+    //NSLog(@" > %@", message);
     
     [self.client send:message isJSON:YES];
     
@@ -55,7 +55,7 @@ static ServerCommunicator* instance = nil;
 }
 
 - (void)socketIoClient:(SocketIoClient *)client didReceiveMessage:(NSString *)message isJSON:(BOOL)isJSON {
-    NSLog(@" < %@", message);
+    //NSLog(@" < %@", message);
     
     if(messageReceivedCallback)
         messageReceivedCallback([message objectFromJSONString]);

@@ -93,9 +93,6 @@
     
     if(!player) { return; }
     
-    
-    NSLog(@"setting player to %f %f", self.point.x, self.point.y);
-    
     player.cell = self;
     
     [player.parent removeChild:player cleanup:YES];

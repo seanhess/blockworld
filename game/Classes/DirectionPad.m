@@ -15,30 +15,38 @@
 @interface DirectionPad()
 @property(nonatomic, assign) NSTimer* timer;
 @property(nonatomic, assign) CGPoint currentTouch;
+@property(nonatomic, retain) CCSprite* sprite;
 - (void) move:(NSTimer*)timer;
+- (CGRect) rect;
+- (UITouch*) containsTouch:(NSSet *)touches;
 @end
 
 // How should this work, really? If their touch is still down... am I intercepting EVERYTHING? 
 
 @implementation DirectionPad
 
-@synthesize move, timer, currentTouch;
+@synthesize move, timer, currentTouch, sprite;
 
 - (id) init {
 	if((self = [super init])) {
 		
         self.isTouchEnabled = YES;
 		
-		CCSprite* sprite = [CCSprite spriteWithFile:@"dpad.png"];        
-		sprite.position = ccp(0, 0);
-        sprite.opacity = 150;
+		self.sprite = [CCSprite spriteWithFile:@"dpad.png"];        
+		self.sprite.position = ccp(0, 0);
+        self.sprite.opacity = 150;
 		[self addChild:sprite];
 		
 	} return self;
 }
 
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+	return !![self containsTouch:[NSSet setWithObject:touch]];
+}
+
 - (void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+	if(![self containsTouch:touches]) { return; }
+	
     if(!self.timer) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(move:) userInfo:nil repeats:YES];
     }
@@ -49,13 +57,23 @@
 }
 
 - (void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	if(![self containsTouch:touches]) { [self ccTouchesEnded:nil withEvent:nil]; }
+	
     self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
 }
 
-- (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self.timer invalidate];
-    self.timer = nil;
+- (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	if(![self containsTouch:touches]) { return; }
+	
+	[self.timer invalidate];
+	self.timer = nil;
 }
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+	[self ccTouchesEnded:[NSSet setWithObject:touch] withEvent:event];
+}
+
+
 
 - (void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
     [self.timer invalidate];
@@ -95,8 +113,38 @@
 }
 
 
+- (UITouch*) containsTouch:(NSSet *)touches {
+	for(UITouch* touch in touches) {
+	
+		CGPoint locationGL = [touch locationInView: [touch view]];
+		locationGL = [[CCDirector sharedDirector] convertToGL:locationGL];
+		CGPoint tapPosition = [self convertToNodeSpace:locationGL];
+		
+		if(CGRectContainsPoint([self rect], tapPosition)) {
+			return touch;
+		}
+	}
+	
+	return nil;
+}
+
+- (CGRect) rect {
+	float h = [self.sprite contentSize].height;
+	float w = [self.sprite contentSize].width;
+	float x = self.sprite.position.x - w/2;
+	float y = self.sprite.position.y - h/2;
+	
+	return CGRectShrink(CGRectMake(x,y,w,h), -20);
+}
+
+
+
 - (void) dealloc {
+    [self.timer invalidate];
+	[timer release];
+	
 	[move release];
+	[sprite release];
 	
 	[super dealloc];
 }

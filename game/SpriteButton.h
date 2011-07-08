@@ -21,4 +21,6 @@
 
 @property(nonatomic, assign) NSObject<SpriteButtonDelegate>* delegate;
 
+- (id)initWithSprite:(CCSprite*)img;
+
 @end

@@ -56,7 +56,7 @@
 		}];
 		
 		[hud setWallCallback:^(BOOL isPressed) {
-			world.layingWallsPress = isPressed;
+			world.holdingDownWallButton = isPressed;
 		}];
 		
 		

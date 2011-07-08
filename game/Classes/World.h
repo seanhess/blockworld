@@ -21,8 +21,8 @@
 @property(nonatomic, assign) BOOL layingWallsPress;
 @property(nonatomic, assign) HUD* hud;
 
-@property(assign) BOOL holdingDownBombButton;
-@property(assign) BOOL holdingDownWallButton;
+@property(nonatomic, assign) BOOL holdingDownBombButton;
+@property(nonatomic, assign) BOOL holdingDownWallButton;
 
 
 - (Player*) createPlayerWithID:(NSString*)playerID atPoint:(CGPoint)point;

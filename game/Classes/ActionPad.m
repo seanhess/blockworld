@@ -8,41 +8,63 @@
 
 #import "ActionPad.h"
 
+@interface ActionPad()
+@property(nonatomic, retain) SpriteButton* wallButton;
+@property(nonatomic, retain) SpriteButton* bombButton;
+@end
 
 @implementation ActionPad
 
-@synthesize bomb, wall;
+@synthesize bomb, wall, bombButton, wallButton;
 
 -(id) init {
 	if((self = [super init])) {
 		
 		[self setIsTouchEnabled:YES];
 	
-		CCMenuItemSprite* bombItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"bomb button.png"] selectedSprite:[CCSprite spriteWithFile:@"bomb button.png"] block:^(id sender) {
-			if(bomb) bomb(YES);
-		}];
-		CCMenuItemSprite* wallItem = [CCMenuItemSprite itemFromNormalSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] selectedSprite:[CCSprite spriteWithFile:@"Stone Block button.png"] block:^(id sender) {
-			NSLog(@"holding down wall");
-			if(wall) wall(YES);
-		}];
+		self.bombButton = [[[SpriteButton alloc] initWithSprite:[CCSprite spriteWithFile:@"bomb button.png"]] autorelease];
+		self.wallButton = [[[SpriteButton alloc] initWithSprite:[CCSprite spriteWithFile:@"Stone Block button.png"]] autorelease];
 		
-		bombItem.position = ccp(0, 30);
-		wallItem.position = ccp(0, -30);
+		self.bombButton.delegate = self;
+		self.wallButton.delegate = self;
 		
-		CCMenu* menu = [CCMenu menuWithItems:bombItem, wallItem, nil];
+		self.bombButton.position = ccp(0, 30);
+		self.wallButton.position = ccp(0, -30);
 		
-		menu.position = ccp(0,0);
-		
-		[self addChild:menu];
-	} 
+		[self addChild:self.bombButton];
+		[self addChild:self.wallButton];
+	}
 	return self;
 }
 
-- (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"ended holding down");
+- (void) spriteButton:(SpriteButton*)button touchesDidBegin:(NSSet*)touches {
+
+	if(button == self.wallButton && self.wall) { 
+		self.wall(YES); 
+	}	
+	if(button == self.bombButton && self.bomb) { self.bomb(YES); }
+}
+
+- (void) spriteButton:(SpriteButton*)button touchesDidEnd:(NSSet*)touches {
+
+	if(button == self.wallButton && self.wall) { self.wall(NO); }	
+	if(button == self.bombButton && self.bomb) { self.bomb(NO); }
+}
+
+- (void) spriteButton:(SpriteButton*)button touchesDidCancel:(NSSet*)touches {
+
+	if(button == self.wallButton && self.wall) { self.wall(NO); }
+	if(button == self.bombButton && self.bomb) { self.bomb(NO); }
+}
+
+
+- (void) dealloc {
+	[wallButton release];
+	[wall release];
+	[bombButton release];
+	[bomb release];
 	
-	if(wall) wall(NO);
-	if(bomb) bomb(NO);
+	[super dealloc];
 }
 
 @end
