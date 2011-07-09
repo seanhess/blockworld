@@ -160,7 +160,9 @@
         
         CGRect screenRect = [[UIScreen mainScreen] bounds];
         
-        CCSprite* sprite = [CCSprite spriteWithFile:@"gameover.png"];
+		CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"gameover.png"];
+		CCSprite* sprite = [CCSprite spriteWithTexture:texture];
+	
         sprite.scale = .2;
         sprite.position = ccp(CGRectGetMidY(screenRect), CGRectGetMidX(screenRect));
         [sprite runAction:[CCScaleTo actionWithDuration:.7 scale:1.f]];

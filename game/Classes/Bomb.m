@@ -50,7 +50,10 @@
 
 
 - (CCSprite*) expletive {
-    CCSprite* expletive = [CCSprite spriteWithFile:[NSString stringWithFormat:@"explative%02d-hd.png", (arc4random()%20)]];
+	
+	CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:[NSString stringWithFormat:@"explative%02d-hd.png", (arc4random()%20)]];
+	CCSprite* expletive = [CCSprite spriteWithTexture:texture];
+	
     expletive.scale = .6;
     expletive.position = ccpAdd(self.cell.position, ccp(10,50));
     expletive.anchorPoint = ccp(.5,.5);

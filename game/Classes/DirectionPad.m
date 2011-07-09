@@ -32,7 +32,9 @@
 		
         self.isTouchEnabled = YES;
 		
-		self.sprite = [CCSprite spriteWithFile:@"dpad.png"];        
+		CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"dpad.png"];
+		self.sprite = [CCSprite spriteWithTexture:texture];
+		
 		self.sprite.position = ccp(0, 0);
         self.sprite.opacity = 150;
 		[self addChild:sprite];

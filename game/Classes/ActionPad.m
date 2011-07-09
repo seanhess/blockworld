@@ -21,9 +21,16 @@
 	if((self = [super init])) {
 		
 		[self setIsTouchEnabled:YES];
+		
+		CCTexture2D *bombTexture = [[CCTextureCache sharedTextureCache] addImage:@"bomb button.png"];
+		CCSprite* bombSprite = [CCSprite spriteWithTexture:bombTexture];
 	
-		self.bombButton = [[[SpriteButton alloc] initWithSprite:[CCSprite spriteWithFile:@"bomb button.png"]] autorelease];
-		self.wallButton = [[[SpriteButton alloc] initWithSprite:[CCSprite spriteWithFile:@"Stone Block button.png"]] autorelease];
+		CCTexture2D *blockTexture = [[CCTextureCache sharedTextureCache] addImage:@"Stone Block button.png"];
+		CCSprite* blockSprite = [CCSprite spriteWithTexture:blockTexture];
+	
+	
+		self.bombButton = [[[SpriteButton alloc] initWithSprite:bombSprite] autorelease];
+		self.wallButton = [[[SpriteButton alloc] initWithSprite:blockSprite] autorelease];
 		
 		self.bombButton.delegate = self;
 		self.wallButton.delegate = self;

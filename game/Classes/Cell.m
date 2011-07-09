@@ -54,7 +54,8 @@
     
     // draw the grass
     
-    self.grass = [CCSprite spriteWithFile:@"Grass Block.png"];
+	CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:@"Grass Block.png"];
+	self.grass = [CCSprite spriteWithTexture:texture];
     grass.anchorPoint = ccp(0,0);
     [self addChild:self.grass z:1];
     
@@ -63,7 +64,9 @@
     // draw the bush (if it's there)
     
     if(self.bushName) {
-        self.bush = [CCSprite spriteWithFile:bushName];
+	
+		CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:bushName];
+		self.bush = [CCSprite spriteWithTexture:texture];
         self.bush.anchorPoint = ccp(0,0);
         self.bush.position = ccp(0,20);
         [self addChild:self.bush z:2];

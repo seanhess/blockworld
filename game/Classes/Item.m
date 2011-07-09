@@ -32,7 +32,10 @@
 }
 
 - (void) drawAllSprites {
-    self.sprite = [CCSprite spriteWithFile:self.cachedSpriteName];
+
+	CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:self.cachedSpriteName];
+	self.sprite = [CCSprite spriteWithTexture:texture];
+	
     
     [self addChild:self.sprite];
 }
