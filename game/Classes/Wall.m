@@ -25,16 +25,10 @@
     
     sprite.anchorPoint = ccp(0,0);
     sprite.position = ccp(0,20);
-    
 }
 
 - (void)removeAllSprites {
     [super removeAllSprites];
-}
-
-- (void) dealloc {
-    NSLog(@"wall dealloc'd");
-    [super dealloc];
 }
 
 @end

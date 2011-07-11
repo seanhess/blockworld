@@ -11,6 +11,7 @@
 
 #define SOCKET_PORT 3000
 #define SOCKET_ADDR @"localhost"
+#define SOCKET_RETRY_TIMER 5.0 // in seconds
 
 typedef enum server_status {
 	disconnected = 0,

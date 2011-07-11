@@ -44,7 +44,11 @@
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	if(![self containsTouch:touches]) {
-		[self ccTouchesEnded:touches withEvent:event];
+		
+		if([delegate respondsToSelector:@selector(spriteButton:touchesDidEnd:)]) {
+			[delegate spriteButton:self touchesDidEnd:touches];
+		}
+		
 	}
 }
 

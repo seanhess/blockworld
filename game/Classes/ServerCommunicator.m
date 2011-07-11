@@ -13,12 +13,14 @@
 
 @interface ServerCommunicator() 
 @property(nonatomic, retain) SocketIoClient* client;
+@property(nonatomic, retain) NSTimer* timer;
+- (void) reconnect;
 @end
 
 
 @implementation ServerCommunicator
 
-@synthesize messageReceivedCallback, statusChangedCallback, client;
+@synthesize messageReceivedCallback, statusChangedCallback, client, timer;
 
 static ServerCommunicator* instance = nil;
 
@@ -38,16 +40,22 @@ static ServerCommunicator* instance = nil;
 	return self;
 }
 
-- (void) connect {
+- (void) connect {	
     [self.client connect];
 }
 
 - (void) disconnect {
     [self.client disconnect];
+	
+}
+
+- (void) reconnect {
+	[self.client disconnect];
+	[self.client connect];
 }
 
 - (BOOL) sendMessageToServer:(NSString*)message {
-    //NSLog(@" > %@", message);
+    NSLog(@" > %@", message);
     
     [self.client send:message isJSON:YES];
     
@@ -55,7 +63,7 @@ static ServerCommunicator* instance = nil;
 }
 
 - (void)socketIoClient:(SocketIoClient *)client didReceiveMessage:(NSString *)message isJSON:(BOOL)isJSON {
-    //NSLog(@" < %@", message);
+    NSLog(@" < %@", message);
     
     if(messageReceivedCallback)
         messageReceivedCallback([message objectFromJSONString]);
@@ -64,24 +72,28 @@ static ServerCommunicator* instance = nil;
 - (void)socketIoClientDidConnect:(SocketIoClient *)client {
     status = connected;
     
-    NSLog(@"did connect");
     
     if(statusChangedCallback)
         statusChangedCallback(status);
+		
+	[self.timer invalidate];
 }
 
 - (void)socketIoClientDidDisconnect:(SocketIoClient *)client {
     status = disconnected;
     
-    NSLog(@"did disconnect");
     
     if(statusChangedCallback)
         statusChangedCallback(status);
+	
+	[self.timer invalidate];	
+	self.timer = [NSTimer scheduledTimerWithTimeInterval:SOCKET_RETRY_TIMER target:self selector:@selector(reconnect) userInfo:nil repeats:YES];
 }
 
 -(void) dealloc {
     [statusChangedCallback release];
 	[messageReceivedCallback release]; 
+	[timer release];
 	
 	[super dealloc];
 }
