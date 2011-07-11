@@ -59,7 +59,10 @@
 }
 
 - (void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if(![self containsTouch:touches]) { [self ccTouchesEnded:nil withEvent:nil]; }
+	if(![self containsTouch:touches]) { 
+		[self.timer invalidate];
+		self.timer = nil;
+	}
 	
     self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
 }
