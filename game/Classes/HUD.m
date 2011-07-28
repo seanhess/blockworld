@@ -26,6 +26,11 @@
 		
 		[self addChild:directionPad];
 		[self addChild:actionPad];
+        
+        
+        CCSprite* sprite = [CCSprite spriteWithFile:@"bluetile.png"];        
+		sprite.position = ccp(size.width - 40, size.height - 40);
+		[self addChild:sprite];
 		
 	} return self;
 }
@@ -42,6 +47,10 @@
 
 - (void) setWallCallback:(void(^)(BOOL))callback {
 	actionPad.wall = callback;
+}
+
+- (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"TOUCHES ENDED ON HUD");
 }
 
 - (void) cleanup {
