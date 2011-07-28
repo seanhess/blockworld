@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Blocks.h"
+#import "SpriteButton.h"
 
 @class DirectionPad, ActionPad;
 
-@interface HUD : CCLayer {
+@interface HUD : CCLayer <SpriteButtonDelegate> {
 	DirectionPad* directionPad;
 	ActionPad* actionPad;
+    SpriteButton* mapButton;
 }
 
 - (void) setMoveCallback:(void(^)(int, int))callback;

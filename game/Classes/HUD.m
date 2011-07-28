@@ -10,6 +10,8 @@
 
 #import "DirectionPad.h"
 #import "ActionPad.h"
+#import "CCDirector.h"
+#import <UIKit/UIKit.h>
 
 @implementation HUD
 
@@ -27,12 +29,33 @@
 		[self addChild:directionPad];
 		[self addChild:actionPad];
         
-        
         CCSprite* sprite = [CCSprite spriteWithFile:@"bluetile.png"];        
-		sprite.position = ccp(size.width - 40, size.height - 40);
-		[self addChild:sprite];
+        mapButton = [[[SpriteButton alloc] initWithSprite:sprite] autorelease];
+        mapButton.delegate = self;
+		mapButton.position = ccp(size.width - 40, size.height - 40);
+		[self addChild:mapButton];
 		
 	} return self;
+}
+
+- (void) spriteButton:(SpriteButton *)button touchesDidEnd:(NSSet *)touches {
+
+    UIView * parentView = [[CCDirector sharedDirector] openGLView];
+
+    UIWebView * mapView = [[UIWebView alloc] initWithFrame:parentView.bounds];
+    NSURL * url = [NSURL URLWithString:@"http://bb.seanhess.net:3000/map.html"]; // use real host
+    NSURLRequest * request = [NSURLRequest requestWithURL:url];
+    [mapView loadRequest:request];
+
+    [parentView addSubview:mapView]; 
+}
+
+- (void) spriteButton:(SpriteButton *)button touchesDidBegin:(NSSet *)touches {
+
+}
+
+- (void) spriteButton:(SpriteButton *)button touchesDidCancel:(NSSet *)touches {
+
 }
 
 - (void) setMoveCallback:(void(^)(int, int))move {
@@ -50,12 +73,13 @@
 }
 
 - (void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"TOUCHES ENDED ON HUD");
+    
 }
 
 - (void) cleanup {
     [super cleanup];
     
+    mapButton = nil;
     actionPad.wall = nil;
     actionPad.bomb = nil;
     directionPad.move = nil;
