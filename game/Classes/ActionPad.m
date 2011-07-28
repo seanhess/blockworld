@@ -46,9 +46,7 @@
 
 - (void) spriteButton:(SpriteButton*)button touchesDidBegin:(NSSet*)touches {
 
-	if(button == self.wallButton && self.wall) { 
-		self.wall(YES); 
-	}	
+	if(button == self.wallButton && self.wall) { self.wall(YES); }	
 	if(button == self.bombButton && self.bomb) { self.bomb(YES); }
 }
 

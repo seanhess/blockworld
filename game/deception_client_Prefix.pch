@@ -10,7 +10,7 @@
 #define MAX_NAME_LENGTH 14
 #define PIXEL_PER_UNIT_X 50
 #define PIXEL_PER_UNIT_Y 40
-#define SCREEN_FOLLOW_THRESHOLD 50 // pixels from the edge
+#define SCREEN_FOLLOW_THRESHOLD 100 // pixels from the edge
 #define POINT_TO_PIXEL_X(__a__) ( PIXEL_PER_UNIT_X*(__a__) + [[UIScreen mainScreen] bounds].size.width/2.0)
 #define POINT_TO_PIXEL_Y(__a__) ( PIXEL_PER_UNIT_Y*(__a__) + [[UIScreen mainScreen] bounds].size.height/2.0)
 #define PIXEL_TO_POINT_X(__a__) ( (int)((__a__) - [[UIScreen mainScreen] bounds].size.width/2.0) /PIXEL_PER_UNIT_X)

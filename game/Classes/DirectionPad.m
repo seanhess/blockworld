@@ -14,7 +14,8 @@
 
 @interface DirectionPad()
 @property(nonatomic, assign) NSTimer* timer;
-@property(nonatomic, assign) CGPoint currentTouch;
+@property(nonatomic, assign) CGPoint currentTouchPoint;
+@property(nonatomic, assign) UITouch* currentTouch;
 @property(nonatomic, retain) CCSprite* sprite;
 - (void) move:(NSTimer*)timer;
 - (CGRect) rect;
@@ -25,7 +26,7 @@
 
 @implementation DirectionPad
 
-@synthesize move, timer, currentTouch, sprite;
+@synthesize move, timer, currentTouch, currentTouchPoint, sprite;
 
 - (id) init {
 	if((self = [super init])) {
@@ -42,53 +43,52 @@
 	} return self;
 }
 
-- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-	return !![self containsTouch:[NSSet setWithObject:touch]];
-}
 
 - (void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	if(![self containsTouch:touches]) { return; }
+	UITouch* touch = nil;
+	if(!(touch = [self containsTouch:touches])) { return; }
+	
+	self.currentTouch = touch;
 	
     if(!self.timer) {
         self.timer = [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(move:) userInfo:nil repeats:YES];
     }
     
-    self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
+    self.currentTouchPoint = [self touchRelativeToCamera:touch];
     
     [self move:self.timer];
 }
 
 - (void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if(![self containsTouch:touches]) { 
+	if(![touches containsObject:self.currentTouch]) { return; }
+	
+	if(![self containsTouch:[NSSet setWithObject:self.currentTouch]]) { 
 		[self.timer invalidate];
 		self.timer = nil;
+		self.currentTouch = nil;
 	}
-	
-    self.currentTouch = [self touchRelativeToCamera:[[touches allObjects] objectAtIndex:0]];
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if(![self containsTouch:touches]) { return; }
+	if(![touches containsObject:self.currentTouch]) { return; }
 	
 	[self.timer invalidate];
 	self.timer = nil;
+	self.currentTouch = nil;
 }
 
-- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
-	[self ccTouchesEnded:[NSSet setWithObject:touch] withEvent:event];
-}
-
-
-
-- (void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
-    [self.timer invalidate];
-    self.timer = nil;
+- (void)ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	if(![touches containsObject:self.currentTouch]) { return; }
+	
+	[self.timer invalidate];
+	self.timer = nil;
+	self.currentTouch = nil;
 }
 
 - (void) move:(NSTimer*)timer {
 
     // Get the point
-    CGPoint translatedPoint = ccpSub(self.currentTouch, self.position);
+    CGPoint translatedPoint = ccpSub(self.currentTouchPoint, self.position);
     
     // A few things we'll need
     CGFloat x = translatedPoint.x;

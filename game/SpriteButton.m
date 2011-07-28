@@ -10,13 +10,14 @@
 
 @interface SpriteButton()
 @property(nonatomic, retain) CCSprite* sprite;
+@property(nonatomic, retain) UITouch* currentTouch;
 - (CGRect) rect;
-- (BOOL) containsTouch:(NSSet *)touches;
+- (UITouch*) containsTouch:(NSSet *)touches;
 @end
 
 @implementation SpriteButton
 
-@synthesize sprite, delegate;
+@synthesize sprite, delegate, currentTouch;
 
 - (id)initWithSprite:(CCSprite*)img {
 
@@ -32,40 +33,47 @@
     return self;
 }
 
-- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-	return [self containsTouch:[NSSet setWithObject:touch]];
-}
-
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	if([self containsTouch:touches] && [delegate respondsToSelector:@selector(spriteButton:touchesDidBegin:)]) {
+	UITouch* touch = nil;
+	if(((touch = [self containsTouch:touches])) && [delegate respondsToSelector:@selector(spriteButton:touchesDidBegin:)]) {
+		self.currentTouch = touch;
 		[delegate spriteButton:self touchesDidBegin:touches];
 	}
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if(![self containsTouch:touches]) {
+	if(![touches containsObject:self.currentTouch] || [self containsTouch:[NSSet setWithObject:self.currentTouch]]) { return; }
 		
-		if([delegate respondsToSelector:@selector(spriteButton:touchesDidEnd:)]) {
-			[delegate spriteButton:self touchesDidEnd:touches];
-		}
-		
+	if([delegate respondsToSelector:@selector(spriteButton:touchesDidEnd:)]) {
+		[delegate spriteButton:self touchesDidEnd:touches];
 	}
+	
+	self.currentTouch = nil;
+	
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if([self containsTouch:touches] && [delegate respondsToSelector:@selector(spriteButton:touchesDidEnd:)]) {
+	if(![touches containsObject:self.currentTouch]) { return; }
+
+	if([delegate respondsToSelector:@selector(spriteButton:touchesDidEnd:)]) {
 		[delegate spriteButton:self touchesDidEnd:touches];
 	}
+	
+	self.currentTouch = nil;
 }
 
 
 - (void)ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	if([self containsTouch:touches] && [delegate respondsToSelector:@selector(spriteButton:touchesDidCancel:)]) {
+	if(![touches containsObject:self.currentTouch]) { return; }
+	
+	if([delegate respondsToSelector:@selector(spriteButton:touchesDidCancel:)]) {
 		[delegate spriteButton:self touchesDidCancel:touches];
 	}
+	
+	self.currentTouch = nil;
 }
 
-- (BOOL) containsTouch:(NSSet *)touches {
+- (UITouch*) containsTouch:(NSSet *)touches {
 	for(UITouch* touch in touches) {
 	
 		CGPoint locationGL = [touch locationInView: [touch view]];
@@ -74,7 +82,7 @@
 	
 		
 		if(CGRectContainsPoint([self rect], tapPosition)) {
-			return YES;
+			return touch;
 		}
 	}
 	

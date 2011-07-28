@@ -10,7 +10,7 @@
 #import "SocketIoClient.h"
 
 #define SOCKET_PORT 3000
-#define SOCKET_ADDR @"localhost"
+#define SOCKET_ADDR @"192.168.1.104"
 #define SOCKET_RETRY_TIMER 5.0 // in seconds
 
 typedef enum server_status {
