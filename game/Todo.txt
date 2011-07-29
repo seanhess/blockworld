@@ -1,0 +1,3 @@
+[ ] Map Icon + Close Map
+[ ] Bug: Dude starts barely on screen. If you move up it does not drag the screen until on top row
+[ ] Splash Screen and Icons
